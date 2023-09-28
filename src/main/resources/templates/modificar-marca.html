@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva marca</title>
+</head>
+<body>
+    <h1>Datos de la nueva marca</h1>
+    <a th:href="@{/marca}">Volver</a>
+
+    <form id="addMarca" th:action="@{/marca/registrada}" method="post" th:object="${marca}">
+        <input type="hidden" th:field="*{id}" name="id" />
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" th:value="${marca.nombre}"/>
+
+        <label for="estado">Estado:</label>
+        <select id="estado" name="estado" form="addMarca" th:value="${marca.estado}">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+        </select>
+
+        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+    </form>
+    
+    
+</body>
+</html>
+

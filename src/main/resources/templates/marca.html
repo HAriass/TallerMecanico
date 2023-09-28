@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Página Inicio</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Inicio</h1>
+        <a th:href="@{/marca/nueva}">Registrar Marca</a>
+        
+        <div th:if="${marcas!=null and not marcas.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="marca: ${marcas}">
+                    <td th:text="${marca.nombre}"></td>
+                    <td th:text="${marca.estado}"></td>
+                    <td><a th:href="@{/modificar/}+${marca.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{/eliminar/}+${marca.id}" th:text="Eliminar">Eliminar</a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${marcas==null or marcas.isEmpty()}">
+            No existen marcas hasta el momento
+        </div>
+    </body>
+</html>
