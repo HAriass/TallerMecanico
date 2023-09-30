@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Modelos</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Listado de Modelos</h1>
+        <a th:href="@{/modelo/nuevo}">Registrar Modelo</a>
+        
+        <div th:if="${modelos!=null and not modelos.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Marca</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Año</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="modelo: ${modelos}">
+                    <td th:text="${modelo.marca.nombre}"></td>
+                    <td th:text="${modelo.nombre}"></td>
+                    <td th:text="${modelo.estado}"></td>
+                    <td th:text="${modelo.anio}"></td>
+                    <td><a th:href="@{modelo/modificar/}+${modelo.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{modelo/eliminar/}+${modelo.id}" th:text="Eliminar">Eliminar</a></td>
+
+                </tr>
+            </table>
+        </div>
+        <div th:if="${modelos==null or modelos.isEmpty()}">
+            No existen modelos hasta el momento
+        </div>
+        
+    </body>
+</html>

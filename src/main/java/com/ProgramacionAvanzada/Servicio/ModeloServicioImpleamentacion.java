@@ -4,35 +4,38 @@ import com.ProgramacionAvanzada.DAO.ModeloDAO;
 import com.ProgramacionAvanzada.modelo.Modelo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-public class ModeloServicioImpleamentacion {
+@Service
+public class ModeloServicioImpleamentacion implements ModeloServicio{
     
     @Autowired
     private ModeloDAO modeloDao;
     
     @Transactional(readOnly = true)
-    public List<Modelo> listaMarcas() {
+    @Override
+    public List<Modelo> listaModelos() {
         
         // Como lo tenemos como variable, lo casteamos a lista
         return (List<Modelo>) modeloDao.findAll();
 
     }
 
+    @Override
     public void registrar(Modelo modelo){
         modeloDao.save(modelo);
     }
     
-    
-    public Modelo localizarMarca(Modelo marca) {
-        return modeloDao.findById(marca.getId()).orElse(null);
+    @Override
+    public Modelo localizarModelo(Modelo modelo) {
+        return modeloDao.findById(modelo.getId()).orElse(null);
     }
 
     
-    public void eliminar(Modelo marca) {
-        modeloDao.delete(marca);
+    @Override
+    public void eliminar(Modelo modelo) {
+        modeloDao.delete(modelo);
     }
-    
-    
+
 }

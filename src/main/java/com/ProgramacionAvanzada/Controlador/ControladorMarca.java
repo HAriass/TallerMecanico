@@ -18,7 +18,7 @@ public class ControladorMarca {
     private MarcaServicio marcaServicio;
 
     @GetMapping("/marca")
-    public String comienzo(Model modelo) {
+    public String listarMarcas(Model modelo) {
 
         List<Marca> marcas = marcaServicio.listaMarcas();
 

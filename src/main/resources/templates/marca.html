@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Página Inicio</title>
+        <title>Marcas</title>
         <meta charset="UTF-8">
     </head>
     <body>
-        <h1>Inicio</h1>
+        <h1>Listado De Marcas</h1>
         <a th:href="@{/marca/nueva}">Registrar Marca</a>
+        <a th:href="@{/}"> Volver </a>
         
         <div th:if="${marcas!=null and not marcas.isEmpty()}">
             <br>
