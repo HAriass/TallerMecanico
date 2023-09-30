@@ -13,22 +13,21 @@
         <input type="hidden" th:field="*{id}" name="id" />
         
         <select name="marca" id="marca" form="addModelo">
-            <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+            <option th:value="${modelo.marca.id}" th:text="${modelo.marca.nombre}"></option>
         </select>
 
-        
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"/>
+        <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}"/>
 
         <label for="estado">Estado:</label>
 
-        <select id="estado" name="estado" form="addModelo">
+        <select id="estado" name="estado" form="addModelo" th:value="${modelo.estado}">
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>
         </select>
         
         <label for="anio">Año: </label>
-        <input type="text" id="anio" name="anio"/>
+        <input type="text" id="anio" name="anio" th:value="${modelo.anio}"/>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
