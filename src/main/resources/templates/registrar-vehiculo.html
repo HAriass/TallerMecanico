@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo vehiculo</title>
+    <link rel="stylesheet" type="text/css" href="/css/nuevoVehiculoStyles.css">
+    
+</head>
+<body>
+    <h1>Datos de la nuevo vehiculo</h1>
+    <a th:href="@{/vehiculo}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
+    
+    <form id="addVehiculo" th:action="@{/vehiculo/registrado}" method="post" th:object="${vehiculo}">
+    <select id="estado" name="estado" form="addVehiculo">
+        <option value="true">Activo</option>
+        <option value="false">Inactivo</option>
+    </select>
+        <select name="marca" id="marca" form="addVehiculo">
+            <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+        </select>
+    <select name="modelo" id="modelo" form="addVehiculo">
+        <option th:each="modelo : ${modelos}" th:value="${modelo.id}" th:text="${modelo.nombre}"></option>
+    </select>
+        
+        <label for="patente">Patente:</label>
+        <input type="text" id="patente" name="patente"/>
+
+        <label for="estado">Estado:</label>
+
+        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+    </form>
+</body>
+</html>

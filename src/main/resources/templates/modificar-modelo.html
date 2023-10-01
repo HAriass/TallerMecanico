@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Modificar modelo</title>
+    <link rel="stylesheet" type="text/css" href="/css/modificarModeloStyles.css">
 </head>
 <body>
     <h1>Datos</h1>
     <a th:href="@{/modelo}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
 
     <form id="addModelo" th:action="@{/modelo/registrado}" method="post" th:object="${modelo}">
         

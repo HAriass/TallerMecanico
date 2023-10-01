@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar vehiculo</title>
+    <link rel="stylesheet" type="text/css" href="/css/modificarVehiculoStyles.css">
+</head>
+<body>
+    <h1>Datos</h1>
+    <a th:href="@{/vehiculo}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
+
+    <form id="addVehiculo" th:action="@{/vehiculo/registrado}" method="post" th:object="${vehiculo}">
+        
+        <input type="hidden" th:field="*{id}" name="id" />
+        
+        <select name="marca" id="marca" form="addVehiculo">
+            <option th:value="${vehiculo.marca.id}" th:text="${vehiculo.marca.nombre}"></option>
+        </select>
+        
+        <select name="modelo" id="modelo" form="addVehiculo">
+            <option th:value="${vehiculo.modelo.id}" th:text="${vehiculo.modelo.nombre}"></option>
+        </select>
+
+        <label for="patente">Patente: </label>
+        <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"/>
+
+        <label for="estado">Estado:</label>
+
+        <select id="estado" name="estado" form="addVehiculo" th:value="${vehiculo.estado}">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+        </select>
+
+        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+    </form>
+</body>
+</html>

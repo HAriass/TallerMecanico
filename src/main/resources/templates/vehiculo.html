@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>vehiculos</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/vehiculoStyles.css">
+    </head>
+    <body>
+        <h1>Listado de vehiculos</h1>
+        <a th:href="@{/vehiculo/nuevo}">Registrar vehiculo</a>
+        <a th:href="@{/}">Volver</a>
+        
+        <div th:if="${vehiculos!=null and not vehiculos.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Patente</th>
+                    <th>Estado</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="vehiculo: ${vehiculos}">
+                    <td th:text="${vehiculo.marca.nombre}"></td>
+                    <td th:text="${vehiculo.modelo.nombre}"></td>
+                    <td th:text="${vehiculo.patente}"></td>
+                    <td th:text="${vehiculo.estado}"></td>
+                    <td><a th:href="@{vehiculo/modificar/}+${vehiculo.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{vehiculo/eliminar/}+${vehiculo.id}" th:text="Eliminar">Eliminar</a></td>
+
+                </tr>
+            </table>
+        </div>
+        <div th:if="${vehiculos==null or vehiculos.isEmpty()}">
+            No existen vehiculos hasta el momento
+        </div>
+        
+    </body>
+</html>

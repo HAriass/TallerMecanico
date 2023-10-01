@@ -4,10 +4,12 @@
     <head>
         <title>Modelos</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/modeloStyles.css">
     </head>
     <body>
         <h1>Listado de Modelos</h1>
         <a th:href="@{/modelo/nuevo}">Registrar Modelo</a>
+        <a th:href="@{/}">Volver</a>
         
         <div th:if="${modelos!=null and not modelos.isEmpty()}">
             <br>

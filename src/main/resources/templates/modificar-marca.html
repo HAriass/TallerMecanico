@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Nueva marca</title>
+    <link rel="stylesheet" type="text/css" href="/css/modificarMarcaStyles.css">
 </head>
 <body>
     <h1>Datos de la nueva marca</h1>
     <a th:href="@{/marca}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
 
     <form id="addMarca" th:action="@{/marca/registrada}" method="post" th:object="${marca}">
         <input type="hidden" th:field="*{id}" name="id" />

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Tecnicos</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/tecnicoStyles.css">
+    </head>
+    <body>
+        <h1>Listado De Tecnicos</h1>
+        <a th:href="@{/tecnico/nuevo}">Registrar Tecnico</a>
+        <a th:href="@{/}"> Volver </a>
+        
+        <div th:if="${tecnicos!=null and not tecnicos.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Telefono</th>
+                    <th>Estado</th>
+                    <th>DNI</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="tecnico: ${tecnicos}">
+                    <td th:text="${tecnico.nombre}"></td>
+                    <td th:text="${tecnico.apellido}"></td>
+                    <td th:text="${tecnico.telefono}"></td>
+                    <td th:text="${tecnico.estado}"></td>
+                    <td th:text="${tecnico.dni}"></td>
+                    <td><a th:href="@{tecnico/modificar/}+${tecnico.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{tecnico/eliminar/}+${tecnico.id}" th:text="Eliminar">Eliminar</a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${tecnicos==null or tecnicos.isEmpty()}">
+            No existen tecnicos hasta el momento
+        </div>
+    </body>
+</html>
