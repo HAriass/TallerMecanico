@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/modificarClienteStyles.css">
 </head>
 <body>
-    <h1>Datos de la nuevo cliente</h1>
+    <h1>Datos del Cliente</h1>
     <a th:href="@{/cliente}">Volver</a>
     <a th:href="@{/}">Inicio</a>
     
@@ -34,7 +34,7 @@
         <label for="dni">DNI: </label>
         <input type="text" id="dni" name="dni" th:value="${cliente.dni}"/>
 
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     
     

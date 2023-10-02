@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/modificarModeloStyles.css">
 </head>
 <body>
-    <h1>Datos</h1>
+    <h1>Datos del Modelo</h1>
     <a th:href="@{/modelo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
@@ -14,6 +14,7 @@
         
         <input type="hidden" th:field="*{id}" name="id" />
         
+        <label for="marca">Marca:</label>
         <select name="marca" id="marca" form="addModelo">
             <option th:value="${modelo.marca.id}" th:text="${modelo.marca.nombre}"></option>
         </select>
@@ -31,7 +32,7 @@
         <label for="anio">Año: </label>
         <input type="text" id="anio" name="anio" th:value="${modelo.anio}"/>
 
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
 </body>
 </html>

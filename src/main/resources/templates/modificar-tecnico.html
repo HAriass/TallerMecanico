@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/modificarTecnicoStyles.css">
 </head>
 <body>
-    <h1>Datos de la nuevo tecnico</h1>
+    <h1>Datos del Tecnico</h1>
     <a th:href="@{/tecnico}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
@@ -31,7 +31,7 @@
         <label for="dni">DNI: </label>
         <input type="text" id="dni" name="dni" th:value="${tecnico.dni}"/>
 
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     
     

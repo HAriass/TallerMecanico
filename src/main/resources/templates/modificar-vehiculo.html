@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/modificarVehiculoStyles.css">
 </head>
 <body>
-    <h1>Datos</h1>
+    <h1>Datos del Vehiculo</h1>
     <a th:href="@{/vehiculo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
@@ -14,10 +14,12 @@
         
         <input type="hidden" th:field="*{id}" name="id" />
         
+        <label for="marca">Marca: </label>
         <select name="marca" id="marca" form="addVehiculo">
             <option th:value="${vehiculo.marca.id}" th:text="${vehiculo.marca.nombre}"></option>
         </select>
         
+        <label for="modelo">Modelo: </label>
         <select name="modelo" id="modelo" form="addVehiculo">
             <option th:value="${vehiculo.modelo.id}" th:text="${vehiculo.modelo.nombre}"></option>
         </select>
@@ -32,7 +34,7 @@
             <option value="false">Inactivo</option>
         </select>
 
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
 </body>
 </html>

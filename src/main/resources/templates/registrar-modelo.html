@@ -6,12 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/css/nuevoModeloStyles.css">
 </head>
 <body>
-    <h1>Datos de la nueva marca</h1>
+    <h1>Datos del nuevo modelo</h1>
     <a th:href="@{/modelo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
     <form id="addModelo" th:action="@{/modelo/registrado}" method="post" th:object="${modelo}">
         
+        <label for="marca">Marca: </label>
         <select name="marca" id="marca" form="addModelo">
             <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
         </select>
