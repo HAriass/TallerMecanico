@@ -11,11 +11,13 @@
     <a th:href="@{/}">Inicio</a>
 
     <form id="addMarca" th:action="@{/marca/registrada}" method="post" th:object="${marca}">
+        
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre"/>
-
-        <label for="estado">Estado:</label>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
         
+        <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addMarca">
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>

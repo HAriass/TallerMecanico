@@ -1,6 +1,7 @@
 
 package com.ProgramacionAvanzada.modelo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,21 +23,35 @@ public class Marca implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Genera automáticamente valores de clave primaria
     private Long id;
     
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "El nombre debe contener solo letras de la A a la Z")
-    @NotBlank(message = "El nombre no puede estar en blanco")
+    @Pattern(regexp = "^[a-z]+$", message = "La marca debe contener solo caracteres a-z minuscula.")
+    @NotBlank(message = "Marca invalida")
+    @Column(unique = true)
     private String nombre;
     
     private boolean estado;
-
-    public Marca() {
-    }
-
-    public Marca(Long id, String nombre, boolean estado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.estado = estado;
-    }
-    
-    
-    
+ 
 }
+
+/**
+ VALIDACIONES SPRING STAR VALIDATION
+ * 
+ * @NotNull -- para valores no nulos
+ * @NotBlank -- para que los string no esten en blanco o vacios
+ * @ValueMin -- valor minimo de un precio por ejemplo
+ * @ValuMax
+ * @Pattern -- para expresiones regulares
+ * para cualquiera de estas anotaciones puedo agregar un mensaje como parametro para indicar el error de manera 
+ * mas descriptiva. Y en el post seria:
+ *  if(bindingresult.hasErrors()) -- si tiene error:
+ *          return (new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.OK);
+ * 
+ * Para validar en Post
+ * @Valid seguido de lo que queremos validar ej: @Valid marca
+ * BindingResult binding result -- como parametro, nos permite conocer si existe algun error en la estructura 
+ * y controlarla
+ * 
+ * Utilizacion de bindingresult 
+ * 
+ * if(bindingresult.hasErrors()) -- si tiene error:
+ *          return (new message("mensaje"), HttpStatus.Bad_REQUEST);
+ */

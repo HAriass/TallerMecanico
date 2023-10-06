@@ -17,6 +17,8 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Telefono</th>
+                    <th>Email</th>
+                    <th>Direccion</th>
                     <th>Estado</th>
                     <th>DNI</th>
                     <th>Modificar</th>
@@ -27,6 +29,8 @@
                     <td th:text="${tecnico.nombre}"></td>
                     <td th:text="${tecnico.apellido}"></td>
                     <td th:text="${tecnico.telefono}"></td>
+                    <td th:text="${tecnico.email}"></td>
+                    <td th:text="${tecnico.direccion}"></td>
                     <td th:text="${tecnico.estado}"></td>
                     <td th:text="${tecnico.dni}"></td>
                     <td><a th:href="@{tecnico/modificar/}+${tecnico.id}" th:text="Modificar">Modificar</a></td>

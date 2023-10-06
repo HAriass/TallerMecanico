@@ -10,7 +10,7 @@
     <a th:href="@{/vehiculo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addVehiculo" th:action="@{/vehiculo/registrado}" method="post" th:object="${vehiculo}">
+    <form id="addVehiculo" th:action="@{/vehiculo/modificar/{id}}" method="post" th:object="${vehiculo}">
         
         <input type="hidden" th:field="*{id}" name="id" />
         
@@ -26,6 +26,8 @@
 
         <label for="patente">Patente: </label>
         <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"/>
+        <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <label for="estado">Estado:</label>
 

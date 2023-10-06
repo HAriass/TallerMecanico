@@ -12,5 +12,4 @@ public interface MarcaServicio {
     public void registrar(Marca marca);
     public void eliminar(Marca marca);
     public Marca localizarMarca(Marca marca);
-    
 }

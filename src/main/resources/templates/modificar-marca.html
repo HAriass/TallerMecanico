@@ -10,10 +10,13 @@
     <a th:href="@{/marca}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addMarca" th:action="@{/marca/registrada}" method="post" th:object="${marca}">
+    <form id="addMarca" th:action="@{/marca/modificar/{id}}" method="post" th:object="${marca}">
         <input type="hidden" th:field="*{id}" name="id" />
+        
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" th:value="${marca.nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addMarca" th:value="${marca.estado}">

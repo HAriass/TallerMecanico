@@ -10,27 +10,40 @@
     <a th:href="@{/tecnico}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addTecnico" th:action="@{/tecnico/registrado}" method="post" th:object="${tecnico}">
+    <form id="addTecnico" th:action="@{/tecnico/modificar/{id}}" method="post" th:object="${tecnico}">
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" th:value="${tecnico.nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
         <label for="apellido">Apellido: </label>
         <input type="text" id="apellido" name="apellido" th:value="${tecnico.apellido}"/>
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
         <label for="telefono">Telefono: </label>
         <input type="text" id="telefono" name="telefono" th:value="${tecnico.telefono}"/>
+        <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+        
+        <label for="email">Email: </label>
+        <input type="text" id="email" name="email" th:value="${tecnico.email}"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        
+        <label for="direccion">Direccion: </label>
+        <input type="text" id="direccion" name="direccion" th:value="${tecnico.direccion}"/>
+        <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
 
         <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addTecnico" th:value="${tecnico.estado}">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
+        <select id="estado" name="estado" form="addTecnico">
+            <option th:selected="${tecnico.estado == true}" value="true">Activo</option>
+            <option th:selected="${tecnico.estado == false}" value="false">Inactivo</option>
         </select>
         
-        <label for="dni">DNI: </label>
+        <label for="dni">DNI:  </label>
         <input type="text" id="dni" name="dni" th:value="${tecnico.dni}"/>
-
+        <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
+        
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     

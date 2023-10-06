@@ -10,7 +10,7 @@
     <a th:href="@{/modelo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addModelo" th:action="@{/modelo/registrado}" method="post" th:object="${modelo}">
+    <form id="addModelo" th:action="@{/modelo/modificar/{id}}" method="post" th:object="${modelo}">
         
         <input type="hidden" th:field="*{id}" name="id" />
         
@@ -21,6 +21,8 @@
 
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <label for="estado">Estado:</label>
 
@@ -31,6 +33,7 @@
         
         <label for="anio">Año: </label>
         <input type="text" id="anio" name="anio" th:value="${modelo.anio}"/>
+        <span th:if="${errorAnio}" th:text="${errorAnio}"></span>
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>

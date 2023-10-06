@@ -13,26 +13,43 @@
     <a th:href="@{/}">Inicio</a>
     
 
-    <form id="addCliente" th:action="@{/cliente/registrado}" method="post" th:object="${cliente}">
+    <form id="addCliente" th:action="@{/cliente/modificar/{id}}" method="post" th:object="${cliente}">
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" th:value="${cliente.nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
         <label for="apellido">Apellido: </label>
         <input type="text" id="apellido" name="apellido" th:value="${cliente.apellido}"/>
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
         <label for="telefono">Telefono: </label>
         <input type="text" id="telefono" name="telefono" th:value="${cliente.telefono}"/>
-
+        <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+        
+        <label for="email">Email: </label>
+        <input type="text" id="email" name="email" th:value="${cliente.email}"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        
+        <label for="direccion">Direccion: </label>
+        <input type="text" id="direccion" name="direccion" th:value="${cliente.direccion}"/>
+        <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
+        
+        <label for="servicio">Servicio: </label>
+        <input type="text" id="servicio" name="servicio" th:value="${cliente.servicio}"/>
+        <span th:if="${#fields.hasErrors('servicio')}" th:errors="*{servicio}"></span>
+        
         <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addCliente" th:value="${cliente.estado}">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
+        <select id="estado" name="estado" form="addCliente">
+            <option th:selected="${cliente.estado == true}" value="true">Activo</option>
+            <option th:selected="${cliente.estado == false}" value="false">Inactivo</option>
         </select>
         
         <label for="dni">DNI: </label>
         <input type="text" id="dni" name="dni" th:value="${cliente.dni}"/>
+        <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>

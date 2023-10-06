@@ -26,6 +26,9 @@
         <label for="patente">Patente:</label>
         <input type="text" id="patente" name="patente"/>
 
+        <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
+
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addVehiculo">
         <option value="true">Activo</option>

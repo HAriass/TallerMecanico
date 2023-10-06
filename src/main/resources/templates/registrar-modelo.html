@@ -20,6 +20,10 @@
         
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
+        
+
 
         <label for="estado">Estado:</label>
 
@@ -30,6 +34,8 @@
         
         <label for="anio">Año: </label>
         <input type="text" id="anio" name="anio"/>
+        <span th:if="${#fields.hasErrors('anio')}" th:errors="*{anio}"></span>
+        <span th:if="${errorAnio}" th:text="${errorAnio}"></span>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>

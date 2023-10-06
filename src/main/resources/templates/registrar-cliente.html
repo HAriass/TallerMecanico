@@ -13,22 +13,38 @@
     <form id="addCliente" th:action="@{/cliente/registrado}" method="post" th:object="${cliente}">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
         <label for="apellido">Apellido: </label>
         <input type="text" id="apellido" name="apellido"/>
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
         <label for="telefono">Telefono: </label>
         <input type="text" id="telefono" name="telefono"/>
-
-        <label for="estado">Estado:</label>
+        <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         
+        <label for="email">Email: </label>
+        <input type="text" id="email" name="email"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        
+        <label for="direccion">Direccion: </label>
+        <input type="text" id="direccion" name="direccion"/>
+        <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
+        
+        <label for="servicio">Servicio: </label>
+        <input type="text" id="servicio" name="servicio"/>
+        <span th:if="${#fields.hasErrors('servicio')}" th:errors="*{servicio}"></span>
+        
+        <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addCliente">
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>
         </select>
         
-        <label for="dni">DNI:  </label>
+        <label for="dni">DNI: </label>
         <input type="text" id="dni" name="dni"/>
+        <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
