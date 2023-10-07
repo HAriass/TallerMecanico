@@ -9,4 +9,6 @@ public interface ClienteServicio {
     public void registrar(Cliente cliente);
     public void eliminar(Cliente cliente);
     public Cliente localizarCliente(Cliente cliente);
+
+    public Cliente obtenerClientePorId(Long clienteId);
 }

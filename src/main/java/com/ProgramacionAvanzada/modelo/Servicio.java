@@ -30,8 +30,5 @@ public class Servicio implements Serializable{
     @NotBlank
     private String descripcion;
     
-    @ManyToOne
-    @JoinColumn(name = "ordenDeTrabajo_id")
-    private OrdenDeTrabajo ordenDeTrabajo;
     
 }

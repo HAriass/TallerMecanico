@@ -1,4 +1,3 @@
-
 package com.ProgramacionAvanzada.Controlador;
 
 import com.ProgramacionAvanzada.Servicio.ClienteServicio;
@@ -7,7 +6,9 @@ import com.ProgramacionAvanzada.Servicio.ServicioServicio;
 import com.ProgramacionAvanzada.modelo.Cliente;
 import com.ProgramacionAvanzada.modelo.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.modelo.Servicio;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,27 +37,47 @@ public class ControladorOrdenDeTrabajo {
     }
 
     @GetMapping("/ordenDeTrabajo/nueva")
-    public String mostrarFormularioNuevaOrdenDeTrabajo(OrdenDeTrabajo ordenDeTrabajo, Model model, Cliente cliente, Servicio servicio) {
+    public String mostrarFormularioNuevaOrdenDeTrabajo(Model model) {
         List<Servicio> servicios = servicioServicio.listaServicios();
         List<Cliente> clientes = clienteServicio.listaClientes();
-        model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
         model.addAttribute("servicios", servicios);
         model.addAttribute("clientes", clientes);
+        model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo()); // Añadir una instancia de OrdenDeTrabajo para el formulario
         return "registrar-ordenDeTrabajo";
     }
 
     @PostMapping("/ordenDeTrabajo/registrada")
-    public String registrarNuevaOrdenDeTrabajo(@Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model) {
-        if(error.hasErrors()){
-            model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
-            return "registrar-ordenDeTrabajo";            
+    public String registrarNuevaOrdenDeTrabajo(@Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
+        if (error.hasErrors()) {
+            List<Servicio> servicios = servicioServicio.listaServicios();
+            List<Cliente> clientes = clienteServicio.listaClientes();
+            model.addAttribute("servicios", servicios);
+            model.addAttribute("clientes", clientes);
+            return "registrar-ordenDeTrabajo";
         }
-        
+
+        // Obtener los IDs de los servicios seleccionados desde el formulario
+        String[] servicioIds = request.getParameterValues("servicios");
+
+        // Asignar el cliente seleccionado a la orden de trabajo
+        Long clienteId = Long.parseLong(request.getParameter("cliente"));
+        Cliente cliente = clienteServicio.obtenerClientePorId(clienteId); // Debes implementar este método
+        ordenDeTrabajo.setCliente(cliente);
+
+        // Asignar los servicios seleccionados a la orden de trabajo
+        List<Servicio> serviciosSeleccionados = new ArrayList<>();
+        for (String servicioId : servicioIds) {
+            Long id = Long.parseLong(servicioId);
+            Servicio servicio = servicioServicio.obtenerServicioPorId(id); // Debes implementar este método
+            serviciosSeleccionados.add(servicio);
+        }
+        ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
+
         ordenServicio.registrar(ordenDeTrabajo);
         System.out.println(ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
     }
-    
+
     @GetMapping("/ordenDeTrabajo/modificar/{id}")
     public String modificar(OrdenDeTrabajo ordenDeTrabajo, Model modelo){
         ordenDeTrabajo = ordenServicio.localizarOrdenDeTrabajo(ordenDeTrabajo);
@@ -80,5 +101,4 @@ public class ControladorOrdenDeTrabajo {
         ordenServicio.eliminar(ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
     }
-    
 }

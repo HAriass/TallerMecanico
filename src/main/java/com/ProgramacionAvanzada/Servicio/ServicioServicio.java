@@ -9,5 +9,7 @@ public interface ServicioServicio {
     public void registrar(Servicio ordenDeTrabajo);
     public void eliminar(Servicio ordenDeTrabajo);
     public Servicio localizarServicio(Servicio servicio);
+
+    public Servicio obtenerServicioPorId(Long id);
     
 }

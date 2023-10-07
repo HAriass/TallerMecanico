@@ -34,5 +34,11 @@ public class ClienteServicioImpleamentacion implements ClienteServicio{
     public Cliente localizarCliente(Cliente cliente) {
         return clienteDao.findById(cliente.getId()).orElse(null);
     }
+
+    @Override
+    public Cliente obtenerClientePorId(Long clienteId) {
+        return clienteDao.findById(clienteId).orElse(null);
+    }
+
     
 }

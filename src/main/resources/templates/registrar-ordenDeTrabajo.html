@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
-    <!--<link rel="stylesheet" type="text/css" href="/css/nuevoModeloStyles.css">-->
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
@@ -14,8 +13,17 @@
         
         <label for="cliente">Cliente: </label>
         <select name="cliente" id="cliente" form="addOrdenDeTrabajo">
+            <option value="">Seleccionar Cliente</option>
             <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
         </select>
+        
+        <div th:if="${vehiculos}">
+            <label for="vehiculo">Vehículo: </label>
+            <select name="vehiculo" id="vehiculo">
+                <option value="">Seleccionar Vehículo</option>
+                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.nombre}"></option>
+            </select>
+        </div>
 
         <label>Servicios:</label>
         <div th:each="servicio : ${servicios}">
@@ -23,23 +31,26 @@
             <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
         </div>
 
-
         <label for="fechaCreacion">Fecha: </label>
         <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion"/>
         <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
 
-        <label for="informacionRelevante">Informacion Relevante: </label>
+        <label for="informacionRelevante">Información Relevante: </label>
         <input type="text" id="informacionRelevante" name="informacionRelevante"/>
         <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
 
-        <label for="estado">Estado:</label>
-
-        <select id="estado" name="estado" form="addModelo">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-        </select>
-
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
+
+    <script>
+        // Este código JavaScript se encarga de cargar los vehículos cuando se selecciona un cliente
+        document.getElementById("cliente").addEventListener("change", function() {
+            var selectedClienteId = this.value;
+            var vehiculoSelect = document.getElementById("vehiculo");
+            
+            // Lógica para cargar los vehículos relacionados con el cliente seleccionado
+            // Debes implementar esta lógica en JavaScript o en tu controlador de Spring.
+        });
+    </script>
 </body>
 </html>

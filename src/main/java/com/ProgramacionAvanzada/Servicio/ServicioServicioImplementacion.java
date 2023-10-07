@@ -34,5 +34,11 @@ public class ServicioServicioImplementacion implements ServicioServicio{
     public Servicio localizarServicio(Servicio servicio) {
         return servicioDao.findById(servicio.getId()).orElse(null);
     }
+
+    @Override
+    public Servicio obtenerServicioPorId(Long id) {
+        return servicioDao.findById(id).orElse(null);
+    }
+
     
 }
