@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Servicios</title>
+        <meta charset="UTF-8">
+        <!-- 
+        <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+        -->
+        
+    </head>
+    <body>
+        <h1>Listado De Servicios</h1>
+        <a th:href="@{/servicio/nuevo}">Registrar Servicio</a>
+        <a th:href="@{/}"> Volver </a>
+        
+        <div th:if="${servicios!=null and not servicios.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="servicio: ${servicios}">
+                    <td th:text="${servicio.nombre}"></td>
+                    <td th:text="${servicio.descripcion}"></td>
+                    <td><a th:href="@{servicio/modificar/}+${servicio.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{servicio/eliminar/}+${servicio.id}" th:text="Eliminar">Eliminar</a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${servicios==null or servicios.isEmpty()}">
+            No existen servicios hasta el momento
+        </div>
+    </body>
+</html>

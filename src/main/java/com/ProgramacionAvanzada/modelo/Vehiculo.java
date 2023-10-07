@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +37,10 @@ public class Vehiculo implements Serializable{
     @Pattern(regexp = "^[A-Z1-9]+$", message = "La pantente debe contener letras mayusculas y numero 1-9")
     @Column(unique=true)
     private String patente;
+    
+    @OneToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
     
     private boolean estado;
 

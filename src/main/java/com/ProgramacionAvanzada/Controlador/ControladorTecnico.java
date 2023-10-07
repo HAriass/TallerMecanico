@@ -1,7 +1,6 @@
 package com.ProgramacionAvanzada.Controlador;
 
 import com.ProgramacionAvanzada.Servicio.TecnicoServicio;
-import com.ProgramacionAvanzada.modelo.Cliente;
 import com.ProgramacionAvanzada.modelo.Tecnico;
 import jakarta.validation.Valid;
 import java.util.List;

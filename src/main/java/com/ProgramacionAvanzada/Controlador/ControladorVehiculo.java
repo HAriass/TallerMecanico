@@ -1,8 +1,10 @@
 package com.ProgramacionAvanzada.Controlador;
 
+import com.ProgramacionAvanzada.Servicio.ClienteServicio;
 import com.ProgramacionAvanzada.Servicio.MarcaServicio;
 import com.ProgramacionAvanzada.Servicio.ModeloServicio;
 import com.ProgramacionAvanzada.Servicio.VehiculoServicio;
+import com.ProgramacionAvanzada.modelo.Cliente;
 import com.ProgramacionAvanzada.modelo.Marca;
 import com.ProgramacionAvanzada.modelo.Modelo;
 import com.ProgramacionAvanzada.modelo.Vehiculo;
@@ -28,6 +30,9 @@ public class ControladorVehiculo {
     @Autowired
     private ModeloServicio modeloServicio;
     
+    @Autowired
+    private ClienteServicio clienteServicio;
+    
     
     @GetMapping("/vehiculo")
     public String listarVehiculos(Model modelo){
@@ -38,12 +43,14 @@ public class ControladorVehiculo {
     
         
     @GetMapping("/vehiculo/nuevo")
-    public String mostrarFormularioNuevaVehiculo(Model model, Vehiculo vehiculo) {
+    public String mostrarFormularioNuevaVehiculo(Model model, Vehiculo vehiculo, Cliente cliente) {
         List<Marca> marcas = marcaServicio.listaMarcas();
         List<Modelo> modelos = modeloServicio.listaModelos();
+        List<Cliente> clientes = clienteServicio.listaClientes();
         model.addAttribute("marcas", marcas);
         model.addAttribute("modelos", modelos);
         model.addAttribute("vehiculo", vehiculo);
+        model.addAttribute("clientes", clientes);
         return "registrar-vehiculo";
     }
 
@@ -53,6 +60,8 @@ public class ControladorVehiculo {
         if(error.hasErrors()){
             List<Marca> marcas = marcaServicio.listaMarcas();
             List<Modelo> modelos = modeloServicio.listaModelos();
+            List<Cliente> clientes = clienteServicio.listaClientes();
+            model.addAttribute("clientes", clientes);
             model.addAttribute("marcas", marcas);
             model.addAttribute("modelos", modelos);
             return "registrar-vehiculo";
@@ -63,6 +72,8 @@ public class ControladorVehiculo {
             model.addAttribute("error", "Ya existe un vehiculo con la misma patente");
             List<Marca> marcas = marcaServicio.listaMarcas();
             List<Modelo> modelos = modeloServicio.listaModelos();
+            List<Cliente> clientes = clienteServicio.listaClientes();
+            model.addAttribute("clientes", clientes);
             model.addAttribute("marcas", marcas);
             model.addAttribute("modelos", modelos);
             return "registrar-vehiculo";
@@ -72,9 +83,11 @@ public class ControladorVehiculo {
 
     
     @GetMapping("/vehiculo/modificar/{id}")
-    public String modificar(Vehiculo vehiculo, Model modelo){
+    public String modificar(Vehiculo vehiculo, Model modelo, Cliente cliente){
+        List<Cliente> clientes = clienteServicio.listaClientes();
         vehiculo = vehiculoServicio.localizarVehiculo(vehiculo);
         modelo.addAttribute("vehiculo",vehiculo);
+        modelo.addAttribute("clientes",clientes);
         return "modificar-vehiculo";
     }
     
@@ -84,6 +97,8 @@ public class ControladorVehiculo {
         if(error.hasErrors()){
             List<Marca> marcas = marcaServicio.listaMarcas();
             List<Modelo> modelos = modeloServicio.listaModelos();
+            List<Cliente> clientes = clienteServicio.listaClientes();
+            model.addAttribute("clientes", clientes);
             model.addAttribute("marcas", marcas);
             model.addAttribute("modelos", modelos);
             return "modificar-vehiculo";
@@ -94,6 +109,8 @@ public class ControladorVehiculo {
             model.addAttribute("error", "Ya existe un vehiculo con la misma patente");
             List<Marca> marcas = marcaServicio.listaMarcas();
             List<Modelo> modelos = modeloServicio.listaModelos();
+            List<Cliente> clientes = clienteServicio.listaClientes();
+            model.addAttribute("clientes", clientes);
             model.addAttribute("marcas", marcas);
             model.addAttribute("modelos", modelos);
             return "modificar-vehiculo";

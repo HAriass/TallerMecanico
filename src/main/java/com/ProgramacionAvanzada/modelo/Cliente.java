@@ -5,11 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.List;
 import lombok.Data;
 
 @Entity
@@ -40,9 +43,6 @@ public class Cliente implements Serializable{
     
     @Pattern(regexp = "^[a-zA-Z]+\\s\\d+$", message = "Controle formato del tipo Sarmiento 123")
     private String direccion;
-
-    @NotBlank
-    private String servicio;
     
     private Boolean estado;
     

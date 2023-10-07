@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Servicio</title>
+    <!<!--     <link rel="stylesheet" type="text/css" href="/css/modificarMarcaStyles.css">-->
+</head>
+<body>
+    <h1>Datos del servicio</h1>
+    <a th:href="@{/servicio}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
+
+    <form id="addMarca" th:action="@{/servicio/modificar/{id}}" method="post" th:object="${servicio}">
+        <input type="hidden" th:field="*{id}" name="id" />
+        
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" th:value="${servicio.nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
+
+        <label for="descripcion">Descripcion:</label>
+        <input type="text" id="descripcion" name="descripcion" th:value="${servicio.descripcion}"/>
+        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+        
+        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+    </form>
+    
+    
+</body>
+</html>
+

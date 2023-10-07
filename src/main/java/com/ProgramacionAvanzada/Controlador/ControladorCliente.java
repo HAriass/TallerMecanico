@@ -21,9 +21,7 @@ public class ControladorCliente {
 
     @GetMapping("/cliente")
     public String listarClientes(Model modelo) {
-
         List<Cliente> clientes = clienteServicio.listaClientes();
-
         modelo.addAttribute("clientes", clientes);
         return "cliente";
     }
@@ -38,7 +36,7 @@ public class ControladorCliente {
     public String registrarNuevaCliente(@Valid Cliente cliente, Errors error, Model model) {
         if(error.hasErrors()){
             model.addAttribute("cliente", cliente);
-            return "registrar-cliente";            
+            return "registrar-cliente";         
         }
         try {
             clienteServicio.registrar(cliente);

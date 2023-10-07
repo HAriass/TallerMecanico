@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Orden de trabajo</title>
+        <meta charset="UTF-8">
+        <!--         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">-->
+    </head>
+    <body>
+        <h1>Listado de ordenes de trabajos realizadas</h1>
+        <a th:href="@{/ordenDeTrabajo/nueva}">Registrar orden de trabajo</a>
+        <a th:href="@{/}"> Volver </a>
+        
+        <div th:if="${ordenes!=null and not ordenes.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Servicios</th>
+                    <th>Informacion Relevante</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="orden: ${ordenes}">
+                    <td th:text="${orden.cliente.nombre}"></td>
+                    <td><a href="/servicios-orden">Consultar</a></td> 
+                    <td th:text="${orden.informacionRelevante}"></td>
+                    <td><a th:href="@{ordenDeTrabajo/modificar/}+${orden.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{ordenDeTrabajo/eliminar/}+${orden.id}" th:text="Eliminar">Eliminar</a></td>
+                </tr>
+
+            </table>
+        </div>
+        <div th:if="${ordenes==null or ordenes.isEmpty()}">
+            No existen orden de trabajo hasta el momento
+        </div>
+    </body>
+</html>

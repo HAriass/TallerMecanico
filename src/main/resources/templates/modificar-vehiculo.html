@@ -28,6 +28,12 @@
         <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"/>
         <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
         <span th:if="${error}" th:text="${error}"></span>
+        
+        <label for="cliente">Cliente: </label>
+        <select name="cliente" id="cliente" form="addVehiculo">
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}" th:selected="${cliente.id == vehiculo.cliente.id}"></option>
+        </select>   
+
 
         <label for="estado">Estado:</label>
 

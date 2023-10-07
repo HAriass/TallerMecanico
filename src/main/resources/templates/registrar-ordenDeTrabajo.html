@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva orden de trabajo</title>
+    <!--<link rel="stylesheet" type="text/css" href="/css/nuevoModeloStyles.css">-->
+</head>
+<body>
+    <h1>Datos de la nueva orden de trabajo</h1>
+    <a th:href="@{/ordenDeTrabajo}">Volver</a>
+    <a th:href="@{/}">Inicio</a>
+
+    <form id="addOrdenDeTrabajo" th:action="@{/ordenDeTrabajo/registrada}" method="post" th:object="${ordenDeTrabajo}">
+        
+        <label for="cliente">Cliente: </label>
+        <select name="cliente" id="cliente" form="addOrdenDeTrabajo">
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+        </select>
+
+        <label for="servicios">Servicios: </label>
+        <select name="servicios" id="servicios" form="addOrdenDeTrabajo" multiple>
+            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}"></option>
+        </select>
+
+        <label for="fechaCreacion">Fecha: </label>
+        <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion"/>
+        <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
+
+        <label for="informacionRelevante">Informacion Relevante: </label>
+        <input type="text" id="informacionRelevante" name="informacionRelevante"/>
+        <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
+
+        <label for="estado">Estado:</label>
+
+        <select id="estado" name="estado" form="addModelo">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+        </select>
+
+        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+    </form>
+</body>
+</html>

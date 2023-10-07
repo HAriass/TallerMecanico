@@ -31,10 +31,6 @@
         <input type="text" id="direccion" name="direccion"/>
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         
-        <label for="servicio">Servicio: </label>
-        <input type="text" id="servicio" name="servicio"/>
-        <span th:if="${#fields.hasErrors('servicio')}" th:errors="*{servicio}"></span>
-        
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addCliente">
             <option value="true">Activo</option>

@@ -4,24 +4,53 @@
         <title>Clientes</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="/css/clienteStyles.css">
+        
+            <script>
+            function buscarClientes() {
+            var input = document.getElementById("nombreCliente");
+            var filter = input.value.toLowerCase();
+            var table = document.getElementById("tablaClientes");
+            var rows = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < rows.length; i++) { // Comienza desde 1 para omitir la fila de encabezado
+                var nombre = rows[i].getElementsByTagName("td")[0]; // Suponiendo que el nombre está en la primera columna
+                if (nombre) {
+                    var nombreTexto = nombre.textContent || nombre.innerText;
+                        if (nombreTexto.toLowerCase().indexOf(filter) > -1) {
+                            rows[i].style.display = ""; // Muestra la fila si coincide con la búsqueda
+                        } else {
+                            rows[i].style.display = "none"; // Oculta la fila si no coincide con la búsqueda
+                        }
+                    }
+                }
+            }
+            </script>
+        
     </head>
     <body>
         <h1>Listado De Clientes</h1>
         <a th:href="@{/cliente/nuevo}">Registrar Cliente</a>
         <a th:href="@{/}"> Volver </a>
         
+        <div>
+            <label for nombreCliente>Buscar cliente por nombre</label>
+            <input type="text" id="nombreCliente" placeholder="Buscar por nombre">
+            <button onclick="buscarClientes()">Buscar</button>
+        </div>
+        
+        
         <div th:if="${clientes!=null and not clientes.isEmpty()}">
             <br>
-            <table border="2">
+            <table border="2" id="tablaClientes">
                 <tr>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>DNI</th>
                     <th>Telefono</th>
                     <th>Email</th>
                     <th>Direccion</th>
-                    <th>Servicio</th>
+                    <th>Vehiculos</th>
                     <th>Estado</th>
-                    <th>DNI</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
 
@@ -29,12 +58,12 @@
                 <tr th:each="cliente: ${clientes}">
                     <td th:text="${cliente.nombre}"></td>
                     <td th:text="${cliente.apellido}"></td>
+                    <td th:text="${cliente.dni}"></td>
                     <td th:text="${cliente.telefono}"></td>
                     <td th:text="${cliente.email}"></td>
                     <td th:text="${cliente.direccion}"></td>
-                    <td th:text="${cliente.servicio}"></td>
+                    <td><a href="/vehiculos-cliente">Consultar</a></td>      
                     <td th:text="${cliente.estado}"></td>
-                    <td th:text="${cliente.dni}"></td>
                     <td><a th:href="@{cliente/modificar/}+${cliente.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{cliente/eliminar/}+${cliente.id}" th:text="Eliminar">Eliminar</a></td>
                 </tr>
