@@ -53,6 +53,7 @@ public class ControladorOrdenDeTrabajo {
         }
         
         ordenServicio.registrar(ordenDeTrabajo);
+        System.out.println(ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
     }
     

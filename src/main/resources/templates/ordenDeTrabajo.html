@@ -23,7 +23,13 @@
                 </tr>
                 <tr th:each="orden: ${ordenes}">
                     <td th:text="${orden.cliente.nombre}"></td>
-                    <td><a href="/servicios-orden">Consultar</a></td> 
+                    <!--<td><a href="/servicios-orden">Consultar</a></td> -->
+                    <td>
+                        <ul>
+                            <li th:each="servicio : ${orden.servicio}" th:text="${servicio.nombre}"></li>
+                        </ul>
+                    </td>
+
                     <td th:text="${orden.informacionRelevante}"></td>
                     <td><a th:href="@{ordenDeTrabajo/modificar/}+${orden.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{ordenDeTrabajo/eliminar/}+${orden.id}" th:text="Eliminar">Eliminar</a></td>

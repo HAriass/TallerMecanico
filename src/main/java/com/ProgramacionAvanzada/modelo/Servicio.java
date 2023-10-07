@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import lombok.Data;
 public class Servicio implements Serializable{
     
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +29,9 @@ public class Servicio implements Serializable{
     
     @NotBlank
     private String descripcion;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "ordenDeTrabajo_id")
+    private OrdenDeTrabajo ordenDeTrabajo;
     
 }

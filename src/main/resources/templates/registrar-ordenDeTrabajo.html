@@ -17,10 +17,12 @@
             <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
         </select>
 
-        <label for="servicios">Servicios: </label>
-        <select name="servicios" id="servicios" form="addOrdenDeTrabajo" multiple>
-            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}"></option>
-        </select>
+        <label>Servicios:</label>
+        <div th:each="servicio : ${servicios}">
+            <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>
+            <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
+        </div>
+
 
         <label for="fechaCreacion">Fecha: </label>
         <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion"/>
