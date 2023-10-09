@@ -40,15 +40,7 @@ public class OrdenDeTrabajo implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "servicio_id") // Columna de servicio en la tabla intermedia
     )
     private List<Servicio> servicio;
-    /**
-    @ManyToMany
-    @JoinTable(
-        name = "orden_tecnico", // Nombre de la tabla intermedia
-        joinColumns = @JoinColumn(name = "orden_id"), // Columna de orden en la tabla intermedia
-        inverseJoinColumns = @JoinColumn(name = "tecnico_id") // Columna de técnico en la tabla intermedia
-    )
-    private List<Tecnico> tecnico;
-    **/
+
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;

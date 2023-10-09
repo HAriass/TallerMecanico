@@ -96,21 +96,46 @@ public class ControladorOrdenDeTrabajo {
     }
 
 
-    @GetMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificar(OrdenDeTrabajo ordenDeTrabajo, Model model){
-        ordenDeTrabajo = ordenServicio.localizarOrdenDeTrabajo(ordenDeTrabajo);
-        List<Servicio> servicios = servicioServicio.listaServicios();
-        List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
-        
-        model.addAttribute("servicios", servicios);
-        model.addAttribute("vehiculos", vehiculos);
-        model.addAttribute("ordenDeTrabajo",ordenDeTrabajo);
-        model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo()); // Añadir una instancia de OrdenDeTrabajo para el formulario
-        return "modificar-ordenDeTrabajo";
-    }   
+@GetMapping("/ordenDeTrabajo/modificar/{id}")
+public String modificar(@PathVariable Long id, Model model) {
+    OrdenDeTrabajo ordenDeTrabajo = ordenServicio.obtenerOrdenDeTrabajoPorId(id);
+    List<Servicio> servicios = servicioServicio.listaServicios();
+    List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
+
+    // Establecer el vehículo seleccionado en la orden de trabajo
+    Vehiculo vehiculoSeleccionado = ordenDeTrabajo.getVehiculo();
+    model.addAttribute("vehiculoSeleccionado", vehiculoSeleccionado);
+
+    // Establecer los servicios seleccionados en la orden de trabajo
+    List<Servicio> serviciosSeleccionados = ordenDeTrabajo.getServicio();
+    model.addAttribute("serviciosSeleccionados", serviciosSeleccionados);
+    
+    // Establecer la lista de técnicos en el modelo
+    List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
+    model.addAttribute("tecnicos", tecnicos);
+
+    // Establecer el técnico seleccionado en la orden de trabajo
+    Tecnico tecnicoSeleccionado = ordenDeTrabajo.getTecnico();
+    String informacionRelevante = ordenDeTrabajo.getInformacionRelevante();
+    System.out.println("Información Relevante: " + informacionRelevante);
+    model.addAttribute("informacionRelevante", informacionRelevante);
+
+
+    model.addAttribute("servicios", servicios);
+    model.addAttribute("vehiculos", vehiculos);
+    model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
+    model.addAttribute("tecnicoSeleccionado", tecnicoSeleccionado);
+
+
+    return "modificar-ordenDeTrabajo";
+}
+
+
+
   
-    @PostMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request, Vehiculo vehiculo) {
+  
+@PostMapping("/ordenDeTrabajo/modificar/{id}")
+public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
     if (error.hasErrors()) {
         List<Servicio> servicios = servicioServicio.listaServicios();
         List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
@@ -145,6 +170,7 @@ public class ControladorOrdenDeTrabajo {
 
     return "redirect:/ordenDeTrabajo";
 }
+
 
 
     @GetMapping("/ordenDeTrabajo/eliminar/{id}")

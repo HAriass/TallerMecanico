@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ModificarOrden</title>
+    <title>Modificar orden de trabajo</title>
 </head>
 <body>
-    <h1>Datos de la orden de trabajo</h1>
+    <h1>Modificar orden de trabajo</h1>
     <a th:href="@{/ordenDeTrabajo}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addOrdenDeTrabajo" th:action="@{/ordenDeTrabajo/modificar/{id}}" method="post" th:object="${ordenDeTrabajo}">
-        
-         <input type="hidden" th:field="*{id}" name="id" />
-         
-        <label for="vehiculo">Vehículo: </label>
-        <select name="vehiculo" id="vehiculo">
-            <option value="">Seleccionar Vehículo</option>
-            <option th:each="v : ${vehiculos}" th:value="${v.id}" th:text="${v.patente}" th:selected="${v.id == ordenDeTrabajo.vehiculo.id}"></option>
-        </select>
+    <form id="modificarOrdenDeTrabajo" th:action="@{'/ordenDeTrabajo/modificar/' + ${ordenDeTrabajo.id}}" method="post" th:object="${ordenDeTrabajo}">
+        <div>
+            <label for="vehiculo">Vehículo: </label>
+            <select name="vehiculo" id="vehiculo">
+                <option value="">Seleccionar Vehículo</option>
+                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" th:selected="${vehiculo == vehiculoSeleccionado}"></option>
+            </select>
+        </div>
 
+        <div>
+            <label>Servicios:</label>
+            <div th:each="servicio : ${servicios}">
+                <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:checked="${serviciosSeleccionados != null and serviciosSeleccionados.contains(servicio)}"/>
+                <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
+            </div>
+        </div>
 
-        <label>Servicios:</label>
-        <div th:each="servicio : ${servicios}">
-            <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:checked="${servicio in ordenDeTrabajo.servicios}"/>
-            <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label>
+        <div>
+            <label for="tecnico">Técnico: </label>
+            <select name="tecnico" id="tecnico">
+                <option value="">Seleccionar Técnico</option>
+                <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}" th:selected="${tecnico == tecnicoSeleccionado}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label for="fechaCreacion">Fecha: </label>
+            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" th:value="${ordenDeTrabajo.fechaCreacion}"/>
+            <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
+        </div>
+
+        <div>
+            <label for="informacionRelevante">Información Relevante: </label>
+            <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}"/>
+            <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
 
 
-        <label for="fechaCreacion">Fecha: </label>
-        <input th:field="*{fechaCreacion}" type="text" id="fechaCreacion" name="fechaCreacion" th:value="*{fechaCreacion}" />
-        <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
-
-        <label for="informacionRelevante">Información Relevante: </label>
-        <input type="text" id="informacionRelevante" name="informacionRelevante" th:field="${orden.informacionRelevante}" />
-        <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
-
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <div>
+            <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        </div>
     </form>
-
 </body>
 </html>

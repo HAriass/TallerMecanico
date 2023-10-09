@@ -36,11 +36,27 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
         return ordenDeTrabajoDao.findById(ordenDeTrabajo.getId()).orElse(null);
     }
     
-    @Override
-    public OrdenDeTrabajo obtenerOrdenDeTrabajoPorId(Long id) {
-        // Implementa la lógica para obtener una orden de trabajo por su ID desde el repositorio
-        // Puedes usar el método findById del repositorio
-        return ordenDeTrabajoDao.findById(id).orElse(null);
+@Override
+public OrdenDeTrabajo obtenerOrdenDeTrabajoPorId(Long id) {
+    // Obtener la orden de trabajo por su ID desde el repositorio
+    Optional<OrdenDeTrabajo> ordenOptional = ordenDeTrabajoDao.findById(id);
+    
+    if (ordenOptional.isPresent()) {
+        OrdenDeTrabajo ordenDeTrabajo = ordenOptional.get();
+
+        // Agregar impresiones para verificar si se está obteniendo correctamente
+        System.out.println("ID de la orden de trabajo: " + ordenDeTrabajo.getId());
+        System.out.println("Vehículo: " + ordenDeTrabajo.getVehiculo()); // Verifica que esto no sea nulo
+        System.out.println("Servicios: " + ordenDeTrabajo.getServicio()); // Verifica que esto no sea nulo
+        // Agrega más impresiones para otros atributos relacionados si es necesario
+
+        return ordenDeTrabajo;
+    } else {
+        System.out.println("No se encontró ninguna orden de trabajo con ID: " + id);
+        return null; // Devolver null si no se encuentra la orden de trabajo
     }
+}
+
+
     
 }
