@@ -32,7 +32,7 @@
         <span id="email-error" class="error"></span>
         
         <label for="direccion">Dirección: </label>
-        <input type="text" id="direccion" name="direccion" pattern="^[a-z0-9\\s]*$" required title="Ingrese una dirección válida."/>
+        <input type="text" id="direccion" name="direccion" pattern="^[a-z0-9\s]*$" required title="Ingrese una dirección válida."/>
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         <span id="direccion-error" class="error"></span>
         
