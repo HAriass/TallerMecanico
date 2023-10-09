@@ -9,12 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,8 +30,8 @@ public class OrdenDeTrabajo implements Serializable{
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name="id_cliente")
-    private Cliente cliente;
+    @JoinColumn(name="id_vehiculo")
+    private Vehiculo vehiculo;
     
     @ManyToMany
     @JoinTable(
@@ -42,6 +40,19 @@ public class OrdenDeTrabajo implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "servicio_id") // Columna de servicio en la tabla intermedia
     )
     private List<Servicio> servicio;
+    /**
+    @ManyToMany
+    @JoinTable(
+        name = "orden_tecnico", // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "orden_id"), // Columna de orden en la tabla intermedia
+        inverseJoinColumns = @JoinColumn(name = "tecnico_id") // Columna de técnico en la tabla intermedia
+    )
+    private List<Tecnico> tecnico;
+    **/
+    @ManyToOne
+    @JoinColumn(name = "tecnico_id")
+    private Tecnico tecnico;
+
 
     
     @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$") // dia mes anio

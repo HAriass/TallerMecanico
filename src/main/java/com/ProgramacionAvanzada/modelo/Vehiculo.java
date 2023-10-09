@@ -38,7 +38,7 @@ public class Vehiculo implements Serializable{
     @Column(unique=true)
     private String patente;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
     

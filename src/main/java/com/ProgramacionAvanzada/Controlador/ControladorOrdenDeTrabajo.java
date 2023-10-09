@@ -3,9 +3,12 @@ package com.ProgramacionAvanzada.Controlador;
 import com.ProgramacionAvanzada.Servicio.ClienteServicio;
 import com.ProgramacionAvanzada.Servicio.OrdenDeTrabajoServicio;
 import com.ProgramacionAvanzada.Servicio.ServicioServicio;
-import com.ProgramacionAvanzada.modelo.Cliente;
+import com.ProgramacionAvanzada.Servicio.TecnicoServicio;
+import com.ProgramacionAvanzada.Servicio.VehiculoServicio;
 import com.ProgramacionAvanzada.modelo.OrdenDeTrabajo;
 import com.ProgramacionAvanzada.modelo.Servicio;
+import com.ProgramacionAvanzada.modelo.Tecnico;
+import com.ProgramacionAvanzada.modelo.Vehiculo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -27,21 +31,28 @@ public class ControladorOrdenDeTrabajo {
     private ServicioServicio servicioServicio;
     
     @Autowired
-    private ClienteServicio clienteServicio;
+    private VehiculoServicio vehiculoServicio;
+    
+    @Autowired
+    private TecnicoServicio tecnicoServicio;
     
     @GetMapping("/ordenDeTrabajo")
     public String listarServicios(Model modelo) {
         List<OrdenDeTrabajo> ordenes = ordenServicio.listaOrdenDeTrabajo();
+        List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
         modelo.addAttribute("ordenes", ordenes);
+        modelo.addAttribute("vehiculos", vehiculos);
         return "ordenDeTrabajo";
     }
 
     @GetMapping("/ordenDeTrabajo/nueva")
     public String mostrarFormularioNuevaOrdenDeTrabajo(Model model) {
+        List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
         List<Servicio> servicios = servicioServicio.listaServicios();
-        List<Cliente> clientes = clienteServicio.listaClientes();
+        List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
         model.addAttribute("servicios", servicios);
-        model.addAttribute("clientes", clientes);
+        model.addAttribute("vehiculos", vehiculos);
+        model.addAttribute("tecnicos", tecnicos);
         model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo()); // Añadir una instancia de OrdenDeTrabajo para el formulario
         return "registrar-ordenDeTrabajo";
     }
@@ -49,20 +60,17 @@ public class ControladorOrdenDeTrabajo {
     @PostMapping("/ordenDeTrabajo/registrada")
     public String registrarNuevaOrdenDeTrabajo(@Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
         if (error.hasErrors()) {
+            List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
             List<Servicio> servicios = servicioServicio.listaServicios();
-            List<Cliente> clientes = clienteServicio.listaClientes();
+            List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
             model.addAttribute("servicios", servicios);
-            model.addAttribute("clientes", clientes);
+            model.addAttribute("vehiculos", vehiculos);
+            model.addAttribute("tecnicos", tecnicos);
             return "registrar-ordenDeTrabajo";
         }
 
         // Obtener los IDs de los servicios seleccionados desde el formulario
         String[] servicioIds = request.getParameterValues("servicios");
-
-        // Asignar el cliente seleccionado a la orden de trabajo
-        Long clienteId = Long.parseLong(request.getParameter("cliente"));
-        Cliente cliente = clienteServicio.obtenerClientePorId(clienteId); // Debes implementar este método
-        ordenDeTrabajo.setCliente(cliente);
 
         // Asignar los servicios seleccionados a la orden de trabajo
         List<Servicio> serviciosSeleccionados = new ArrayList<>();
@@ -73,28 +81,71 @@ public class ControladorOrdenDeTrabajo {
         }
         ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
 
+        // Obtener el ID del técnico seleccionado desde el formulario
+        String tecnicoId = request.getParameter("tecnico");
+        if (tecnicoId != null && !tecnicoId.isEmpty()) {
+            Long id = Long.parseLong(tecnicoId);
+            Tecnico tecnico = tecnicoServicio.obtenerTecnicoPorId(id); // Debes implementar este método
+            ordenDeTrabajo.setTecnico(tecnico); // Asignar el técnico seleccionado a la orden de trabajo
+        }
+
+
         ordenServicio.registrar(ordenDeTrabajo);
-        System.out.println(ordenDeTrabajo);
+        System.out.println("Objeto orde:"+ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
     }
 
+
     @GetMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificar(OrdenDeTrabajo ordenDeTrabajo, Model modelo){
+    public String modificar(OrdenDeTrabajo ordenDeTrabajo, Model model){
         ordenDeTrabajo = ordenServicio.localizarOrdenDeTrabajo(ordenDeTrabajo);
-        modelo.addAttribute("ordenDeTrabajo",ordenDeTrabajo);
+        List<Servicio> servicios = servicioServicio.listaServicios();
+        List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
+        
+        model.addAttribute("servicios", servicios);
+        model.addAttribute("vehiculos", vehiculos);
+        model.addAttribute("ordenDeTrabajo",ordenDeTrabajo);
+        model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo()); // Añadir una instancia de OrdenDeTrabajo para el formulario
         return "modificar-ordenDeTrabajo";
     }   
-    
+  
     @PostMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificarOrdenDeTrabajo(@Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model) {
-        if(error.hasErrors()){
-            model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
-            return "modificar-ordenDeTrabajo";            
-        }
-        
-        ordenServicio.registrar(ordenDeTrabajo);
-        return "redirect:/ordenDeTrabajo";
-    } 
+    public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request, Vehiculo vehiculo) {
+    if (error.hasErrors()) {
+        List<Servicio> servicios = servicioServicio.listaServicios();
+        List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
+        model.addAttribute("servicios", servicios);
+        model.addAttribute("vehiculos", vehiculos);
+        return "modificar-ordenDeTrabajo";
+    }
+
+    // Obtener los IDs de los servicios seleccionados desde el formulario
+    String[] servicioIds = request.getParameterValues("servicios");
+
+    // Asignar los servicios seleccionados a la orden de trabajo
+    List<Servicio> serviciosSeleccionados = new ArrayList<>();
+    for (String servicioId : servicioIds) {
+        Long servicioIdLong = Long.parseLong(servicioId);
+        Servicio servicio = servicioServicio.obtenerServicioPorId(servicioIdLong); // Debes implementar este método
+        serviciosSeleccionados.add(servicio);
+    }
+    ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
+
+    // Modificar la orden de trabajo existente (puedes usar el ID para identificarla)
+    OrdenDeTrabajo ordenExistente = ordenServicio.obtenerOrdenDeTrabajoPorId(id); // Debes implementar este método
+    if (ordenExistente != null) {
+        // Actualizar los datos de la orden de trabajo existente
+        ordenExistente.setVehiculo(ordenDeTrabajo.getVehiculo());
+        ordenExistente.setServicio(ordenDeTrabajo.getServicio());
+        ordenExistente.setFechaCreacion(ordenDeTrabajo.getFechaCreacion());
+        ordenExistente.setInformacionRelevante(ordenDeTrabajo.getInformacionRelevante());
+
+        ordenServicio.registrar(ordenExistente); // Actualizar la orden existente en la base de datos
+    }
+
+    return "redirect:/ordenDeTrabajo";
+}
+
 
     @GetMapping("/ordenDeTrabajo/eliminar/{id}")
     public String eliminar(OrdenDeTrabajo ordenDeTrabajo){

@@ -9,4 +9,5 @@ public interface TecnicoServicio {
     public void registrar(Tecnico tecnico);
     public void eliminar(Tecnico tecnico);
     public Tecnico localizarTecnico(Tecnico tecnico);
+    public Tecnico obtenerTecnicoPorId(Long id);
 }

@@ -4,6 +4,7 @@ package com.ProgramacionAvanzada.Servicio;
 import com.ProgramacionAvanzada.DAO.TecnicoDAO;
 import com.ProgramacionAvanzada.modelo.Tecnico;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +36,9 @@ public class TecnicoServicioImpleamentacion implements TecnicoServicio{
         return tecnicoDao.findById(tecnico.getId()).orElse(null);
     }
     
+    @Override
+    public Tecnico obtenerTecnicoPorId(Long id) {
+        Optional<Tecnico> tecnicoEncontrado = tecnicoDao.findById(id);
+        return tecnicoEncontrado.orElse(null);
+    }
 }

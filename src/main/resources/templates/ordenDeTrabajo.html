@@ -4,6 +4,7 @@
         <title>Orden de trabajo</title>
         <meta charset="UTF-8">
         <!--         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">-->
+                <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
     </head>
     <body>
         <h1>Listado de ordenes de trabajos realizadas</h1>
@@ -15,24 +16,33 @@
             <table border="2">
                 <tr>
                     <th>Cliente</th>
+                    <th>Vehiculo</th>
                     <th>Servicios</th>
+                    <th>Tecnico</th>
                     <th>Informacion Relevante</th>
+                    <th>Fecha de Creacion</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
 
                 </tr>
                 <tr th:each="orden: ${ordenes}">
-                    <td th:text="${orden.cliente.nombre}"></td>
-                    <!--<td><a href="/servicios-orden">Consultar</a></td> -->
+                    <td th:text="${orden.vehiculo.cliente.nombre}"></td>
+                    <td th:text="${orden.vehiculo.patente}"></td>
                     <td>
                         <ul>
                             <li th:each="servicio : ${orden.servicio}" th:text="${servicio.nombre}"></li>
                         </ul>
                     </td>
+                    <td th:text="${orden.tecnico != null ? orden.tecnico.nombre : 'N/A'}"></td>
+
+
+
 
                     <td th:text="${orden.informacionRelevante}"></td>
-                    <td><a th:href="@{ordenDeTrabajo/modificar/}+${orden.id}" th:text="Modificar">Modificar</a></td>
-                    <td><a th:href="@{ordenDeTrabajo/eliminar/}+${orden.id}" th:text="Eliminar">Eliminar</a></td>
+                    <td th:text="${orden.fechaCreacion}"></td>
+                    <td><a th:href="@{'/ordenDeTrabajo/modificar/' + ${orden.id}}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{'/ordenDeTrabajo/eliminar/' + ${orden.id}}" th:text="Eliminar">Eliminar</a></td>
+
                 </tr>
 
             </table>

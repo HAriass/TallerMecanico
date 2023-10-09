@@ -13,7 +13,6 @@ public class ServicioServicioImplementacion implements ServicioServicio{
 
     @Autowired
     private ServicioDAO servicioDao;
-    
     @Transactional(readOnly = true)
     @Override
     public List<Servicio> listaServicios() {
@@ -29,7 +28,7 @@ public class ServicioServicioImplementacion implements ServicioServicio{
     public void eliminar(Servicio servicio) {
         servicioDao.delete(servicio);
     }
-
+    
     @Override
     public Servicio localizarServicio(Servicio servicio) {
         return servicioDao.findById(servicio.getId()).orElse(null);
