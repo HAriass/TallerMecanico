@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Modificar orden de trabajo</title>
-    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
 </head>
 <body>
     <h1>Modificar orden de trabajo</h1>
@@ -38,13 +38,13 @@
         <div>
             <label for="fechaCreacion">Fecha:</label>
             <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" th:value="${ordenDeTrabajo.fechaCreacion}" required pattern="\d{2}/\d{2}/\d{4}" title="Utilice formato dd/mm/yyyy"/>
-            <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
+            <span id="fechaCreacion-error"></span>
         </div>
 
         <div>
             <label for="informacionRelevante">Información Relevante:</label>
             <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}" required/>
-            <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
+            <span id="informacionRelevante-error"></span>
         </div>
 
         <div>
@@ -53,13 +53,34 @@
     </form>
 
     <script>
+        function validarFecha(fechaInput) {
+            // Obtener la fecha actual
+            var fechaActual = new Date();
+
+            // Obtener la fecha ingresada desde el campo de entrada
+            var fechaIngresada = fechaInput.value;
+
+            // Convertir la fecha ingresada a un objeto de fecha JavaScript
+            var partesFecha = fechaIngresada.split("/");
+            var fechaFormulario = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]);
+
+            // Comparar la fecha ingresada con la fecha actual
+            if (fechaFormulario > fechaActual) {
+                alert("La fecha ingresada no debe ser posterior a la fecha actual.");
+                fechaInput.value = ""; // Limpiar el campo de fecha
+                return false;
+            }
+
+            return true;
+        }
+
         function validarFormulario() {
             var fechaInput = document.getElementById("fechaCreacion");
             var fechaError = document.getElementById("fechaCreacion-error");
-            
+
             var informacionRelevanteInput = document.getElementById("informacionRelevante");
             var informacionRelevanteError = document.getElementById("informacionRelevante-error");
-            
+
             fechaError.textContent = "";
             informacionRelevanteError.textContent = "";
 
@@ -73,10 +94,15 @@
                 return false;
             }
 
+            // Llamar a la función de validación de fecha
+            if (!validarFecha(fechaInput)) {
+                return false;
+            }
+
             // Validar que al menos un servicio esté seleccionado
             var checkboxes = document.querySelectorAll("input[type='checkbox']");
             var servicioSeleccionado = false;
-            
+
             checkboxes.forEach(function(checkbox) {
                 if (checkbox.checked) {
                     servicioSeleccionado = true;
@@ -87,11 +113,11 @@
                 alert("Seleccione al menos un servicio antes de modificar.");
                 return false;
             }
-            
+
             // Validar que todos los campos obligatorios estén completos
             var form = document.getElementById("modificarOrdenDeTrabajo");
             var inputs = form.querySelectorAll("input[required], select[required]");
-            
+
             for (var i = 0; i < inputs.length; i++) {
                 if (!inputs[i].value) {
                     alert("Por favor, complete todos los campos obligatorios.");
