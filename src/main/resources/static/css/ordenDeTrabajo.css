@@ -1,0 +1,89 @@
+/* Estilos para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el encabezado */
+h1 {
+    text-align: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Estilos para los enlaces */
+a {
+    text-decoration: none;
+    margin-right: 10px;
+    color: #007bff;
+}
+
+/* Estilos para los enlaces cuando se les pasa el ratón por encima */
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para el formulario */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para las etiquetas de los campos del formulario */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Estilos para los campos de entrada de texto */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Estilos para los mensajes de error */
+span {
+    color: red;
+}
+
+/* Estilos para el botón de enviar */
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Estilos para los checkbox */
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Estilos para los elementos del formulario en línea */
+div {
+    margin-bottom: 10px;
+}
+
+/* Estilos para el mensaje de alerta */
+.alert {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 3px;
+    margin-top: 10px;
+}
