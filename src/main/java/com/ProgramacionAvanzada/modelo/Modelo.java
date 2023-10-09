@@ -29,7 +29,7 @@ public class Modelo implements Serializable {
     @Column(unique=true)
     private String nombre;
     
-    @ManyToOne // Indica una relación muchos a uno con la entidad Marca
+    @ManyToOne() // Indica una relación muchos a uno con la entidad Marca
     @JoinColumn(name = "marca_id") // Nombre de la columna que contiene la clave primaria
     private Marca marca; 
     

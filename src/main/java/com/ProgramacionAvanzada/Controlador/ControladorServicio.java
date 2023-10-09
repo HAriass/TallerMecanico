@@ -78,7 +78,13 @@ public class ControladorServicio {
     
     @GetMapping("/servicio/eliminar/{id}")
     public String eliminar(Servicio servicio){
-        servicioServicio.eliminar(servicio);
+        
+        try {
+            servicioServicio.eliminar(servicio);
+        } catch (DataIntegrityViolationException e) {
+            return "excepcion-eliminar";
+        }
+        
         return "redirect:/servicio";
     }
     

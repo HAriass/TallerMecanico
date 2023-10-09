@@ -77,7 +77,13 @@ public class ControladorMarca {
     
     @GetMapping("/eliminar/{id}")
     public String eliminar(Marca marca){
-        marcaServicio.eliminar(marca);
+        
+        try {
+            marcaServicio.eliminar(marca);
+        } catch (DataIntegrityViolationException e) {
+            return "excepcion-eliminar";
+        }
+        
         return "redirect:/marca";
     }
     

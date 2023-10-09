@@ -29,29 +29,7 @@ public class Marca implements Serializable{
     private String nombre;
     
     private boolean estado;
+    
  
 }
 
-/**
- VALIDACIONES SPRING STAR VALIDATION
- * 
- * @NotNull -- para valores no nulos
- * @NotBlank -- para que los string no esten en blanco o vacios
- * @ValueMin -- valor minimo de un precio por ejemplo
- * @ValuMax
- * @Pattern -- para expresiones regulares
- * para cualquiera de estas anotaciones puedo agregar un mensaje como parametro para indicar el error de manera 
- * mas descriptiva. Y en el post seria:
- *  if(bindingresult.hasErrors()) -- si tiene error:
- *          return (new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.OK);
- * 
- * Para validar en Post
- * @Valid seguido de lo que queremos validar ej: @Valid marca
- * BindingResult binding result -- como parametro, nos permite conocer si existe algun error en la estructura 
- * y controlarla
- * 
- * Utilizacion de bindingresult 
- * 
- * if(bindingresult.hasErrors()) -- si tiene error:
- *          return (new message("mensaje"), HttpStatus.Bad_REQUEST);
- */

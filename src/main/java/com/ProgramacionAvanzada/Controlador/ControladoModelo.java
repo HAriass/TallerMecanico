@@ -130,7 +130,12 @@ public class ControladoModelo {
     
     @GetMapping("modelo/eliminar/{id}")
     public String eliminar(Modelo modelo){
-        modeloServicio.eliminar(modelo);
+        try {
+            modeloServicio.eliminar(modelo);
+        } catch (DataIntegrityViolationException e) {
+            return "excepcion-eliminar";
+        }
+        
         return "redirect:/modelo";
     }
 }

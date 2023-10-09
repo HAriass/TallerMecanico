@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Eliminar Marca</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            h1 {
+                text-align: center;
+                background-color: #f8f8f8;
+                padding: 20px;
+                border: 4px solid #ccc;
+                border-radius: 5px;
+                border-color: red;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                font-size: 18px; /* Tamaño de fuente más pequeño */
+                margin-right: 400px;
+                margin-left: 400px;
+            }
+
+            a {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 16px; /* Tamaño de fuente del enlace */
+                text-decoration: none; /* Eliminar subrayado del enlace */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Por cuestiones de seguridad de datos, esta entidad no será borrada, ya que se relaciona con otras entidades del sistema.</h1>
+        <a th:href="@{/}">Volver</a>
+    </body>
+</html>
