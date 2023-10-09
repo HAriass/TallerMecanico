@@ -40,7 +40,7 @@ public class Tecnico implements Serializable{
     @Email
     private String email;
     
-    @Pattern(regexp = "^[a-zA-Z]+\\s\\d+$", message = "Controle formato del tipo Sarmiento 123")
+    @Pattern(regexp = "^[a-z0-9\\s]*$", message = "Controle formato del tipo Sarmiento 123")
     private String direccion;
 
     private boolean estado;
