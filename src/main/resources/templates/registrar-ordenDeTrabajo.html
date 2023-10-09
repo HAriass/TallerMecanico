@@ -22,8 +22,10 @@
         <div>
             <label>Servicios:</label>
             <div th:each="servicio : ${servicios}">
-                <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>
-                <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
+                <label>
+                    <span th:text="${servicio.nombre}" style="color: black;"></span>
+                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>                   
+                </label>
             </div>
         </div>
 

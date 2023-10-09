@@ -46,7 +46,7 @@ label {
 /* Estilos para los campos de entrada de texto */
 input[type="text"],
 select {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -68,11 +68,11 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-/* Estilos para los checkbox */
+/*
 input[type="checkbox"] {
     margin-right: 5px;
 }
-
+*/
 /* Estilos para los elementos del formulario en línea */
 div {
     margin-bottom: 10px;
