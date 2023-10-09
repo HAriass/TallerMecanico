@@ -13,9 +13,10 @@
     <form id="addVehiculo" th:action="@{/vehiculo/registrado}" method="post" th:object="${vehiculo}">
     
         <label for="marca">Marca: </label>
-        <select name="marca" id="marca" form="addVehiculo">
+        <select name="marca" id="marcaSelect" form="addVehiculo">
             <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
         </select>
+
         
         <label for="modelo">Modelo: </label>
         <select name="modelo" id="modelo" form="addVehiculo">
@@ -39,6 +40,32 @@
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
+    <script>
+    document.getElementById("marcaSelect").addEventListener("change", function () {
+        var marcaId = this.value; // Obtiene el valor seleccionado de la marca
+
+        // Realiza una petición AJAX para obtener los modelos relacionados con la marca
+        fetch('/obtenerModelosPorMarca/' + marcaId) // Reemplaza con la URL correcta
+            .then(response => response.json())
+            .then(data => {
+                // Limpia el select de modelos
+                var modeloSelect = document.getElementById("modelo");
+                modeloSelect.innerHTML = '';
+
+                // Agrega las opciones de modelos obtenidos
+                data.forEach(function (modelo) {
+                    var option = document.createElement("option");
+                    option.value = modelo.id;
+                    option.text = modelo.nombre;
+                    modeloSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener modelos:', error);
+            });
+    });
+</script>
+
     
     <script>
         document.getElementById("addVehiculo").addEventListener("submit", function (event) {

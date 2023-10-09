@@ -37,5 +37,9 @@ public class ModeloServicioImpleamentacion implements ModeloServicio{
     public void eliminar(Modelo modelo) {
         modeloDao.delete(modelo);
     }
-
+    @Override
+    public List<Modelo> obtenerModelosPorMarca(Long marcaId) {
+        // Implementa la lógica para obtener modelos por marca
+        return modeloDao.findByMarcaId(marcaId); // Suponiendo que tienes un método findByMarcaId en tu repositorio
+    }
 }

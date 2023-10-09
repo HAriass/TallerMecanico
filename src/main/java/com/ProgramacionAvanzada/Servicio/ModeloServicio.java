@@ -10,4 +10,6 @@ public interface ModeloServicio {
     public void registrar(Modelo modelo);
     public void eliminar(Modelo modelo);
     public Modelo localizarModelo(Modelo modelo);
+
+    public List<Modelo> obtenerModelosPorMarca(Long marcaId);
 }
