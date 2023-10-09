@@ -25,7 +25,7 @@
         </select>
 
         <label for="patente">Patente: </label>
-        <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"  pattern="^[A-Z1-9]+$" required title="Ingrese una patente válida (mayúsculas y números)."/>
+        <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"  pattern="^[A-Z0-9]+$" required title="Ingrese una patente válida (mayúsculas y números)."/>
         <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
         <span th:if="${error}" th:text="${error}"></span>
         <span id="patente-error" style="color: red;"></span>
