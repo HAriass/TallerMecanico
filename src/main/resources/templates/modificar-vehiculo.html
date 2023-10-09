@@ -25,9 +25,10 @@
         </select>
 
         <label for="patente">Patente: </label>
-        <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"/>
+        <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"  pattern="^[A-Z1-9]+$" required title="Ingrese una patente válida (mayúsculas y números)."/>
         <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
         <span th:if="${error}" th:text="${error}"></span>
+        <span id="patente-error" style="color: red;"></span>
         
         <label for="cliente">Cliente: </label>
         <select name="cliente" id="cliente" form="addVehiculo">
@@ -44,5 +45,19 @@
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
+    
+    <script>
+        document.getElementById("addVehiculo").addEventListener("submit", function (event) {
+            var patenteInput = document.getElementById("patente");
+            var patenteError = document.getElementById("patente-error");
+
+            patenteError.textContent = ""; // Limpia el mensaje de error
+
+            if (!patenteInput.checkValidity()) {
+                event.preventDefault(); // Evita que se envíe el formulario
+                patenteError.textContent = patenteInput.validationMessage; // Muestra el mensaje de validación del navegador
+            }
+        });
+    </script>
 </body>
 </html>

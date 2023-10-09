@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
-            <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
@@ -12,8 +12,8 @@
 
     <form id="addOrdenDeTrabajo" th:action="@{/ordenDeTrabajo/registrada}" method="post" th:object="${ordenDeTrabajo}">
         <div>
-            <label for="vehiculo">Vehículo: </label>
-            <select name="vehiculo" id="vehiculo">
+            <label for="vehiculo">Vehículo:</label>
+            <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
                 <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}"></option>
             </select>
@@ -29,28 +29,47 @@
 
         <div>
             <label for="tecnico">Técnico:</label>
-            <select name="tecnico" id="tecnico">
+            <select name="tecnico" id="tecnico" required>
                 <option value="">Seleccionar Técnico</option>
                 <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}"></option>
             </select>
         </div>
 
         <div>
-            <label for="fechaCreacion">Fecha: </label>
-            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion"/>
+            <label for="fechaCreacion">Fecha:</label>
+            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" pattern="\d{2}/\d{2}/\d{4}" required title="Utilice formato dd/mm/yyyy"/>
             <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
         </div>
 
         <div>
-            <label for="informacionRelevante">Información Relevante: </label>
-            <input type="text" id="informacionRelevante" name="informacionRelevante"/>
+            <label for="informacionRelevante">Información Relevante:</label>
+            <input type="text" id="informacionRelevante" name="informacionRelevante" required/>
             <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
 
         <div>
-            <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+            <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="return validarServicios();"/>
         </div>
     </form>
 
+    <script>
+        function validarServicios() {
+            var checkboxes = document.querySelectorAll("input[type='checkbox']");
+            var servicioSeleccionado = false;
+            
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    servicioSeleccionado = true;
+                }
+            });
+
+            if (!servicioSeleccionado) {
+                alert("Seleccione al menos un servicio antes de registrar.");
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
 </body>
 </html>

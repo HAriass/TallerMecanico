@@ -20,22 +20,43 @@
         </select>
 
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}"/>
-        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
-        <span th:if="${error}" th:text="${error}"></span>
+        <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}" title="Ingrese solo letras minúsculas y números." pattern="[a-z0-9]+" required/>
+        <span id="nombre-error" style="color: red;"></span>
 
         <label for="estado">Estado:</label>
-
         <select id="estado" name="estado" form="addModelo" th:value="${modelo.estado}">
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>
         </select>
         
         <label for="anio">Año: </label>
-        <input type="text" id="anio" name="anio" th:value="${modelo.anio}"/>
-        <span th:if="${errorAnio}" th:text="${errorAnio}"></span>
+        <input type="text" id="anio" name="anio" th:value="${modelo.anio}" title="Ingrese un año entre 1917 y 2023"/>
+        <span id="anio-error" style="color: red;"></span>
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
+    
+    <script>
+        document.getElementById("addModelo").addEventListener("submit", function (event) {
+            var nombreInput = document.getElementById("nombre");
+            var nombreError = document.getElementById("nombre-error");
+            var anioInput = document.getElementById("anio");
+            var anioError = document.getElementById("anio-error");
+
+            nombreError.textContent = ""; // Limpia el mensaje de error
+            anioError.textContent = ""; // Limpia el mensaje de error
+
+            if (!nombreInput.checkValidity()) {
+                event.preventDefault(); // Evita que se envíe el formulario
+                nombreError.textContent = "Por favor, ingresa solo letras minúsculas y números.";
+            }
+
+            var anioValue = parseInt(anioInput.value);
+            if (isNaN(anioValue) || anioValue < 1917 || anioValue > 2023) {
+                event.preventDefault(); // Evita que se envíe el formulario
+                anioError.textContent = "El año debe ser un número entre 1917 y 2023.";
+            }
+        });
+    </script>
 </body>
 </html>

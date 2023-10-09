@@ -13,7 +13,13 @@
         
         <div th:if="${ordenes!=null and not ordenes.isEmpty()}">
             <br>
-            <table border="2">
+            <div>
+                <label for="clienteFiltro">Filtrar por cliente:</label>
+                <input type="text" id="clienteFiltro">
+                <button onclick="filtrarPorCliente()">Filtrar</button>
+            </div>
+            <br>
+            <table id="tablaOrdenes" border="2">
                 <tr>
                     <th>Cliente</th>
                     <th>Vehiculo</th>
@@ -50,5 +56,26 @@
         <div th:if="${ordenes==null or ordenes.isEmpty()}">
             No existen orden de trabajo hasta el momento
         </div>
+        
+        <script>
+            function filtrarPorCliente() {
+                var clienteFiltro = document.getElementById("clienteFiltro").value;
+                var tablaOrdenes = document.getElementById("tablaOrdenes");
+                var filas = tablaOrdenes.getElementsByTagName("tr");
+
+                for (var i = 1; i < filas.length; i++) { // Empezamos desde 1 para omitir la fila de encabezado
+                    var clienteCelda = filas[i].getElementsByTagName("td")[0]; // Cambia el índice según la columna del cliente en tu tabla
+                    if (clienteCelda) {
+                        var cliente = clienteCelda.textContent || clienteCelda.innerText;
+                        if (cliente.toUpperCase().indexOf(clienteFiltro.toUpperCase()) > -1) {
+                            filas[i].style.display = ""; // Muestra la fila si coincide con el filtro
+                        } else {
+                            filas[i].style.display = "none"; // Oculta la fila si no coincide con el filtro
+                        }
+                    }
+                }
+            }
+        </script>
+
     </body>
 </html>

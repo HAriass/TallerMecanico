@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Nuevo vehiculo</title>
     <link rel="stylesheet" type="text/css" href="/css/nuevoVehiculoStyles.css">
-    
 </head>
 <body>
     <h1>Datos del nuevo vehiculo</h1>
@@ -24,9 +23,8 @@
         </select>
         
         <label for="patente">Patente:</label>
-        <input type="text" id="patente" name="patente"/>
-        <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
-        <span th:if="${error}" th:text="${error}"></span>
+        <input type="text" id="patente" name="patente" pattern="^[A-Z1-9]+$" required title="Ingrese una patente válida (mayúsculas y números).">
+        <span id="patente-error" style="color: red;"></span>
         
         <label for="cliente">Cliente: </label>
         <select name="cliente" id="cliente" form="addVehiculo">
@@ -35,11 +33,25 @@
 
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addVehiculo">
-        <option value="true">Activo</option>
-        <option value="false">Inactivo</option>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
         </select>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
+    
+    <script>
+        document.getElementById("addVehiculo").addEventListener("submit", function (event) {
+            var patenteInput = document.getElementById("patente");
+            var patenteError = document.getElementById("patente-error");
+
+            patenteError.textContent = ""; // Limpia el mensaje de error
+
+            if (!patenteInput.checkValidity()) {
+                event.preventDefault(); // Evita que se envíe el formulario
+                patenteError.textContent = patenteInput.validationMessage; // Muestra el mensaje de validación del navegador
+            }
+        });
+    </script>
 </body>
 </html>

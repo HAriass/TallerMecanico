@@ -14,23 +14,23 @@
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:value="${tecnico.nombre}"/>
+        <input type="text" id="nombre" name="nombre" th:value="${tecnico.nombre}" pattern="[a-z]+" required title="Ingrese solo letras minúsculas sin números."/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
         <label for="apellido">Apellido: </label>
-        <input type="text" id="apellido" name="apellido" th:value="${tecnico.apellido}"/>
+        <input type="text" id="apellido" name="apellido" th:value="${tecnico.apellido}" pattern="[a-z]+" required title="Ingrese solo letras minúsculas sin números."/>
         <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
         <label for="telefono">Telefono: </label>
-        <input type="text" id="telefono" name="telefono" th:value="${tecnico.telefono}"/>
+        <input type="text" id="telefono" name="telefono" th:value="${tecnico.telefono}" pattern="[0-9]+" required title="Ingrese solo números."/>
         <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         
         <label for="email">Email: </label>
-        <input type="text" id="email" name="email" th:value="${tecnico.email}"/>
+        <input type="email" id="email" name="email" th:value="${tecnico.email}" required title="Ingrese un email válido."/>
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         
         <label for="direccion">Direccion: </label>
-        <input type="text" id="direccion" name="direccion" th:value="${tecnico.direccion}"/>
+        <input type="text" id="direccion" name="direccion" th:value="${tecnico.direccion}" pattern="[a-zA-Z]+\s[0-9]+" required title="Ingrese una dirección válida."/>
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
 
         <label for="estado">Estado:</label>
@@ -40,14 +40,71 @@
         </select>
         
         <label for="dni">DNI:  </label>
-        <input type="text" id="dni" name="dni" th:value="${tecnico.dni}"/>
+        <input type="text" id="dni" name="dni" th:value="${tecnico.dni}" pattern="[0-9]+" required title="Ingrese solo números."/>
         <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         <span th:if="${error}" th:text="${error}"></span>
         
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     
-    
+    <script>
+        document.getElementById("addTecnico").addEventListener("submit", function (event) {
+            var nombreInput = document.getElementById("nombre");
+            var nombreError = document.getElementById("nombre-error");
+            
+            var apellidoInput = document.getElementById("apellido");
+            var apellidoError = document.getElementById("apellido-error");
+            
+            var telefonoInput = document.getElementById("telefono");
+            var telefonoError = document.getElementById("telefono-error");
+            
+            var emailInput = document.getElementById("email");
+            var emailError = document.getElementById("email-error");
+            
+            var direccionInput = document.getElementById("direccion");
+            var direccionError = document.getElementById("direccion-error");
+            
+            var dniInput = document.getElementById("dni");
+            var dniError = document.getElementById("dni-error");
+            
+            nombreError.textContent = "";
+            apellidoError.textContent = "";
+            telefonoError.textContent = "";
+            emailError.textContent = "";
+            direccionError.textContent = "";
+            dniError.textContent = "";
+
+            if (!nombreInput.checkValidity()) {
+                event.preventDefault();
+                nombreError.textContent = "Ingrese solo letras minúsculas sin números.";
+            }
+
+            if (!apellidoInput.checkValidity()) {
+                event.preventDefault();
+                apellidoError.textContent = "Ingrese solo letras minúsculas sin números.";
+            }
+
+            if (!telefonoInput.checkValidity()) {
+                event.preventDefault();
+                telefonoError.textContent = "Ingrese solo números.";
+            }
+
+            if (!emailInput.checkValidity()) {
+                event.preventDefault();
+                emailError.textContent = "Ingrese un email válido.";
+            }
+
+            if (!direccionInput.checkValidity()) {
+                event.preventDefault();
+                direccionError.textContent = "Ingrese una dirección válida.";
+            }
+
+            if (!dniInput.checkValidity()) {
+                event.preventDefault();
+                dniError.textContent = "Ingrese solo números.";
+            }
+        });
+    </script>
 </body>
 </html>
 

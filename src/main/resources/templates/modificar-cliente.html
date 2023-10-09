@@ -1,44 +1,38 @@
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo cliente</title>
+    <title>Modificar Cliente</title>
     <link rel="stylesheet" type="text/css" href="/css/modificarClienteStyles.css">
 </head>
 <body>
     <h1>Datos del Cliente</h1>
     <a th:href="@{/cliente}">Volver</a>
     <a th:href="@{/}">Inicio</a>
-    
 
     <form id="addCliente" th:action="@{/cliente/modificar/{id}}" method="post" th:object="${cliente}">
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:value="${cliente.nombre}"/>
+        <input type="text" id="nombre" name="nombre" th:value="${cliente.nombre}" pattern="^[a-z]+$" required title="Ingrese solo letras minúsculas sin números." />
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
-        <label for="apellido">Apellido: </label>
-        <input type="text" id="apellido" name="apellido" th:value="${cliente.apellido}"/>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" th:value="${cliente.apellido}" pattern="^[a-z]+$" required title="Ingrese solo letras minúsculas sin números." />
         <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
-        <label for="telefono">Telefono: </label>
-        <input type="text" id="telefono" name="telefono" th:value="${cliente.telefono}"/>
+        <label for="telefono">Telefono:</label>
+        <input type="tel" id="telefono" name="telefono" th:value="${cliente.telefono}" pattern="[0-9]+" required title="Ingrese solo números." />
         <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         
-        <label for="email">Email: </label>
-        <input type="text" id="email" name="email" th:value="${cliente.email}"/>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:value="${cliente.email}" required title="Ingrese un email válido." />
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         
-        <label for="direccion">Direccion: </label>
-        <input type="text" id="direccion" name="direccion" th:value="${cliente.direccion}"/>
+        <label for="direccion">Direccion:</label>
+        <input type="text" id="direccion" name="direccion" th:value="${cliente.direccion}" pattern="^[a-zA-Z]+\s\d+$" required title="Ingrese una dirección válida." />
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         
-        <label for="servicio">Servicio: </label>
-        <input type="text" id="servicio" name="servicio" th:value="${cliente.servicio}"/>
-        <span th:if="${#fields.hasErrors('servicio')}" th:errors="*{servicio}"></span>
         
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addCliente">
@@ -46,15 +40,72 @@
             <option th:selected="${cliente.estado == false}" value="false">Inactivo</option>
         </select>
         
-        <label for="dni">DNI: </label>
-        <input type="text" id="dni" name="dni" th:value="${cliente.dni}"/>
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" name="dni" th:value="${cliente.dni}" pattern="[0-9]+" required title="Ingrese solo números." />
         <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
         <span th:if="${error}" th:text="${error}"></span>
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     
-    
+    <script>
+    document.getElementById("addCliente").addEventListener("submit", function (event) {
+        var nombreInput = document.getElementById("nombre");
+        var nombreError = document.getElementById("nombre-error");
+        
+        var apellidoInput = document.getElementById("apellido");
+        var apellidoError = document.getElementById("apellido-error");
+        
+        var telefonoInput = document.getElementById("telefono");
+        var telefonoError = document.getElementById("telefono-error");
+        
+        var emailInput = document.getElementById("email");
+        var emailError = document.getElementById("email-error");
+        
+        var direccionInput = document.getElementById("direccion");
+        var direccionError = document.getElementById("direccion-error");
+        
+        var dniInput = document.getElementById("dni");
+        var dniError = document.getElementById("dni-error");
+        
+        nombreError.textContent = "";
+        apellidoError.textContent = "";
+        telefonoError.textContent = "";
+        emailError.textContent = "";
+        direccionError.textContent = "";
+        dniError.textContent = "";
+
+        if (!nombreInput.checkValidity()) {
+            event.preventDefault();
+            nombreError.textContent = "Ingrese solo letras minúsculas sin números.";
+        }
+
+        if (!apellidoInput.checkValidity()) {
+            event.preventDefault();
+            apellidoError.textContent = "Ingrese solo letras minúsculas sin números.";
+        }
+
+        if (!telefonoInput.checkValidity()) {
+            event.preventDefault();
+            telefonoError.textContent = "Ingrese solo números.";
+        }
+
+        if (!emailInput.checkValidity()) {
+            event.preventDefault();
+            emailError.textContent = "Ingrese un email válido.";
+        }
+
+        if (!direccionInput.checkValidity()) {
+            event.preventDefault();
+            direccionError.textContent = "Ingrese una dirección válida.";
+        }
+
+        if (!dniInput.checkValidity()) {
+            event.preventDefault();
+            dniError.textContent = "Ingrese solo números.";
+        }
+    });
+</script>
+
 </body>
 </html>
-

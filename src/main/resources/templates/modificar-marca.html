@@ -14,7 +14,7 @@
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:value="${marca.nombre}"/>
+        <input type="text" id="nombre" name="nombre" th:value="${marca.nombre}" pattern="[a-z]+" title="Solo se permiten letras minúsculas sin números" required/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <span th:if="${error}" th:text="${error}"></span>
 
@@ -26,7 +26,19 @@
 
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
-    
+    <script>
+        document.getElementById("modificarMarca").addEventListener("submit", function (event) {
+            var nombreInput = document.getElementById("nombre");
+            var nombreError = document.getElementById("nombre-error");
+
+            if (!nombreInput.checkValidity()) {
+                event.preventDefault(); // Evita que se envíe el formulario
+                nombreError.textContent = "Por favor, ingresa solo letras minúsculas sin números.";
+            } else {
+                nombreError.textContent = ""; // Limpia el mensaje de error si la validación es exitosa
+            }
+        });
+    </script>
     
 </body>
 </html>

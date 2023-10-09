@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Servicio</title>
-    <!<!-- <link rel="stylesheet" type="text/css" href="/css/nuevaMarcaStyles.css"> -->
 </head>
 <body>
     <h1>Datos del nuevo servicio</h1>
@@ -13,15 +12,29 @@
     <form id="addMarca" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}">
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"/>
+        <input type="text" id="nombre" name="nombre" pattern="[a-z\s]+" required title="Solo letras minusculas"/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
-        <span th:if="${error}" th:text="${error}"></span>
+        <span id="nombre-error" class="error"></span>
         
-        <label for="descripcion">Descripcion:</label>
+        <label for="descripcion">Descripción:</label>
         <input type="text" id="descripcion" name="descripcion"/>
         <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
+
+    <script>
+        document.getElementById("addMarca").addEventListener("submit", function (event) {
+            var nombreInput = document.getElementById("nombre");
+            var nombreError = document.getElementById("nombre-error");
+            
+            nombreError.textContent = "";
+
+            if (!nombreInput.checkValidity()) {
+                event.preventDefault();
+                nombreError.textContent = "Ingrese solo letras minúsculas.";
+            }
+        });
+    </script>
 </body>
 </html>

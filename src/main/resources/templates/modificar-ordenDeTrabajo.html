@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Modificar orden de trabajo</title>
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
 </head>
 <body>
     <h1>Modificar orden de trabajo</h1>
@@ -11,8 +12,8 @@
 
     <form id="modificarOrdenDeTrabajo" th:action="@{'/ordenDeTrabajo/modificar/' + ${ordenDeTrabajo.id}}" method="post" th:object="${ordenDeTrabajo}">
         <div>
-            <label for="vehiculo">Vehículo: </label>
-            <select name="vehiculo" id="vehiculo">
+            <label for="vehiculo">Vehículo:</label>
+            <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
                 <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" th:selected="${vehiculo == vehiculoSeleccionado}"></option>
             </select>
@@ -28,28 +29,78 @@
 
         <div>
             <label for="tecnico">Técnico: </label>
-            <select name="tecnico" id="tecnico">
+            <select name="tecnico" id="tecnico" required>
                 <option value="">Seleccionar Técnico</option>
                 <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}" th:selected="${tecnico == tecnicoSeleccionado}"></option>
             </select>
         </div>
 
         <div>
-            <label for="fechaCreacion">Fecha: </label>
-            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" th:value="${ordenDeTrabajo.fechaCreacion}"/>
+            <label for="fechaCreacion">Fecha:</label>
+            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" th:value="${ordenDeTrabajo.fechaCreacion}" required pattern="\d{2}/\d{2}/\d{4}" title="Utilice formato dd/mm/yyyy"/>
             <span th:if="${#fields.hasErrors('fechaCreacion')}" th:errors="*{fechaCreacion}"></span>
         </div>
 
         <div>
-            <label for="informacionRelevante">Información Relevante: </label>
-            <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}"/>
+            <label for="informacionRelevante">Información Relevante:</label>
+            <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}" required/>
             <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
 
-
         <div>
-            <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+            <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarFormulario();"/>
         </div>
     </form>
+
+    <script>
+        function validarFormulario() {
+            var fechaInput = document.getElementById("fechaCreacion");
+            var fechaError = document.getElementById("fechaCreacion-error");
+            
+            var informacionRelevanteInput = document.getElementById("informacionRelevante");
+            var informacionRelevanteError = document.getElementById("informacionRelevante-error");
+            
+            fechaError.textContent = "";
+            informacionRelevanteError.textContent = "";
+
+            if (!fechaInput.checkValidity()) {
+                fechaError.textContent = "Formato de fecha inválido. Use dd/mm/yyyy.";
+                return false;
+            }
+
+            if (!informacionRelevanteInput.checkValidity()) {
+                informacionRelevanteError.textContent = "Ingrese letras, números y espacios solamente.";
+                return false;
+            }
+
+            // Validar que al menos un servicio esté seleccionado
+            var checkboxes = document.querySelectorAll("input[type='checkbox']");
+            var servicioSeleccionado = false;
+            
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    servicioSeleccionado = true;
+                }
+            });
+
+            if (!servicioSeleccionado) {
+                alert("Seleccione al menos un servicio antes de modificar.");
+                return false;
+            }
+            
+            // Validar que todos los campos obligatorios estén completos
+            var form = document.getElementById("modificarOrdenDeTrabajo");
+            var inputs = form.querySelectorAll("input[required], select[required]");
+            
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value) {
+                    alert("Por favor, complete todos los campos obligatorios.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>

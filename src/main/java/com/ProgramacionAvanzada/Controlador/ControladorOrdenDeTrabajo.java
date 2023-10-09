@@ -147,13 +147,16 @@ public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTraba
     // Obtener los IDs de los servicios seleccionados desde el formulario
     String[] servicioIds = request.getParameterValues("servicios");
 
-    // Asignar los servicios seleccionados a la orden de trabajo
+    // Verificar si se seleccionaron servicios
     List<Servicio> serviciosSeleccionados = new ArrayList<>();
-    for (String servicioId : servicioIds) {
-        Long servicioIdLong = Long.parseLong(servicioId);
-        Servicio servicio = servicioServicio.obtenerServicioPorId(servicioIdLong); // Debes implementar este método
-        serviciosSeleccionados.add(servicio);
+    if (servicioIds != null) {
+        for (String servicioId : servicioIds) {
+            Long servicioIdLong = Long.parseLong(servicioId);
+            Servicio servicio = servicioServicio.obtenerServicioPorId(servicioIdLong); // Debes implementar este método
+            serviciosSeleccionados.add(servicio);
+        }
     }
+
     ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
 
     // Modificar la orden de trabajo existente (puedes usar el ID para identificarla)
@@ -170,6 +173,7 @@ public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTraba
 
     return "redirect:/ordenDeTrabajo";
 }
+
 
 
 

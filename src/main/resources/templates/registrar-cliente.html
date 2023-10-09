@@ -6,29 +6,29 @@
     <link rel="stylesheet" type="text/css" href="/css/nuevoClienteStyles.css">
 </head>
 <body>
-    <h1>Datos de la nuevo cliente</h1>
+    <h1>Datos del nuevo cliente</h1>
     <a th:href="@{/cliente}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
     <form id="addCliente" th:action="@{/cliente/registrado}" method="post" th:object="${cliente}">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"/>
+        <input type="text" id="nombre" name="nombre" pattern="^[a-z]+$" required title="Ingrese solo letras minúsculas sin números." />
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         
-        <label for="apellido">Apellido: </label>
-        <input type="text" id="apellido" name="apellido"/>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" pattern="^[a-z]+$" required title="Ingrese solo letras minúsculas sin números." />
         <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
         
-        <label for="telefono">Telefono: </label>
-        <input type="text" id="telefono" name="telefono"/>
+        <label for="telefono">Telefono:</label>
+        <input type="tel" id="telefono" name="telefono" pattern="[0-9]+" required title="Ingrese solo números." />
         <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         
-        <label for="email">Email: </label>
-        <input type="text" id="email" name="email"/>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required title="Ingrese un email válido." />
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         
-        <label for="direccion">Direccion: </label>
-        <input type="text" id="direccion" name="direccion"/>
+        <label for="direccion">Direccion:</label>
+        <input type="text" id="direccion" name="direccion" pattern="^[a-zA-Z]+\s\d+$" required title="Ingrese una dirección válida." />
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         
         <label for="estado">Estado:</label>
@@ -37,12 +37,63 @@
             <option value="false">Inactivo</option>
         </select>
         
-        <label for="dni">DNI: </label>
-        <input type="text" id="dni" name="dni"/>
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" name="dni" pattern="[0-9]+" required title="Ingrese solo números." />
         <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
         <span th:if="${error}" th:text="${error}"></span>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
+    
+    <script>
+    document.getElementById("addCliente").addEventListener("submit", function (event) {
+        var nombreInput = document.getElementById("nombre");
+        var nombreError = document.getElementById("nombre-error");
+        
+        var apellidoInput = document.getElementById("apellido");
+        var apellidoError = document.getElementById("apellido-error");
+        
+        var telefonoInput = document.getElementById("telefono");
+        var telefonoError = document.getElementById("telefono-error");
+        
+        var emailInput = document.getElementById("email");
+        var emailError = document.getElementById("email-error");
+        
+        var direccionInput = document.getElementById("direccion");
+        var direccionError = document.getElementById("direccion-error");
+        
+        nombreError.textContent = "";
+        apellidoError.textContent = "";
+        telefonoError.textContent = "";
+        emailError.textContent = "";
+        direccionError.textContent = "";
+
+        if (!nombreInput.checkValidity()) {
+            event.preventDefault();
+            nombreError.textContent = nombreInput.validationMessage;
+        }
+
+        if (!apellidoInput.checkValidity()) {
+            event.preventDefault();
+            apellidoError.textContent = apellidoInput.validationMessage;
+        }
+
+        if (!telefonoInput.checkValidity()) {
+            event.preventDefault();
+            telefonoError.textContent = telefonoInput.validationMessage;
+        }
+
+        if (!emailInput.checkValidity()) {
+            event.preventDefault();
+            emailError.textContent = emailInput.validationMessage;
+        }
+
+        if (!direccionInput.checkValidity()) {
+            event.preventDefault();
+            direccionError.textContent = direccionInput.validationMessage;
+        }
+    });
+</script>
+
 </body>
 </html>
