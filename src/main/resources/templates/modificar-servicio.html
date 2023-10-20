@@ -22,6 +22,10 @@
         <input type="text" id="descripcion" name="descripcion" th:value="${servicio.descripcion}"/>
         <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
         
+        <label for="precio">Precio:</label>
+        <input type="text" name="precio" id="precio" th:value="${servicio.precio}">
+        <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
+        
         <input type="submit" id="modificar" name="modificar" value="Modificar"/>
     </form>
     <script>

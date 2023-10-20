@@ -20,6 +20,10 @@
         <label for="descripcion">Descripción:</label>
         <input type="text" id="descripcion" name="descripcion"/>
         <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+        
+        <label for="precio">Precio:</label>
+        <input type="number" name="precio" id="precio">
+        <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
