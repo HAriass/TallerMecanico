@@ -33,7 +33,7 @@ public class Vehiculo implements Serializable{
     private Modelo modelo;
     
     @NotBlank
-    @Pattern(regexp = "^[A-Z1-9]+$", message = "La pantente debe contener letras mayusculas y numero 1-9")
+    @Pattern(regexp = "^[A-Z0-9]+$", message = "La pantente debe contener letras mayusculas y numero 1-9")
     @Column(unique=true)
     private String patente;
     

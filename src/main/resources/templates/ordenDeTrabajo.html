@@ -14,14 +14,15 @@
         <div th:if="${ordenes!=null and not ordenes.isEmpty()}">
             <br>
             <div>
-                <label for="clienteFiltro">Filtrar por cliente:</label>
+                <label for="clienteFiltro">Filtrar por nombre de cliente:</label>
                 <input type="text" id="clienteFiltro">
                 <button onclick="filtrarPorCliente()">Filtrar</button>
             </div>
             <br>
             <table id="tablaOrdenes" border="2">
                 <tr>
-                    <th>Cliente</th>
+                    <th>Cliente Nombre</th>
+                    <th>Cliente Apellido</th>
                     <th>Vehiculo</th>
                     <th>Servicios</th>
                     <th>Tecnico</th>
@@ -33,6 +34,7 @@
                 </tr>
                 <tr th:each="orden: ${ordenes}">
                     <td th:text="${orden.vehiculo.cliente.nombre}"></td>
+                    <td th:text="${orden.vehiculo.cliente.apellido}"></td>
                     <td th:text="${orden.vehiculo.patente}"></td>
                     <td>
                         <ul>

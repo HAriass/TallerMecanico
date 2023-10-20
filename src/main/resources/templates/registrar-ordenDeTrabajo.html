@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
-    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
@@ -22,8 +22,10 @@
         <div>
             <label>Servicios:</label>
             <div th:each="servicio : ${servicios}">
-                <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>
-                <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
+                <label>
+                    <span th:text="${servicio.nombre}" style="color: black;"></span>
+                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>                   
+                </label>
             </div>
         </div>
 
