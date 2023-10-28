@@ -15,7 +15,7 @@
             <label for="vehiculo">Vehículo:</label>
             <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
-                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}"></option>
+                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" data-precio="${servicio.precio}"></option>
             </select>
         </div>
 
@@ -23,10 +23,14 @@
             <label>Servicios:</label>
             <div th:each="servicio : ${servicios}">
                 <label>
-                    <span th:text="${servicio.nombre}" style="color: black;"></span>
-                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}"/>                   
+                    <span th:text="${servicio.nombre} +' $'+ ${servicio.precio}" style="color: black;"></span>
+                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}"/>
                 </label>
             </div>
+        </div>
+        
+        <div>
+            <a th:href="@{/servicio/nuevo}" target="blank">Servicio Nuevo</a>
         </div>
 
         <div>
@@ -48,11 +52,46 @@
             <input type="text" id="informacionRelevante" name="informacionRelevante" required/>
             <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
+        
+        <div>
+            <p>Subtotal: $<span id="subtotal"></span></p>
+        </div>
 
         <div>
             <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="return validarServicios();"/>
         </div>
     </form>
+    
+
+    <script>
+    // Obtener los elementos de entrada de tipo checkbox
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Obtener el elemento del subtotal
+    const subtotalElement = document.getElementById("subtotal");
+
+    function actualizarSubtotal() {
+        let subtotal = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const precioStr = checkbox.getAttribute("data-precio");
+                const precioServicio = parseFloat(precioStr);
+                console.log(precioServicio);
+                subtotal += precioServicio;
+            }
+        });
+        subtotalElement.innerHTML = subtotal;
+    }
+
+
+        // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", actualizarSubtotal);
+        });
+
+        // Llamar a la función de actualización al cargar la página
+        actualizarSubtotal();
+    </script>
 
     <script>
     function validarServicios() {
