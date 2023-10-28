@@ -15,7 +15,7 @@
             <label for="vehiculo">Vehículo:</label>
             <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
-                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" data-precio="${servicio.precio}"></option>
+                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" data-precio="${vehiculo.precio}"></option>
             </select>
         </div>
 
@@ -54,7 +54,15 @@
         </div>
         
         <div>
+            <label for="descuento">Descuento:</label>
+            <input type="number" id="descuento" name="descuento" oninput="tomarDescuento()" />
+        </div>
+        
+        <div>
             <p>Subtotal: $<span id="subtotal"></span></p>
+        </div>
+        <div>
+            <p>precioConDescuento $<span id="precioConDescuento"></span></p> <!-- Corrección en el ID -->
         </div>
 
         <div>
@@ -69,6 +77,23 @@
 
     // Obtener el elemento del subtotal
     const subtotalElement = document.getElementById("subtotal");
+    
+    const descuentoElement = document.getElementById("descuento");
+    let precioConDescuento = 0;
+    
+    function tomarDescuento(){
+        let subtotal = 0;
+        const descuentoInput = document.getElementById("descuento");
+        const descuento = parseFloat(descuentoInput.value) || 0;
+        console.log(descuento);
+        subtotal = actualizarSubtotal();
+        precioConDescuento = subtotal - (subtotal * descuento / 100);
+        if(precioConDescuento<0){
+            precioConDescuento = 0;
+        }
+        const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
+        precioConDescuentoElement.innerHTML = precioConDescuento;
+    }
 
     function actualizarSubtotal() {
         let subtotal = 0;
@@ -78,19 +103,21 @@
                 const precioServicio = parseFloat(precioStr);
                 console.log(precioServicio);
                 subtotal += precioServicio;
+
             }
         });
         subtotalElement.innerHTML = subtotal;
+        return subtotal; // Devolver el subtotal
     }
 
+    // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", actualizarSubtotal);
+    });
 
-        // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", actualizarSubtotal);
-        });
-
-        // Llamar a la función de actualización al cargar la página
-        actualizarSubtotal();
+    // Llamar a la función de actualización al cargar la página
+    actualizarSubtotal();
+    tomarDescuento();
     </script>
 
     <script>
