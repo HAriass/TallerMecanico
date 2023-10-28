@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
     <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
+        <style>
+        /* Oculta las flechas en el campo de entrada de tipo número */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
@@ -55,14 +63,14 @@
         
         <div>
             <label for="descuento">Descuento:</label>
-            <input type="number" id="descuento" name="descuento" oninput="tomarDescuento()" />
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" oninput="tomarDescuento()" />
         </div>
         
         <div>
             <p>Subtotal: $<span id="subtotal"></span></p>
         </div>
         <div>
-            <p>precioConDescuento $<span id="precioConDescuento"></span></p> <!-- Corrección en el ID -->
+            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
         </div>
 
         <div>
@@ -89,7 +97,7 @@
         subtotal = actualizarSubtotal();
         precioConDescuento = subtotal - (subtotal * descuento / 100);
         if(precioConDescuento<0){
-            precioConDescuento = 0;
+            precioConDescuento = subtotal;
         }
         const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
         precioConDescuentoElement.innerHTML = precioConDescuento;
