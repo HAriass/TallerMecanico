@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
     <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
-        <style>
+    <style>
         /* Oculta las flechas en el campo de entrada de tipo número */
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+        .servicios{
+            height: 70px;
+            overflow-y: auto;
+        }
+        
     </style>
+    
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
@@ -26,16 +32,18 @@
                 <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" data-precio="${vehiculo.precio}"></option>
             </select>
         </div>
-
-        <div>
-            <label>Servicios:</label>
-            <div th:each="servicio : ${servicios}">
+        
+        <label>Servicios:</label>
+        <div class="servicios">
+            <div th:each="servicio : ${servicios}" >
                 <label>
                     <span th:text="${servicio.nombre} +' $'+ ${servicio.precio}" style="color: black;"></span>
                     <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}"/>
                 </label>
             </div>
         </div>
+        
+
         
         <div>
             <a th:href="@{/servicio/nuevo}" target="blank">Servicio Nuevo</a>
