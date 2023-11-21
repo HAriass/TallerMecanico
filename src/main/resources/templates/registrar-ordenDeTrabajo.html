@@ -46,6 +46,19 @@
             </div>
         </div>
         
+        <div>
+            <label for="descuento">Descuento:</label>
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
+        </div>
+
+        
+        <div>
+            <p>Subtotal: $<span id="subtotal"></span></p>
+        </div>
+        <div>
+            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
+        </div>
+        
 
         
         <div>
@@ -72,18 +85,6 @@
             <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
         
-        <div>
-            <label for="descuento">Descuento:</label>
-            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
-        </div>
-
-        
-        <div>
-            <p>Subtotal: $<span id="subtotal"></span></p>
-        </div>
-        <div>
-            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
-        </div>
 
         <div>
             <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="return validarServicios();"/>
