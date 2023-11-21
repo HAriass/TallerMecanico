@@ -74,8 +74,9 @@
         
         <div>
             <label for="descuento">Descuento:</label>
-            <input inputmode="numeric" type="number" id="descuento" name="descuento" oninput="tomarDescuento()" />
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
         </div>
+
         
         <div>
             <p>Subtotal: $<span id="subtotal"></span></p>

@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <title>Modificar orden de trabajo</title>
     <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
+    <style>
+        /* Oculta las flechas en el campo de entrada de tipo número */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .servicios{
+            height: 100px;
+            overflow-y: auto;
+            border: solid;
+            border-color: grey;
+            padding: 20px;
+        }
+        
+    </style>
 </head>
 <body>
     <h1>Modificar orden de trabajo</h1>
@@ -21,12 +37,29 @@
 
         <div>
             <label>Servicios:</label>
-            <div th:each="servicio : ${servicios}">
-                <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:checked="${serviciosSeleccionados != null and serviciosSeleccionados.contains(servicio)}"/>
-                <label th:for="${'servicio_' + servicio.id}" th:text="${servicio.nombre}"></label><br/>
+            <div class="servicios">
+                <div th:each="servicio : ${servicios}">
+                    <label>
+                        <span th:text="${servicio.nombre} + ', precio: $' + ${servicio.precio}" style="color: black;"></span>
+                        <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}" th:checked="${serviciosSeleccionados != null and serviciosSeleccionados.contains(servicio)}"/>
+                    </label><br/>
+                </div>
             </div>
+            
+        </div>
+        
+        <div>
+            <label for="descuento">Descuento:</label>
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
         </div>
 
+        
+        <div>
+            <p>Subtotal: $<span id="subtotal"></span></p>
+        </div>
+        <div>
+            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
+        </div>
         <div>
             <label for="tecnico">Técnico: </label>
             <select name="tecnico" id="tecnico" required>
@@ -51,6 +84,59 @@
             <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarFormulario();"/>
         </div>
     </form>
+    
+    <script>
+    // Obtener los elementos de entrada de tipo checkbox
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Obtener el elemento del subtotal
+    const subtotalElement = document.getElementById("subtotal");
+    
+    const descuentoElement = document.getElementById("descuento");
+    let precioConDescuento = 0;
+    
+    function tomarDescuento(){
+        let subtotal = 0;
+        const descuentoInput = document.getElementById("descuento");
+        const descuento = parseFloat(descuentoInput.value) || 0;
+        console.log(descuento);
+        subtotal = actualizarSubtotal();
+        precioConDescuento = subtotal - (subtotal * descuento / 100);
+        if(precioConDescuento<0){
+            precioConDescuento = subtotal;
+        }
+        const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
+        precioConDescuentoElement.innerHTML = precioConDescuento;
+    }
+
+    function actualizarSubtotal() {
+        let subtotal = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const precioStr = checkbox.getAttribute("data-precio");
+                const precioServicio = parseFloat(precioStr);
+                console.log(precioServicio);
+                subtotal += precioServicio;
+
+            }
+        });
+        subtotalElement.innerHTML = subtotal;
+        return subtotal; // Devolver el subtotal
+    }
+
+    // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function() {
+            actualizarSubtotal();
+            tomarDescuento();
+        });
+    });
+
+
+    // Llamar a la función de actualización al cargar la página
+    actualizarSubtotal();
+    tomarDescuento();
+    </script>
 
     <script>
         function validarFecha(fechaInput) {
