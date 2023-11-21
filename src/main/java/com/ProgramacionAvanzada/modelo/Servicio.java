@@ -9,7 +9,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "servicio")
@@ -31,5 +34,11 @@ public class Servicio implements Serializable{
     
     @Min(0)
     private float precio;
+    
+    @ColumnDefault("false") // Valor por defecto
+    private boolean eliminado;
+    
+    private LocalDate fecha;
+   
     
 }

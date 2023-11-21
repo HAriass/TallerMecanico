@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historial de Eliminación</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+</head>
+<body>
+    <h1>Historial de Eliminación</h1>
+    <a th:href="@{/servicio}"> Volver </a>
+    
+    <div th:if="${serviciosEliminados!=null and not serviciosEliminados.isEmpty()}">
+        <br>
+        <table border="2">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Fecha Eliminacion</th>
+                <th>Restaurar</th>
+            </tr>
+            <tr th:each="servicio: ${serviciosEliminados}">
+                <td th:text="${servicio.nombre}"></td>
+                <td th:text="${servicio.descripcion}"></td>
+                <td th:text="'$' + ${servicio.precio}"></td>
+                <td th:text="${servicio.fecha}"></td>
+                <td><a th:href="@{'/servicio/restaurar/' + ${servicio.id}}" th:text="Restaurar">Restaurar</a></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${serviciosEliminados==null or serviciosEliminados.isEmpty()}">
+        No hay servicios eliminados hasta el momento.
+    </div>
+</body>
+</html>

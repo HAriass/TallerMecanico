@@ -28,12 +28,16 @@
                     <td th:text="${servicio.descripcion}"></td>
                     <td th:text="'$' + ${servicio.precio}"></td>
                     <td><a th:href="@{servicio/modificar/}+${servicio.id}" th:text="Modificar">Modificar</a></td>
-                    <td><a th:href="@{servicio/eliminar/}+${servicio.id}" th:text="Eliminar">Eliminar</a></td>
+                    <!-- Ajuste del enlace para reflejar la nueva lógica de marcado como eliminado -->
+                    <td><a th:href="@{servicio/eliminar/}+${servicio.id}" th:text="${servicio.eliminado ? 'Restaurar' : 'Eliminar'}">${servicio.eliminado ? 'Restaurar' : 'Eliminar'}</a></td>
                 </tr>
             </table>
         </div>
         <div th:if="${servicios==null or servicios.isEmpty()}">
             No existen servicios hasta el momento
         </div>
+        <!-- Agregado enlace para ir a la página de historial de eliminación -->
+        <a th:href="@{/historial-eliminacion}"><button>Historial de Eliminación</button></a>
+
     </body>
 </html>
