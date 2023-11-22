@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Datos del Vehiculo</h1>
-    <a th:href="@{/vehiculo}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/vehiculo}"class="boton">Volver</a>
+    <a th:href="@{/}"class="boton">Inicio</a>
 
     <form id="addVehiculo" th:action="@{/vehiculo/modificar/{id}}" method="post" th:object="${vehiculo}">
         

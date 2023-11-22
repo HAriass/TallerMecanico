@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Datos de la nueva marca</h1>
-    <a th:href="@{/marca}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/marca}"  class="boton">Volver</a>
+    <a th:href="@{/}" class="boton">Inicio</a>
 
     <form id="addMarca" th:action="@{/marca/registrada}" method="post" th:object="${marca}">
         

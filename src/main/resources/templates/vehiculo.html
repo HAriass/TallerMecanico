@@ -8,8 +8,8 @@
     </head>
     <body>
         <h1>Listado de vehiculos</h1>
-        <a th:href="@{/vehiculo/nuevo}">Registrar vehiculo</a>
-        <a th:href="@{/}">Volver</a>
+        <a th:href="@{/vehiculo/nuevo}"class="boton">Registrar vehiculo</a>
+        <a th:href="@{/}"class="boton">Volver</a>
         
         <div th:if="${vehiculos!=null and not vehiculos.isEmpty()}">
             <br>

@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Datos del Tecnico</h1>
-    <a th:href="@{/tecnico}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/tecnico}"class="boton">Volver</a>
+    <a th:href="@{/}"class="boton">Inicio</a>
 
     <form id="addTecnico" th:action="@{/tecnico/modificar/{id}}" method="post" th:object="${tecnico}">
         <input type="hidden" th:field="*{id}" name="id" />

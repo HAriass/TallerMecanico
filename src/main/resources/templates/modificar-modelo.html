@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Datos del Modelo</h1>
-    <a th:href="@{/modelo}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/modelo}" class="boton">Volver</a>
+    <a th:href="@{/}"class="boton">Inicio</a>
 
     <form id="addModelo" th:action="@{/modelo/modificar/{id}}" method="post" th:object="${modelo}">
         

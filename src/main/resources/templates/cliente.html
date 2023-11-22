@@ -8,8 +8,8 @@
     </head>
     <body>
         <h1>Listado De Clientes</h1>
-        <a th:href="@{/cliente/nuevo}">Registrar Cliente</a>
-        <a th:href="@{/}"> Volver </a>
+        <a th:href="@{/cliente/nuevo}"class="boton">Registrar Cliente</a>
+        <a th:href="@{/}"class="boton"> Volver </a>
         
         
         <div th:if="${clientes!=null and not clientes.isEmpty()}">

@@ -8,8 +8,8 @@
     </head>
     <body>
         <h1>Listado de Modelos</h1>
-        <a th:href="@{/modelo/nuevo}">Registrar Modelo</a>
-        <a th:href="@{/}">Volver</a>
+        <a th:href="@{/modelo/nuevo}" class="boton">Registrar Modelo</a>
+        <a th:href="@{/}" class="boton">Volver</a>
         
         <div th:if="${modelos!=null and not modelos.isEmpty()}">
             <br>

@@ -4,11 +4,12 @@
         <title>Marcas</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+        
     </head>
     <body>
         <h1>Listado De Marcas</h1>
-        <a th:href="@{/marca/nueva}">Registrar Marca</a>
-        <a th:href="@{/}"> Volver </a>
+        <a th:href="@{/marca/nueva}" class="boton">Registrar Marca</a>
+        <a th:href="@{/}" class="boton"> Volver </a>
         
         <div th:if="${marcas!=null and not marcas.isEmpty()}">
             <br>
