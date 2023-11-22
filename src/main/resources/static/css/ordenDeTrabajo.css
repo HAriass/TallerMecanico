@@ -17,13 +17,13 @@ h1 {
 /* Estilos para los enlaces */
 a {
     text-decoration: none;
-    margin-right: 10px;
+    margin-right:5px;
     color: #007bff;
 }
 
 /* Estilos para los enlaces cuando se les pasa el ratón por encima */
 a:hover {
-    text-decoration: underline;
+   
 }
 
 /* Estilos para el formulario */
@@ -104,4 +104,5 @@ div {
     .boton:hover {
         background-color: #0056b3;
         border-color: #0056b3;
+         text-decoration: none;
     }

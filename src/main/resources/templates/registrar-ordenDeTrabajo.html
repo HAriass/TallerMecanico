@@ -24,8 +24,8 @@
 </head>
 <body>
     <h1>Datos de la nueva orden de trabajo</h1>
-    <a th:href="@{/ordenDeTrabajo}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/ordenDeTrabajo}"class="boton">Volver</a>
+    <a th:href="@{/}"class="boton">Inicio</a>
 
     <form id="addOrdenDeTrabajo" th:action="@{/ordenDeTrabajo/registrada}" method="post" th:object="${ordenDeTrabajo}">
         <div>
@@ -62,7 +62,7 @@
 
         
         <div>
-            <a th:href="@{/servicio/nuevo}" target="blank">Servicio Nuevo</a>
+            <a th:href="@{/servicio/nuevo}" target="blank"class="boton">Servicio Nuevo</a>
         </div>
 
         <div>

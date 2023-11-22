@@ -9,8 +9,8 @@
     </head>
     <body>
         <h1>Listado De Servicios</h1>
-        <a th:href="@{/servicio/nuevo}">Registrar Servicio</a>
-        <a th:href="@{/}"> Volver </a>
+        <a th:href="@{/servicio/nuevo}"class="boton">Registrar Servicio</a>
+        <a th:href="@{/}"class="boton"> Volver </a>
         
         <div th:if="${servicios!=null and not servicios.isEmpty()}">
             <br>
@@ -37,7 +37,7 @@
             No existen servicios hasta el momento
         </div>
         <!-- Agregado enlace para ir a la página de historial de eliminación -->
-        <a th:href="@{/historial-eliminacion}"><button>Historial de Eliminación</button></a>
+        <a th:href="@{/historial-eliminacion}"><button class="boton">Historial de Eliminación</button></a>
 
     </body>
 </html>
