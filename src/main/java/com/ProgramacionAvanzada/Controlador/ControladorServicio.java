@@ -1,7 +1,10 @@
+package com.ProgramacionAvanzada.Controlador;
+
 
 import com.ProgramacionAvanzada.Servicio.ServicioServicio;
 import com.ProgramacionAvanzada.modelo.Servicio;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -79,8 +82,7 @@ public class ControladorServicio {
         Servicio servicio = servicioServicio.obtenerServicioPorId(id);
 
         if (servicio != null) {
-            servicio.setEliminado(true);
-            servicioServicio.registrar(servicio);
+            servicioServicio.eliminar(servicio);
         }
 
         return "redirect:/servicio";

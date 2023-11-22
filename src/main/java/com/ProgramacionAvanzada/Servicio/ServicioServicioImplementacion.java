@@ -40,15 +40,15 @@ public class ServicioServicioImplementacion implements ServicioServicio {
     @Transactional
     public void eliminar(Servicio servicio) {
         // Cargar el servicio desde la base de datos para evitar problemas con el contexto de persistencia
-        Servicio servicioPersistente = servicioDao.findById(servicio.getId()).orElse(null);
+        Servicio servicioEliminado = servicioDao.findById(servicio.getId()).orElse(null);
 
         // Verificar si el servicio existe antes de intentar eliminar
-        if (servicioPersistente != null) {
+        if (servicioEliminado != null) {
             // Cambiar el atributo 'eliminado' a true
-            servicioPersistente.setEliminado(true);
+            servicioEliminado.setEliminado(true);
             // Establecer la fecha de eliminación como la fecha y hora actual
-            servicioPersistente.setFecha(LocalDate.now());
-            servicioDao.save(servicioPersistente);
+            servicioEliminado.setFechaEliminado(LocalDate.now());
+            servicioDao.save(servicioEliminado);
         }
     }
 

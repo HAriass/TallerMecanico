@@ -38,7 +38,7 @@ public class Servicio implements Serializable{
     @ColumnDefault("false") // Valor por defecto
     private boolean eliminado;
     
-    private LocalDate fecha;
+    private LocalDate fechaEliminado;
    
     
 }
