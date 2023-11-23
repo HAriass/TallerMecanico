@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -46,6 +46,7 @@ public class Servicio implements Serializable{
     private LocalDate fechaEliminado;
     
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
-    private List<Repuesto> repuestos;
+    private List<Repuesto> repuestos = new ArrayList<>();
+
 
 }

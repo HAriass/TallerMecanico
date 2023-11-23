@@ -5,8 +5,9 @@ import com.ProgramacionAvanzada.Servicio.RepuestoServicio;
 import com.ProgramacionAvanzada.Servicio.ServicioServicio;
 import com.ProgramacionAvanzada.modelo.Repuesto;
 import com.ProgramacionAvanzada.modelo.Servicio;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,23 +35,37 @@ public class ControladorServicio {
         return "servicio";
     }
 
-@GetMapping("/servicio/nuevo")
-public String mostrarFormularioNuevoServicio(Servicio servicio, Model model, Repuesto repuesto) {
-    model.addAttribute("servicio", servicio);
-    List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
-    model.addAttribute("repuestos", repuestos);
-    return "registrar-servicio";
-}
+    @GetMapping("/servicio/nuevo")
+    public String mostrarFormularioNuevoServicio(Servicio servicio, Model model, Repuesto repuesto) {
+        model.addAttribute("servicio", servicio);
+        List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
+        model.addAttribute("repuestos", repuestos);
+        return "registrar-servicio";
+    }
 
 
     @PostMapping("/servicio/registrado")
-    public String registrarNuevoServicio(@Valid Servicio servicio, Errors error, Model model) {
+    public String registrarNuevoServicio(@Valid Servicio servicio, Errors error, Model model, HttpServletRequest request) {
         if (error.hasErrors()) {
             model.addAttribute("servicio", servicio);
             return "registrar-servicio";
         }
+
         try {
+            // Guardar el servicio primero
             servicioServicio.registrar(servicio);
+
+            // Obtener los IDs de los repuestos seleccionados desde el formulario
+            String[] repuestoIds = request.getParameterValues("repuestos");
+
+            // Asignar el servicio a cada repuesto seleccionado
+            for (String repuestoId : repuestoIds) {
+                Long id = Long.parseLong(repuestoId);
+                Repuesto repuesto = repuestoServicio.obtenerRepuestoPorId(id);
+                repuesto.setServicio(servicio); // Asignar el servicio al repuesto
+                repuestoServicio.registrar(repuesto); // Actualizar el repuesto en la base de datos
+            }
+
         } catch (DataIntegrityViolationException ex) {
             // Maneja la excepción de violación de unicidad aquí
             model.addAttribute("error", "Ya existe un servicio con el mismo nombre");
@@ -60,6 +75,10 @@ public String mostrarFormularioNuevoServicio(Servicio servicio, Model model, Rep
 
         return "redirect:/servicio";
     }
+
+
+
+
 
     @GetMapping("/servicio/modificar/{id}")
     public String modificar(Servicio servicio, Model modelo) {
