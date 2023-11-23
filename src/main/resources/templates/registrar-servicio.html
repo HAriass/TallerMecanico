@@ -7,13 +7,13 @@
 </head>
 <body>
     <h1>Datos del nuevo servicio</h1>
-    <a th:href="@{/servicio}"class="boton">Volver</a>
-    <a th:href="@{/}"class="boton">Inicio</a>
+    <a th:href="@{/servicio}" class="boton">Volver</a>
+    <a th:href="@{/}" class="boton">Inicio</a>
 
-    <form id="addMarca" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}">
+    <form id="addServicio" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}" onsubmit="return validarRepuestos()">
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" pattern="[a-z\s]+" required title="Solo letras minusculas"/>
+        <input type="text" id="nombre" name="nombre" pattern="[a-z\s]+" required title="Solo letras minúsculas"/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <span id="nombre-error" class="error"></span>
         
@@ -24,22 +24,19 @@
         <label for="precio">Precio:</label>
         <input type="number" name="precio" id="precio">
         <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
-
+        
+        <label>Repuestos:</label>
+        <div class="repuestos">
+            <div th:each="repuesto : ${repuestos}" >
+                <label>
+                    <span th:text="${repuesto.nombre}" style="color: black;"></span>
+                    <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="servicio.repuestos" th:value="${repuesto.id}"/>
+                </label>
+            </div>
+        </div>
+        
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
 
-    <script>
-        document.getElementById("addMarca").addEventListener("submit", function (event) {
-            var nombreInput = document.getElementById("nombre");
-            var nombreError = document.getElementById("nombre-error");
-            
-            nombreError.textContent = "";
-
-            if (!nombreInput.checkValidity()) {
-                event.preventDefault();
-                nombreError.textContent = "Ingrese solo letras minúsculas.";
-            }
-        });
-    </script>
 </body>
 </html>

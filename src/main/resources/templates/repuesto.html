@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Repuestos</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+        
+    </head>
+    <body>
+        <h1>Listado De Repuestos</h1>
+        <a th:href="@{/repuesto/nuevo}" class="boton">Registrar Repuesto</a>
+        <a th:href="@{/}" class="boton"> Volver </a>
+        
+        <div th:if="${repuestos!=null and not repuestos.isEmpty()}">
+            <br>
+            <table border="2">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+
+                </tr>
+                <tr th:each="repuesto: ${repuestos}">
+                    <td th:text="${repuesto.nombre}"></td>
+                    <td th:text="${repuesto.descripcion}"></td>
+                    <td th:text="${repuesto.cantidad}"></td>
+                    <td><a th:href="@{repuesto/modificar/}+${repuesto.id}" th:text="Modificar">Modificar</a></td>
+                    <td><a th:href="@{repuesto/eliminar/}+${repuesto.id}" th:text="Eliminar">Eliminar</a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${repuestos==null or repuestos.isEmpty()}">
+            No existen repuestos hasta el momento
+        </div>
+    </body>
+</html>

@@ -19,6 +19,7 @@
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Precio</th>
+                    <th>Repuestos</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
 
@@ -27,6 +28,9 @@
                     <td th:text="${servicio.nombre}"></td>
                     <td th:text="${servicio.descripcion}"></td>
                     <td th:text="'$' + ${servicio.precio}"></td>
+                    <td>
+                        <span th:each="repuesto : ${servicio.repuestos}" th:text="${repuesto.nombre} + ', '"></span>
+                    </td>
                     <td><a th:href="@{servicio/modificar/}+${servicio.id}" th:text="Modificar">Modificar</a></td>
                     <!-- Ajuste del enlace para reflejar la nueva lógica de marcado como eliminado -->
                     <td><a th:href="@{servicio/eliminar/}+${servicio.id}" th:text="${servicio.eliminado ? 'Restaurar' : 'Eliminar'}">${servicio.eliminado ? 'Restaurar' : 'Eliminar'}</a></td>

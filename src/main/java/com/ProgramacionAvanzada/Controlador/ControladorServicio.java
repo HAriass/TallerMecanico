@@ -1,7 +1,9 @@
 package com.ProgramacionAvanzada.Controlador;
 
 
+import com.ProgramacionAvanzada.Servicio.RepuestoServicio;
 import com.ProgramacionAvanzada.Servicio.ServicioServicio;
+import com.ProgramacionAvanzada.modelo.Repuesto;
 import com.ProgramacionAvanzada.modelo.Servicio;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
@@ -20,6 +22,10 @@ public class ControladorServicio {
 
     @Autowired
     private ServicioServicio servicioServicio;
+    
+    @Autowired
+    private RepuestoServicio repuestoServicio;
+
 
     @GetMapping("/servicio")
     public String listarServicios(Model modelo) {
@@ -28,11 +34,14 @@ public class ControladorServicio {
         return "servicio";
     }
 
-    @GetMapping("/servicio/nuevo")
-    public String mostrarFormularioNuevoServicio(Servicio servicio, Model model) {
-        model.addAttribute("servicio", servicio);
-        return "registrar-servicio";
-    }
+@GetMapping("/servicio/nuevo")
+public String mostrarFormularioNuevoServicio(Servicio servicio, Model model, Repuesto repuesto) {
+    model.addAttribute("servicio", servicio);
+    List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
+    model.addAttribute("repuestos", repuestos);
+    return "registrar-servicio";
+}
+
 
     @PostMapping("/servicio/registrado")
     public String registrarNuevoServicio(@Valid Servicio servicio, Errors error, Model model) {

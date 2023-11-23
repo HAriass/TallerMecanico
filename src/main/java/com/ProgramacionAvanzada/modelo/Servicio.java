@@ -14,11 +14,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "servicio")
-@Data
+@Getter
+@Setter
 public class Servicio implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -43,6 +46,6 @@ public class Servicio implements Serializable{
     private LocalDate fechaEliminado;
     
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
-    private List<Repuesto> repuestos; 
+    private List<Repuesto> repuestos;
 
 }

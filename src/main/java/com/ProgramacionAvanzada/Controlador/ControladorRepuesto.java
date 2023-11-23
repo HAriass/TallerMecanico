@@ -50,6 +50,12 @@ public class ControladorRepuesto {
         }
         return "redirect:/repuesto";
     }
+    @GetMapping("/repuesto/modificar/{id}")
+    public String modificar(Repuesto repuesto, Model model) {
+        repuesto = repuestoServicio.localizarRepuesto(repuesto);
+        model.addAttribute("repuesto", repuesto);
+        return "modificar-repuesto";
+    }
     
     @PostMapping("/repuesto/modificar/{id}")
     public String modificarRepuesto(@Valid Repuesto repuesto, Errors error, Model model) {
