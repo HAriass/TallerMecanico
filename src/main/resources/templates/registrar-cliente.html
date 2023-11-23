@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Datos del nuevo cliente</h1>
-    <a th:href="@{/cliente}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/cliente}" class="boton">Volver</a>
+    <a th:href="@{/}"class="boton">Inicio</a>
 
     <form id="addCliente" th:action="@{/cliente/registrado}" method="post" th:object="${cliente}">
         <label for="nombre">Nombre:</label>

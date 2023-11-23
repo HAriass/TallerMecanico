@@ -22,14 +22,14 @@ public class ControladorRepuesto {
     @Autowired
     private RepuestoServicio repuestoServicio;
     
-    
+ 
     @GetMapping("/repuesto")
     public String listarRepuestos(Model modelo) {
         List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
         modelo.addAttribute("repuestos", repuestos);
         return "repuesto";
     }
-    
+  
     @GetMapping("/repuesto/nuevo")
     public String mostrarFormularioNuevaRepuesto(Repuesto repuesto, Model model) {
         model.addAttribute("repuesto", repuesto);
