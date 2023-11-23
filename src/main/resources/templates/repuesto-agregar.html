@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar repuesto</title>
+    <title>Agregar cantidad de un repuesto</title>
     <link rel="stylesheet" type="text/css" href="/css/nuevoClienteStyles.css">
 </head>
 <body>
@@ -10,13 +10,12 @@
     <a th:href="@{/repuesto}">Volver</a>
     <a th:href="@{/}">Inicio</a>
 
-    <form id="addRepuesto" th:action="@{/repuesto/registrado}" method="post" th:object="${repuesto}">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"/>
-        
-        <label for="descripcion">Descripcion:</label>
-        <input type="text" id="descripcion" name="descripcion"/>
-        
+    <form id="addRepuesto" th:action="@{/repuesto/agregar-cantidad}" method="post" th:object="${repuesto}">
+        <label for="repuestoId">Seleccionar repuesto:</label>
+        <select id="repuestoId" name="repuestoId">
+            <option th:each="repuesto : ${repuestos}" th:value="${repuesto.id}" th:text="${repuesto.nombre}"></option>
+        </select>
+
         <label for="cantidad">Cantidad:</label>
         <input type="number" id="cantidad" name="cantidad"/>
 

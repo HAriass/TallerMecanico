@@ -9,6 +9,8 @@
     <body>
         <h1>Listado De Repuestos</h1>
         <a th:href="@{/repuesto/nuevo}" class="boton">Registrar Repuesto</a>
+        <br>
+        <a th:href="@{/repuesto/agregar-cantidad}" class="boton">Agregar repuesto al Stock</a>
         <a th:href="@{/}" class="boton"> Volver </a>
         
         <div th:if="${repuestos!=null and not repuestos.isEmpty()}">

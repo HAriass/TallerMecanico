@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ControladorRepuesto {
@@ -86,4 +88,35 @@ public class ControladorRepuesto {
         
         return "redirect:/repuesto";
     }
+     @GetMapping("repuesto/agregar-cantidad")
+    public String mostrarFormularioAgregarCantidad(Model model) {
+        List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
+        model.addAttribute("repuestos", repuestos);
+        model.addAttribute("repuesto", new Repuesto()); // Añadir una instancia de Repuesto para el formulario
+        return "repuesto-agregar";
+    }
+
+    @PostMapping("repuesto/agregar-cantidad")
+   public String agregarCantidadRepuesto(@ModelAttribute("repuesto") Repuesto repuesto, @RequestParam("repuestoId") Long repuestoId, @RequestParam("cantidad") int cantidad) {
+       // Obtener el repuesto seleccionado
+       Repuesto repuestoSeleccionado = repuestoServicio.obtenerRepuestoPorId(repuestoId);
+
+       // Verificar si el repuesto seleccionado existe
+       if (repuestoSeleccionado != null) {
+           // Obtener la cantidad actual del repuesto
+           int cantidadActual = repuestoSeleccionado.getCantidad();
+
+           // Sumar la cantidad proporcionada a la cantidad actual
+           int nuevaCantidad = cantidadActual + cantidad;
+
+           // Establecer la nueva cantidad en el repuesto
+           repuestoSeleccionado.setCantidad(nuevaCantidad);
+
+           // Guardar el repuesto modificado en la base de datos
+           repuestoServicio.registrar(repuestoSeleccionado);
+       }
+
+       return "redirect:/repuesto"; // Redirigir a la lista de repuestos u otra página según tu necesidad
+   }
+
 }

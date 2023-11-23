@@ -44,7 +44,7 @@ public class ControladorServicio {
     }
 
 
-    @PostMapping("/servicio/registrado")
+@PostMapping("/servicio/registrado")
     public String registrarNuevoServicio(@Valid Servicio servicio, Errors error, Model model, HttpServletRequest request) {
         if (error.hasErrors()) {
             model.addAttribute("servicio", servicio);
@@ -62,9 +62,11 @@ public class ControladorServicio {
             for (String repuestoId : repuestoIds) {
                 Long id = Long.parseLong(repuestoId);
                 Repuesto repuesto = repuestoServicio.obtenerRepuestoPorId(id);
-                repuesto.setServicio(servicio); // Asignar el servicio al repuesto
-                repuestoServicio.registrar(repuesto); // Actualizar el repuesto en la base de datos
+                servicio.agregarRepuesto(repuesto); // Agregar el repuesto al servicio
             }
+
+            // Actualizar el servicio en la base de datos
+            servicioServicio.registrar(servicio);
 
         } catch (DataIntegrityViolationException ex) {
             // Maneja la excepción de violación de unicidad aquí

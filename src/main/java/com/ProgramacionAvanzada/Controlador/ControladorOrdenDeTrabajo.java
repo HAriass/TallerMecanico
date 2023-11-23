@@ -5,6 +5,7 @@ import com.ProgramacionAvanzada.Servicio.ServicioServicio;
 import com.ProgramacionAvanzada.Servicio.TecnicoServicio;
 import com.ProgramacionAvanzada.Servicio.VehiculoServicio;
 import com.ProgramacionAvanzada.modelo.OrdenDeTrabajo;
+import com.ProgramacionAvanzada.modelo.Repuesto;
 import com.ProgramacionAvanzada.modelo.Servicio;
 import com.ProgramacionAvanzada.modelo.Tecnico;
 import com.ProgramacionAvanzada.modelo.Vehiculo;
@@ -94,6 +95,15 @@ public class ControladorOrdenDeTrabajo {
 
         // Calcular el total después de establecer el descuento
         ordenDeTrabajo.calcularTotal();
+        // Descontar la cantidad de repuestos correspondiente a cada servicio
+        for (Servicio servicio : ordenDeTrabajo.getServicio()) {
+            for (Repuesto repuesto : servicio.getRepuestos()) {
+                int cantidadActual = repuesto.getCantidad();
+                int cantidadDescontar = 1; // Puedes ajustar la cantidad a descontar según tus necesidades
+                repuesto.setCantidad(cantidadActual - cantidadDescontar);
+            }
+        }
+
         ordenServicio.registrar(ordenDeTrabajo);
         System.out.println("Objeto orde:"+ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";

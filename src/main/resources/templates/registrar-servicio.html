@@ -33,11 +33,6 @@
                 </label>
             </div>
         </div>
-        <!-- Agrega esto en tu formulario HTML -->
-        <div th:each="repuesto : ${repuestos}">
-            <p th:text="${repuesto.nombre}"></p>
-        </div>
-
         
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
