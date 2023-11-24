@@ -42,4 +42,9 @@ public class RepuestoServicioImplementacion implements RepuestoServicio {
         return optionalRepuesto.orElse(null);
     }
     
+     @Override
+    public List<Repuesto> buscarPorNombre(String nombre) {
+        return repuestoDAO.findByNombreContainingIgnoreCase(nombre);
+    }
+    
 }

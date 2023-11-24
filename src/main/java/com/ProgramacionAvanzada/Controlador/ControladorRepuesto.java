@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,8 +25,17 @@ public class ControladorRepuesto {
     
  
     @GetMapping("/repuesto")
-    public String listarRepuestos(Model modelo) {
-        List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
+    public String listarRepuestos(@RequestParam(name = "nombre", required = false) String nombre, Model modelo) {
+        List<Repuesto> repuestos;
+
+        if (nombre != null && !nombre.isEmpty()) {
+            // Si se proporciona un nombre, realiza la búsqueda por nombre
+            repuestos = repuestoServicio.buscarPorNombre(nombre);
+        } else {
+            // Si no se proporciona un nombre, obtén todos los repuestos
+            repuestos = repuestoServicio.listaRepuestos();
+        }
+
         modelo.addAttribute("repuestos", repuestos);
         return "repuesto";
     }
@@ -88,35 +98,33 @@ public class ControladorRepuesto {
         
         return "redirect:/repuesto";
     }
-     @GetMapping("repuesto/agregar-cantidad")
-    public String mostrarFormularioAgregarCantidad(Model model) {
-        List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
-        model.addAttribute("repuestos", repuestos);
-        model.addAttribute("repuesto", new Repuesto()); // Añadir una instancia de Repuesto para el formulario
+    @GetMapping("/repuesto/agregar-cantidad/{id}")
+    public String mostrarFormularioAgregarCantidad(@PathVariable("id") Long repuestoId, Model model) {
+        Repuesto repuestoSeleccionado = repuestoServicio.obtenerRepuestoPorId(repuestoId);
+        model.addAttribute("repuestoSeleccionado", repuestoSeleccionado);
         return "repuesto-agregar";
     }
 
-    @PostMapping("repuesto/agregar-cantidad")
-   public String agregarCantidadRepuesto(@ModelAttribute("repuesto") Repuesto repuesto, @RequestParam("repuestoId") Long repuestoId, @RequestParam("cantidad") int cantidad) {
-       // Obtener el repuesto seleccionado
-       Repuesto repuestoSeleccionado = repuestoServicio.obtenerRepuestoPorId(repuestoId);
+    @PostMapping("/repuesto/agregar-cantidad")
+    public String agregarCantidadRepuesto(@ModelAttribute("repuesto") Repuesto repuesto, @RequestParam("repuestoId") Long repuestoId, @RequestParam("cantidad") int cantidad) {
+        Repuesto repuestoSeleccionado = repuestoServicio.obtenerRepuestoPorId(repuestoId);
 
-       // Verificar si el repuesto seleccionado existe
-       if (repuestoSeleccionado != null) {
-           // Obtener la cantidad actual del repuesto
-           int cantidadActual = repuestoSeleccionado.getCantidad();
+        if (repuestoSeleccionado != null) {
+            int cantidadActual = repuestoSeleccionado.getCantidad();
+            int nuevaCantidad = cantidadActual + cantidad;
+            repuestoSeleccionado.setCantidad(nuevaCantidad);
+            repuestoServicio.registrar(repuestoSeleccionado);
+        }
 
-           // Sumar la cantidad proporcionada a la cantidad actual
-           int nuevaCantidad = cantidadActual + cantidad;
+        return "redirect:/repuesto";
+    }
+    
+    @GetMapping("/repuesto/buscar-async")
+    public String buscarRepuestosAsync(@RequestParam("nombre") String nombre, Model model) {
+    List<Repuesto> repuestos = repuestoServicio.buscarPorNombre(nombre);
+    model.addAttribute("repuestos", repuestos);
+    return "repuesto :: #resultados";
+    }
 
-           // Establecer la nueva cantidad en el repuesto
-           repuestoSeleccionado.setCantidad(nuevaCantidad);
-
-           // Guardar el repuesto modificado en la base de datos
-           repuestoServicio.registrar(repuestoSeleccionado);
-       }
-
-       return "redirect:/repuesto"; // Redirigir a la lista de repuestos u otra página según tu necesidad
-   }
 
 }

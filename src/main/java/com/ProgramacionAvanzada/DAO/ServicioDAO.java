@@ -13,6 +13,7 @@ public interface ServicioDAO extends CrudRepository<Servicio, Long>{
     List<Servicio> findByEliminadoFalse();
     @Query("SELECT s FROM Servicio s WHERE s.eliminado = true")
     List<Servicio> findByEliminadoTrue();
+    List<Servicio> findByNombreContainingIgnoreCase(String nombre);
 }
 
 

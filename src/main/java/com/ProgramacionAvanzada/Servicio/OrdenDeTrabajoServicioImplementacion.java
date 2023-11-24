@@ -56,7 +56,5 @@ public OrdenDeTrabajo obtenerOrdenDeTrabajoPorId(Long id) {
         return null; // Devolver null si no se encuentra la orden de trabajo
     }
 }
-
-
     
 }

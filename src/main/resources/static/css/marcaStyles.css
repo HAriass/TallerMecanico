@@ -77,3 +77,39 @@ tr:nth-child(odd) {
         background-color: #0056b3;
         border-color: #0056b3;
     }
+    
+   
+    /* Estilos para el cuadro de búsqueda */
+    #nombre {
+        padding: 7px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        margin-right: 8px;
+    }
+
+    /* Estilos para el botón de búsqueda */
+    #buscarBtn {
+        padding: 8px 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #buscarBtn:hover {
+        background-color: #45a049;
+    }
+    
+    #searchContainer {
+    text-align: center; /* Alinea el contenido al centro */
+    margin-top: 10px;   /* Agrega margen superior para separar del contenido superior */
+    }
+
+    #searchForm {
+        display: inline-block; /* Hace que el formulario sea un bloque en línea */
+    }
+
+    #nombre {
+        width: 200px; /* Ajusta el ancho del campo de entrada según sea necesario */
+    }

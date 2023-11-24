@@ -30,6 +30,7 @@ public class ServicioServicioImplementacion implements ServicioServicio {
         return servicioDao.findByEliminadoFalse();
     }
 
+
     @Override
     @Transactional
     public void registrar(Servicio servicio) {

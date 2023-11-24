@@ -11,4 +11,6 @@ public interface RepuestoServicio {
     Repuesto localizarRepuesto(Repuesto repuesto);
 
     public Repuesto obtenerRepuestoPorId(Long id);
+
+    List<Repuesto> buscarPorNombre(String nombre);
 }

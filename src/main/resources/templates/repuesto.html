@@ -1,40 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Repuestos</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
-        
-    </head>
-    <body>
-        <h1>Listado De Repuestos</h1>
-        <a th:href="@{/repuesto/nuevo}" class="boton">Registrar Repuesto</a>
-        <br>
-        <a th:href="@{/repuesto/agregar-cantidad}" class="boton">Agregar repuesto al Stock</a>
-        <a th:href="@{/}" class="boton"> Volver </a>
-        
-        <div th:if="${repuestos!=null and not repuestos.isEmpty()}">
-            <br>
-            <table border="2">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Cantidad</th>
-                    <th>Modificar</th>
-                    <th>Eliminar</th>
 
-                </tr>
-                <tr th:each="repuesto: ${repuestos}">
-                    <td th:text="${repuesto.nombre}"></td>
-                    <td th:text="${repuesto.descripcion}"></td>
-                    <td th:text="${repuesto.cantidad}"></td>
-                    <td><a th:href="@{repuesto/modificar/}+${repuesto.id}" th:text="Modificar">Modificar</a></td>
-                    <td><a th:href="@{repuesto/eliminar/}+${repuesto.id}" th:text="Eliminar">Eliminar</a></td>
-                </tr>
-            </table>
-        </div>
-        <div th:if="${repuestos==null or repuestos.isEmpty()}">
-            No existen repuestos hasta el momento
-        </div>
-    </body>
+<head>
+    <title>Repuestos</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <!-- Asegúrate de incluir jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <h1>Listado De Repuestos</h1>
+
+    <!-- Botones de acción -->
+    <a th:href="@{/repuesto/nuevo}" class="boton">Registrar Repuesto</a>
+    <a th:href="@{/}" class="boton"> Volver </a>
+
+    <!-- Contenedor para el formulario de búsqueda -->
+    <div id="searchContainer">
+        <!-- Formulario de búsqueda -->
+        <form id="searchForm">
+            <label for="nombre">Buscar por nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+        </form>
+    </div>
+
+    <!-- Contenedor para mostrar los resultados -->
+    <div id="resultados" th:if="${repuestos!=null and not repuestos.isEmpty()}">
+        <br>
+        <table border="2">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Modificar</th>
+                <th>Eliminar</th>
+                <th>Agregar Unidades</th> <!-- Nueva columna -->
+            </tr>
+            <tr th:each="repuesto: ${repuestos}">
+                <td th:text="${repuesto.nombre}"></td>
+                <td th:text="${repuesto.descripcion}"></td>
+                <td th:text="${repuesto.cantidad}"></td>
+                <td><a th:href="@{repuesto/modificar/}+${repuesto.id}" th:text="Modificar">Modificar</a></td>
+                <td><a th:href="@{repuesto/eliminar/}+${repuesto.id}" th:text="Eliminar">Eliminar</a></td>
+                <td><a th:href="@{/repuesto/agregar-cantidad/}+${repuesto.id}">Agregar Unidades</a></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${repuestos==null or repuestos.isEmpty()}">
+        No existen repuestos hasta el momento
+    </div>
+
+    <!-- Script de jQuery -->
+    <script>
+        $(document).ready(function() {
+            // Espera a que cambie el valor del campo de nombre
+            $('#nombre').on('keyup', function() {
+                // Obtén el valor del campo de nombre
+                var nombre = $("#nombre").val();
+
+                // Realiza una solicitud AJAX al servidor para obtener los resultados de búsqueda
+                $.get("/repuesto/buscar-async?nombre=" + nombre, function(data) {
+                    // Actualiza los resultados en la página
+                    $("#resultados").html(data);
+                });
+            });
+        });
+    </script>
+</body>
+
 </html>

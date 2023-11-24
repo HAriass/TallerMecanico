@@ -7,20 +7,19 @@
 </head>
 <body>
     <h1>Agregar cantidad de un repuesto</h1>
-    <a th:href="@{/repuesto}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/repuesto}" class="boton">Volver</a>
+    <a th:href="@{/}" class="boton">Inicio</a>
 
-    <form id="addRepuesto" th:action="@{/repuesto/agregar-cantidad}" method="post" th:object="${repuesto}">
-        <label for="repuestoId">Seleccionar repuesto:</label>
-        <select id="repuestoId" name="repuestoId">
-            <option th:each="repuesto : ${repuestos}" th:value="${repuesto.id}" th:text="${repuesto.nombre}"></option>
-        </select>
+    <form id="addRepuesto" th:action="@{/repuesto/agregar-cantidad}" method="post" th:object="${repuestoSeleccionado}">
+        <label>Repuesto seleccionado:</label>
+        <span th:text="${repuestoSeleccionado.nombre}"></span>
+
+        <input type="hidden" th:name="repuestoId" th:value="${repuestoSeleccionado.id}"/>
 
         <label for="cantidad">Cantidad:</label>
         <input type="number" id="cantidad" name="cantidad"/>
 
         <input type="submit" id="registrar" name="registrar" value="Registrar"/>
     </form>
-
 </body>
 </html>
