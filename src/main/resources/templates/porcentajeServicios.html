@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Porcentaje de Servicios Utilizados</title>
+</head>
+<body>
+    <h1>Porcentaje de Servicios Utilizados</h1>
+
+    <div id="graficoTortaCanvas">
+        <!-- Canvas para el gráfico -->
+        <canvas id="graficoTorta"></canvas>
+    </div>
+
+    <div id="leyenda">
+        <!-- Leyenda para mostrar el nombre del servicio y el porcentaje -->
+    </div>
+    
+
+    <script>
+        var servicios = /*[[${servicios}]]*/ []; // Reemplaza con tu lista de servicios
+        var conteoServicios = /*[[${conteoServicios}]]*/ []; // Reemplaza con tu lista de porcentajes
+
+        // Configura el gráfico de torta
+        var canvas = document.getElementById('graficoTorta');
+        var ctx = canvas.getContext('2d');
+
+        // Calcula el total de porcentajes
+        var totalPorcentajes = conteoServicios.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+
+        // Inicializa el ángulo de inicio
+        var inicioAngulo = 0;
+
+        // Inicializa la leyenda
+        var leyenda = document.getElementById('leyenda');
+        leyenda.innerHTML = "<strong>Leyenda:</strong><br>";
+
+        // Dibuja cada porción del gráfico
+        for (var i = 0; i < conteoServicios.length; i++) {
+            var porcentaje = conteoServicios[i];
+            var color = getRandomColor();
+
+            // Convierte el porcentaje a radianes
+            var porcentajeEnRadianes = (porcentaje / totalPorcentajes) * (2 * Math.PI);
+
+            // Dibuja el arco
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, canvas.height / 2);
+            ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 3, inicioAngulo, inicioAngulo + porcentajeEnRadianes);
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            // Actualiza el ángulo de inicio para el siguiente arco
+            inicioAngulo += porcentajeEnRadianes;
+
+            // Agrega la entrada de la leyenda
+            leyenda.innerHTML += `<span style="color: ${color};">${servicios[i]}: ${porcentaje.toFixed(2)}%</span><br>`;
+        }
+
+        // Función para obtener un color aleatorio
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        console.log("Conteo de Servicios: ", conteoServicios);
+console.log("Servicios: ", servicios);
+
+    </script>
+    
+</body>
+</html>

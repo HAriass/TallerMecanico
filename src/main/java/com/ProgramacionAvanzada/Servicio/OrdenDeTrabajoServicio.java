@@ -11,4 +11,5 @@ public interface OrdenDeTrabajoServicio {
     public void eliminar(OrdenDeTrabajo ordenDeTrabajo);
     public OrdenDeTrabajo localizarOrdenDeTrabajo(OrdenDeTrabajo ordenDeTrabajo);
     public OrdenDeTrabajo obtenerOrdenDeTrabajoPorId(Long id);
+    
 }
