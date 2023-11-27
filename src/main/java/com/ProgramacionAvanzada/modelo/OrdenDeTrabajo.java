@@ -10,12 +10,13 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "ordenDeTrabajo")
@@ -48,8 +49,8 @@ public class OrdenDeTrabajo implements Serializable{
 
 
     
-    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$") // dia mes anio
-    private String fechaCreacion;
+    @DateTimeFormat(pattern = "dd/MM/yyyy") // Añade esta anotación para especificar el formato de entrada
+    private LocalDate fechaCreacion;
     
     private LocalDateTime fechaAutomatica = LocalDateTime.now();
     

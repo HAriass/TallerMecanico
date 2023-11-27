@@ -3,6 +3,7 @@ package com.ProgramacionAvanzada.Servicio;
 
 import com.ProgramacionAvanzada.DAO.OrdenDeTrabajoDAO;
 import com.ProgramacionAvanzada.modelo.OrdenDeTrabajo;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,12 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
             System.out.println("No se encontró ninguna orden de trabajo con ID: " + id);
             return null; // Devolver null si no se encuentra la orden de trabajo
         }
+    }
+
+    @Override
+    public List<OrdenDeTrabajo> obtenerOrdenesPorTecnicoYFechas(Long idTecnico, LocalDate fechaInicio, LocalDate fechaFin) {
+        // Obtener las órdenes de trabajo para un técnico y un rango de fechas
+        return ordenDeTrabajoDao.findByTecnicoIdAndFechaCreacionBetween(idTecnico, fechaInicio, fechaFin);
     }
     
 }

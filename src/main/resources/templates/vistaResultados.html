@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultados</title>
+    <!-- Agrega tus estilos CSS si es necesario -->
+</head>
+<body>
+
+<h1>Resultados</h1>
+
+<div>
+    <h2>Información del Técnico</h2>
+    <!-- Muestra la información del técnico -->
+    <p>Técnico seleccionado: <span th:text="${tecnico != null ? tecnico.nombre : 'No disponible'}"></span></p>
+</div>
+
+<div>
+    <h2>Intervalo de Fechas</h2>
+    <!-- Muestra el intervalo de fechas seleccionado -->
+    <p>Fecha de Inicio: <span th:text="${fechaInicio}"></span></p>
+    <p>Fecha de Fin: <span th:text="${fechaFin}"></span></p>
+</div>
+
+<div>
+    <h2>Resultados de la Consulta</h2>
+    <!-- Muestra los resultados de la consulta -->
+    <p>Cantidad de órdenes: <span th:text="${cantidadOrdenes}"></span></p>
+</div>
+
+</body>
+</html>
