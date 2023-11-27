@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,10 +46,10 @@ public class OrdenDeTrabajo implements Serializable{
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
 
-    private LocalDateTime fechaCreacion = LocalDateTime.now();
+    private LocalDate fechaCreacion = LocalDate.now();
     
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime fechaEntrega;
+    @DateTimeFormat(pattern = "dd/MM/yyyy") // Añade esta anotación para especificar el formato de entrada
+    private LocalDate fechaEntrega;
         
     private float subTotal;
     

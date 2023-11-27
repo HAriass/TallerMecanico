@@ -54,7 +54,7 @@
 
                     <td th:text="${orden.informacionRelevante}"></td>
                     <td th:text="${orden.fechaCreacion}"></td>
-                    <td th:text="${orden.fechaTerminacion}"></td>
+                    <td th:text="${orden.fechaEntrega}"></td>
                     <td><a th:href="@{'/ordenDeTrabajo/modificar/' + ${orden.id}}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{'/ordenDeTrabajo/eliminar/' + ${orden.id}}" th:text="Eliminar">Eliminar</a></td>
 

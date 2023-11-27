@@ -103,7 +103,7 @@ public class ControladorOrdenDeTrabajo {
                 repuesto.setCantidad(cantidadActual - cantidadDescontar);
             }
         }
-
+        System.out.println("ORDEEEEEEEEN" + ordenDeTrabajo);
         ordenServicio.registrar(ordenDeTrabajo);
         System.out.println("Objeto orde:"+ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
