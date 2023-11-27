@@ -1,76 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Porcentaje de Servicios Utilizados</title>
+    <title>Porcentaje de Servicios</title>
+
+    <!-- Agrega Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Establece un ancho máximo para el contenedor del canvas */
+        #graficoContainer {
+            max-width: 400px; /* Puedes ajustar este valor según tus necesidades */
+            margin: auto;
+        }
+        .titulo{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Porcentaje de Servicios Utilizados</h1>
 
-    <div id="graficoTortaCanvas">
-        <!-- Canvas para el gráfico -->
-        <canvas id="graficoTorta"></canvas>
+    <h2 class="titulo">Porcentaje de utilizacion de servicios</h2>
+
+    <!-- Contenedor del canvas con un ancho máximo -->
+    <div id="graficoContainer">
+        <canvas id="graficoCircular"></canvas>
     </div>
 
-    <div id="leyenda">
-        <!-- Leyenda para mostrar el nombre del servicio y el porcentaje -->
-    </div>
-    
+    <!-- Script para inicializar el gráfico con los datos proporcionados desde el controlador -->
+    <script th:inline="javascript">
+        var datos = {
+            labels: [], // Nombres de los servicios
+            datasets: [{
+                data: [], // Cantidades utilizadas
+                backgroundColor: [] // Colores para cada sector del gráfico
+            }]
+        };
 
-    <script>
-        var servicios = /*[[${servicios}]]*/ []; // Reemplaza con tu lista de servicios
-        var conteoServicios = /*[[${conteoServicios}]]*/ []; // Reemplaza con tu lista de porcentajes
+        // Obtén el contexto del canvas
+        var ctx = document.getElementById('graficoCircular').getContext('2d');
 
-        // Configura el gráfico de torta
-        var canvas = document.getElementById('graficoTorta');
-        var ctx = canvas.getContext('2d');
+        // Obtén los datos del modelo (Thymeleaf)
+        var nombresServicios = /*[[${nombresServicios}]]*/ [];
+        var cantidadesUtilizadas = /*[[${cantidadesUtilizadas}]]*/ [];
 
-        // Calcula el total de porcentajes
-        var totalPorcentajes = conteoServicios.reduce(function (a, b) {
-            return a + b;
-        }, 0);
 
-        // Inicializa el ángulo de inicio
-        var inicioAngulo = 0;
+        // Imprime los datos en la consola del navegador para verificar
+        console.log("Nombres de Servicios (HTML):", nombresServicios);
+        console.log("Cantidades Utilizadas (HTML):", cantidadesUtilizadas);
 
-        // Inicializa la leyenda
-        var leyenda = document.getElementById('leyenda');
-        leyenda.innerHTML = "<strong>Leyenda:</strong><br>";
+        // Genera colores aleatorios
+        var colores = Array.from({length: nombresServicios.length}, () => '#' + Math.floor(Math.random()*16777215).toString(16));
 
-        // Dibuja cada porción del gráfico
-        for (var i = 0; i < conteoServicios.length; i++) {
-            var porcentaje = conteoServicios[i];
-            var color = getRandomColor();
+        console.log("Colores:", colores);
 
-            // Convierte el porcentaje a radianes
-            var porcentajeEnRadianes = (porcentaje / totalPorcentajes) * (2 * Math.PI);
+        datos.labels = nombresServicios;
+        datos.datasets[0].data = cantidadesUtilizadas;
+        datos.datasets[0].backgroundColor = colores;
 
-            // Dibuja el arco
-            ctx.beginPath();
-            ctx.moveTo(canvas.width / 2, canvas.height / 2);
-            ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 3, inicioAngulo, inicioAngulo + porcentajeEnRadianes);
-            ctx.fillStyle = color;
-            ctx.fill();
-
-            // Actualiza el ángulo de inicio para el siguiente arco
-            inicioAngulo += porcentajeEnRadianes;
-
-            // Agrega la entrada de la leyenda
-            leyenda.innerHTML += `<span style="color: ${color};">${servicios[i]}: ${porcentaje.toFixed(2)}%</span><br>`;
-        }
-
-        // Función para obtener un color aleatorio
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-        console.log("Conteo de Servicios: ", conteoServicios);
-console.log("Servicios: ", servicios);
-
+        // Inicializa el gráfico circular
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: datos
+        });
     </script>
-    
 </body>
 </html>
