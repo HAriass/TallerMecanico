@@ -53,7 +53,7 @@ public class ControladorOrdenDeTrabajo {
         model.addAttribute("servicios", servicios);
         model.addAttribute("vehiculos", vehiculos);
         model.addAttribute("tecnicos", tecnicos);
-        model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo()); // Añadir una instancia de OrdenDeTrabajo para el formulario
+        model.addAttribute("ordenDeTrabajo", new OrdenDeTrabajo());
         return "registrar-ordenDeTrabajo";
     }
 

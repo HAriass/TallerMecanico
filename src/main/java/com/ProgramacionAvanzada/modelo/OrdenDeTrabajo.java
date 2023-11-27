@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -47,13 +46,11 @@ public class OrdenDeTrabajo implements Serializable{
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
 
-
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
     
-    @DateTimeFormat(pattern = "dd/MM/yyyy") // Añade esta anotación para especificar el formato de entrada
-    private LocalDate fechaCreacion;
-    
-    private LocalDateTime fechaAutomatica = LocalDateTime.now();
-    
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDateTime fechaEntrega;
+        
     private float subTotal;
     
     private int descuento;
@@ -64,8 +61,13 @@ public class OrdenDeTrabajo implements Serializable{
     
     public float calcularSubTotal() {
         float suma = 0;
+        float suma2 = 0;
         for (Servicio s : servicio) {
-            suma += s.getPrecio(); // Asumiendo que la clase Servicio tiene un método getPrecio() que devuelve el precio del servicio.
+            for (Repuesto r: s.getRepuestos()){
+                suma2 += r.getPrecio();
+            }
+        suma += s.getPrecio() + suma2;
+        
         }
         return suma;
     }

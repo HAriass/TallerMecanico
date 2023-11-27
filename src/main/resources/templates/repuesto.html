@@ -33,14 +33,16 @@
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Cantidad</th>
+                <th>Precio</th>
                 <th>Modificar</th>
                 <th>Eliminar</th>
-                <th>Agregar Unidades</th> <!-- Nueva columna -->
+                <th>Agregar Unidades</th> 
             </tr>
             <tr th:each="repuesto: ${repuestos}">
                 <td th:text="${repuesto.nombre}"></td>
                 <td th:text="${repuesto.descripcion}"></td>
                 <td th:text="${repuesto.cantidad}"></td>
+                <td th:text="${repuesto.precio}"></td>
                 <td><a th:href="@{repuesto/modificar/}+${repuesto.id}" th:text="Modificar">Modificar</a></td>
                 <td><a th:href="@{repuesto/eliminar/}+${repuesto.id}" th:text="Eliminar">Eliminar</a></td>
                 <td><a th:href="@{/repuesto/agregar-cantidad/}+${repuesto.id}">Agregar Unidades</a></td>

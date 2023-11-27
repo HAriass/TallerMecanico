@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -32,12 +31,12 @@ public class Repuesto implements Serializable {
     private String nombre;
 
     private int cantidad;
+    
+    private float precio;
 
     private String descripcion;
 
     @ManyToMany(mappedBy = "repuestos")
     private Set<Servicio> servicios = new HashSet<>();
-    
 
-    // Constructor, getters, setters, etc.
 }
