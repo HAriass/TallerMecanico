@@ -3,16 +3,11 @@
     <head>
         <title>Orden de trabajo</title>
         <meta charset="UTF-8">
-        <!--         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">-->
-                <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+        <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
     </head>
     <body>
         <h1>Listado de ordenes de trabajos realizadas</h1>
-        <a th:href="@{/ordenDeTrabajo/nueva}"class="boton">Registrar orden de trabajo</a>
-        
         <a th:href="@{/}"class="boton"> Volver </a>
-        <br>
-        <a href="/ordenDeTrabajo/filtroFecha">Filtrar Por Fecha</a>
         
         <div th:if="${ordenes!=null and not ordenes.isEmpty()}">
             <br>
@@ -20,6 +15,8 @@
                 <label for="clienteFiltro">Filtrar por nombre de cliente:</label>
                 <input type="text" id="clienteFiltro">
                 <button onclick="filtrarPorCliente()">Filtrar</button>
+                <br>
+                
             </div>
             <br>
             <table id="tablaOrdenes" border="2">
@@ -88,6 +85,6 @@
                 }
             }
         </script>
-
     </body>
+    
 </html>

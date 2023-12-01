@@ -34,14 +34,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
                 
                 <div class="dropdown mx-2">
-                    <button class="btn btn-primary" type="button" th:href="@{/ordenDeTrabajo}">Orden de trabajo</a></button>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Orden de Trabajo
+                    </button>
+                        <ul class="dropdown-menu" style="background-color: rgb(113, 176, 218);" >
+                            <li><a class="dropdown-item" th:href="@{/ordenDeTrabajo}">Orden de trabajo</a></li>
+                        </ul>
                 </div>
                 <div class="dropdown mx-2">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Estadisticas
                     </button>
                     <ul class="dropdown-menu" style="background-color: rgb(113, 176, 218);" >
-                        <li><a class="dropdown-item"  th:href="@{/estadistica/porcentajeServicios}">Utilizacion de servicios</a></li>
+                        <li><a class="dropdown-item"  th:href="@{/tomarFechas}">Utilizacion de servicios</a></li>
                         <li><a class="dropdown-item" th:href="@{/estadistica/cantidadOrdenesPorTecnico}">Ordenes por tecnico</a></li>
                     </ul>
                 </div>

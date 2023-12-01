@@ -63,5 +63,12 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
         // Obtener las órdenes de trabajo para un técnico y un rango de fechas
         return ordenDeTrabajoDao.findByTecnicoIdAndFechaCreacionBetween(idTecnico, fechaInicio, fechaFin);
     }
+
+    @Override
+    public List<OrdenDeTrabajo> obtenerOrdenesPorRangoDeFecha(LocalDate fechaInicio, LocalDate fechaFin) {
+        return ordenDeTrabajoDao.findByFechaCreacionBetween(fechaInicio, fechaFin);
+    }
+
+
     
 }

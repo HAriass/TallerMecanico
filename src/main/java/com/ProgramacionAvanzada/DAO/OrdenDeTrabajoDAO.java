@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface OrdenDeTrabajoDAO extends CrudRepository<OrdenDeTrabajo, Long>{
 
     public List<OrdenDeTrabajo> findByTecnicoIdAndFechaCreacionBetween(Long idTecnico, LocalDate fechaInicio, LocalDate fechaFin);
-    
+    public List<OrdenDeTrabajo> findByFechaCreacionBetween(LocalDate fechaInicio,LocalDate fechaFin);
+
     
 }

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,11 +32,19 @@ public class ControladorEstadistica {
     @Autowired
     private TecnicoServicio tecnicoServicio;
     
+    @GetMapping("/tomarFechas")
+    public String getFechas(){
+        return "seleccionDeFechas";
+    }
+    
 
-    @GetMapping("/estadistica/porcentajeServicios")
-    public String mostrarPorcentajeServicios(Model modelo) {
+    @PostMapping("/estadistica/porcentajeServicios")
+    public String mostrarPorcentajeServicios(
+            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
+            Model modelo) {
 
-         List<OrdenDeTrabajo> ordenes = ordenServicio.listaOrdenDeTrabajo();
+        List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorRangoDeFecha(fechaInicio, fechaFin);
         List<Servicio> servicios = servicioServicio.listaServicios();
 
         List<ServicioCantidad> conteoServicios = inicializarConteoServicios(servicios);
@@ -78,7 +85,7 @@ public class ControladorEstadistica {
         }
     }
     
- @GetMapping("/estadistica/cantidadOrdenesPorTecnico")
+    @GetMapping("/estadistica/cantidadOrdenesPorTecnico")
     public String mostrarFormulario(Model modelo) {
         // Obtén la lista de técnicos (asumo que tienes un servicio para obtenerlos)
         List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
@@ -108,6 +115,29 @@ public class ControladorEstadistica {
 
         return "vistaResultados";  // Reemplaza "vistaResultados" con el nombre de tu vista.
     }
+    
+    @GetMapping("/ordenDeTrabajo/filtroFecha")
+    public String pedirFechas() {
+        return "ordenDeTrabajo-seleccionFecha";
+    }
+    
+    @PostMapping("/ordenDeTrabajo/filtroFechaTomada")
+    public String tomarFecha(
+            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate fechaFin,
+            Model modelo) {
 
+        // Obtener la lista de órdenes para el técnico y el rango de fechas
+        List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorRangoDeFecha(fechaInicio, fechaFin);
+        
+        System.out.println(ordenes);
+
+        // Agregar los resultados al modelo para mostrarlos en la vista
+        modelo.addAttribute("fechaInicio", fechaInicio);
+        modelo.addAttribute("fechaFin", fechaFin);
+        modelo.addAttribute("ordenes", ordenes);
+
+        return "ordenesDeTrabajoFiltradas";  
+    }
 
 }

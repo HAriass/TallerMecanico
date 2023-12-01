@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Seleccionar rango fecha</title>
+    <!-- Agrega tus estilos CSS si es necesario -->
+    <link rel="stylesheet" type="text/css" href="/css/modificarClienteStyles.css">
+</head>
+<body>
+
+<h1>Seleccionar Técnico y Fechas</h1>
+
+<form th:action="@{/ordenDeTrabajo/filtroFechaTomada}" method="post">
+
+    <div>
+        <label for="fechaInicio">Fecha de Inicio:</label>
+        <input type="date" id="fechaInicio" name="fechaInicio" required>
+    </div>
+    <br>
+    <div>
+        <label for="fechaFin">Fecha de Fin:</label>
+        <input type="date" id="fechaFin" name="fechaFin" required>
+    </div>
+    <br>
+    
+    <button class="boton" type="submit">Mostrar Órdenes</button>
+</form>
+
+</body>
+</html>
+
