@@ -2,25 +2,25 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #93fa66;
     margin: 0;
     padding: 0;
 }
 
 h1 {
     text-align: center;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #7cd155;
+    color: #000000;
     padding: 20px;
 }
 
 a {
     text-decoration: none;
-    color: #007bff;
+    color: #7cd155;
 }
 
 a:hover {
-    color: #0056b3;
+    color: #000000;
 }
 
 table {
@@ -30,7 +30,7 @@ table {
 }
 
 table, th, td {
-    border: 2px solid #007bff;
+    border: 2px solid #7cd155;
 }
 
 th, td {
@@ -39,12 +39,12 @@ th, td {
 }
 
 th {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #7cd155;
+    color: #000000;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #ffffff;
 }
 
 tr:nth-child(odd) {
@@ -91,7 +91,7 @@ tr:nth-child(odd) {
     #buscarBtn {
         padding: 8px 16px;
         background-color: #4CAF50;
-        color: white;
+        color: #747b84;
         border: none;
         border-radius: 4px;
         cursor: pointer;
@@ -112,4 +112,40 @@ tr:nth-child(odd) {
 
     #nombre {
         width: 200px; /* Ajusta el ancho del campo de entrada según sea necesario */
+    }
+    form {
+        width: 60%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #7cd155;
+        border: 2px solid #747b84;
+        border-radius: 5px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    input[type="text"],
+    select {
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    input[type="submit"]:hover {
+        background-color: #0056b3;
     }

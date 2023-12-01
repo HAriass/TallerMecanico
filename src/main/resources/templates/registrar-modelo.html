@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo modelo</title>
-    <link rel="stylesheet" type="text/css" href="/css/nuevoModeloStyles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
 </head>
 <body>
     <h1>Datos del nuevo modelo</h1>
-    <a th:href="@{/modelo}">Volver</a>
-    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/modelo}" class="btn btn-secondary">Volver</a>
+    <a th:href="@{/}"class="btn btn-secondary">Inicio</a>
 
     <form id="addModelo" th:action="@{/modelo/registrado}" method="post" th:object="${modelo}">
         
