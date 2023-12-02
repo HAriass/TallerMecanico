@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Resultados</title>
-    <!-- Agrega tus estilos CSS si es necesario -->
-    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <meta charset="UTF-8">
+    <title>Gráfico de Barras - Duración por Técnico</title>
+    <!-- Agrega las referencias necesarias para el gráfico de barras -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 
-<h1>Resultados</h1>
-
 <div>
-    <h2>Información del Técnico</h2>
-    <!-- Muestra la información del técnico -->
-    <p>Técnico seleccionado: <span th:text="${tecnico != null ? tecnico.nombre : 'No disponible'}"></span></p>
-</div>
+    <h2>Gráfico de Barras - Duración por Técnico</h2>
+    
+    <!-- Agrega un contenedor para el gráfico -->
+    <div id="bar-chart"></div>
 
-<div>
-    <h2>Intervalo de Fechas</h2>
-    <!-- Muestra el intervalo de fechas seleccionado -->
-    <p>Fecha de Inicio: <span th:text="${fechaInicio}"></span></p>
-    <p>Fecha de Fin: <span th:text="${fechaFin}"></span></p>
-</div>
+    <script th:inline="javascript">
+        /* Obtiene los datos del modelo */
+        var nombresTecnicos = /*[[${nombresTecnicos}]]*/ [];
+        var duraciones = /*[[${duraciones}]]*/ [];
+        
+        /* Prepara los datos para Plotly */
+        var data = [{
+            x: nombresTecnicos,
+            y: duraciones,
+            type: 'bar',
+            marker: {
+                color: 'blue'
+            }
+        }];
 
-<div>
-    <h2>Resultados de la Consulta</h2>
-    <!-- Muestra los resultados de la consulta -->
-    <p>Cantidad de órdenes: <span th:text="${cantidadOrdenes}"></span></p>
+        /* Define el diseño del gráfico */
+        var layout = {
+            title: 'Duración por Técnico',
+            xaxis: {
+                title: 'Técnico'
+            },
+            yaxis: {
+                title: 'Duración (días)'
+            }
+        };
+
+        /* Crea el gráfico de barras con Plotly */
+        Plotly.newPlot('bar-chart', data, layout);
+    </script>
 </div>
 
 </body>

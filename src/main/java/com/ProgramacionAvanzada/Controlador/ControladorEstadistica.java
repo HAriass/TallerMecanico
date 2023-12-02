@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,34 +89,48 @@ public class ControladorEstadistica {
     
     @GetMapping("/estadistica/cantidadOrdenesPorTecnico")
     public String mostrarFormulario(Model modelo) {
-        // Obtén la lista de técnicos (asumo que tienes un servicio para obtenerlos)
-        List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
-
-        modelo.addAttribute("tecnicos", tecnicos);
-
         return "estadistica-ordenPorTecnico";
     }
-    @PostMapping("/estadistica/cantidadOrdenesPorTecnico")
-    public String procesarFormulario(
-            @RequestParam("tecnico") Long idTecnico,
-            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
-            @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
-            Model modelo) {
+@PostMapping("/estadisticaLaburoTecnico")
+public String mostrarDuracionOrdenesPorTecnico(
+        @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
+        @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
+        Model modelo) {
 
-        // Obtener la lista de órdenes para el técnico y el rango de fechas
-        List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorTecnicoYFechas(idTecnico, fechaInicio, fechaFin);
+    List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorRangoDeFecha(fechaInicio, fechaFin);
 
-        // Contar la cantidad de órdenes
-        int cantidadOrdenes = ordenes.size();
+    // Crear listas para nombres de técnicos y duraciones
+    List<String> nombresTecnicos = new ArrayList<>();
+    List<Long> duraciones = new ArrayList<>();
 
-        // Agregar los resultados al modelo para mostrarlos en la vista
-        modelo.addAttribute("tecnico", ordenes.isEmpty() ? null : ordenes.get(0).getTecnico()); // Asumiendo que la lista no estará vacía
-        modelo.addAttribute("fechaInicio", fechaInicio);
-        modelo.addAttribute("fechaFin", fechaFin);
-        modelo.addAttribute("cantidadOrdenes", cantidadOrdenes);
+    for (OrdenDeTrabajo orden : ordenes) {
+        Tecnico tecnico = orden.getTecnico();
+        long duracionOrden = orden.calcularDiferenciaFechas();
 
-        return "vistaResultados";  // Reemplaza "vistaResultados" con el nombre de tu vista.
+        System.out.println("Calculando duración para orden de " + tecnico.getNombre() + ": " + duracionOrden + " días");
+
+        if (duracionOrden < 0) {
+            System.out.println("¡Alerta! Duración negativa para la orden de " + tecnico.getNombre() + ". Fecha de inicio: " +
+                    orden.getFechaCreacion() + ", Fecha de fin: " + orden.getFechaEntrega());
+        }
+
+        nombresTecnicos.add(tecnico.getNombre());
+        duraciones.add(Math.max(0, duracionOrden));
     }
+
+    // Agrega las listas al modelo
+    modelo.addAttribute("nombresTecnicos", nombresTecnicos);
+    modelo.addAttribute("duraciones", duraciones);
+
+    // Imprimir el resultado del cálculo
+    System.out.println("Duraciones por Técnico: " + duraciones);
+
+    // Redirige a la vistaResultados
+    return "vistaResultados";
+}
+
+
+
     
     @GetMapping("/ordenDeTrabajo/filtroFecha")
     public String pedirFechas() {
@@ -139,5 +155,6 @@ public class ControladorEstadistica {
 
         return "ordenesDeTrabajoFiltradas";  
     }
+
 
 }

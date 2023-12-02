@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
@@ -75,5 +76,20 @@ public class OrdenDeTrabajo implements Serializable{
     public void calcularTotal() {
         subTotal = calcularSubTotal();
         total = subTotal - (subTotal * descuento) / 100;
+    }
+
+    public long calcularDiferenciaFechas() {
+        System.out.println("Calculando diferencia de fechas...");
+        if (fechaEntrega != null) {
+            Duration duracion = Duration.between(fechaCreacion.atStartOfDay(), fechaEntrega.atStartOfDay());
+            return duracion.toDays();
+        } else {
+            // Si fechaEntrega es nula, retorna 0 o el valor que consideres apropiado.
+            return 0;
+        }
+    }
+
+    public Tecnico getTecnico() {
+        return tecnico;
     }
 }

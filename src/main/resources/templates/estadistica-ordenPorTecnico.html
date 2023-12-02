@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Seleccionar Técnico y Fechas</title>
+    <title>Seleccionar Fechas</title>
     <!-- Agrega tus estilos CSS si es necesario -->
     <link rel="stylesheet" type="text/css" href="/css/modificarClienteStyles.css">
 </head>
 <body>
 
-<h1>Seleccionar Técnico y Fechas</h1>
+<h1>Seleccionar Fechas</h1>
 
-<form th:action="@{/estadistica/cantidadOrdenesPorTecnico}" method="post">
-    <div>
-        <label for="tecnico">Técnico:</label>
-        <select name="tecnico" id="tecnico" required>
-            <option value="">Seleccionar Técnico</option>
-            <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}"></option>
-        </select>
-    </div>
+<form th:action="@{/estadisticaLaburoTecnico}" method="post">
 
     <div>
         <label for="fechaInicio">Fecha de Inicio:</label>
@@ -29,7 +22,7 @@
     </div>
     <br>
     
-    <button class="boton" type="submit">Mostrar Órdenes</button>
+    <button class="boton" type="submit">Mostrar Estadistica</button>
 </form>
 
 </body>
