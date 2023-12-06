@@ -11,11 +11,11 @@
 </head>
 
 <body>
-    <h1>Listado De Repuestos</h1>
+    <h1>LISTADO DE REPUESTOS</h1>
 
     <!-- Botones de acción -->
-    <a th:href="@{/repuesto/nuevo}" class="btn btn-secondary">Registrar Repuesto</a>
-    <a th:href="@{/}" class="btn btn-secondary"> Volver </a>
+    <a th:href="@{/repuesto/nuevo}" class="btn btn-success m-1">Registrar Repuesto</a>
+    <a th:href="@{/}" class="btn btn-success m-1"> Volver </a>
 
     <!-- Contenedor para el formulario de búsqueda -->
     <div id="searchContainer">
@@ -50,7 +50,7 @@
             </tr>
         </table>
     </div>
-    <div th:if="${repuestos==null or repuestos.isEmpty()}">
+    <div  class="text-center" th:if="${repuestos==null or repuestos.isEmpty()}">
         No existen repuestos hasta el momento
     </div>
 

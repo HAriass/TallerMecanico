@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Datos del Vehiculo</h1>
-    <a th:href="@{/vehiculo}"class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}"class="btn btn-secondary">Inicio</a>
+    <h1>DATOS DEL VEHÍCULO</h1>
+    <a th:href="@{/vehiculo}"class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}"class="btn btn-success m-1">Inicio</a>
 
     <form id="addVehiculo" th:action="@{/vehiculo/modificar/{id}}" method="post" th:object="${vehiculo}">
         
@@ -29,7 +29,7 @@
         <input type="text" id="patente" name="patente" th:value="${vehiculo.patente}"  pattern="^[A-Z0-9]+$" required title="Ingrese una patente válida (mayúsculas y números)."/>
         <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}"></span>
         <span th:if="${error}" th:text="${error}"></span>
-        <span id="patente-error" style="color: red;"></span>
+        <span id="patente-error" style="color: rgb(0, 0, 0);"></span>
         
         <label for="cliente">Cliente: </label>
         <select name="cliente" id="cliente" form="addVehiculo">
@@ -44,7 +44,7 @@
             <option value="false">Inactivo</option>
         </select>
 
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);"/>
     </form>
     
     <script>

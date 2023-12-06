@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">  
 </head>
 <body>
-    <h1>Datos de la nueva marca</h1>
-    <a th:href="@{/marca}" class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
+    <h1>DATOS DE LA MARCA</h1>
+    <a th:href="@{/marca}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
 
     <form id="addMarca" th:action="@{/marca/modificar/{id}}" method="post" th:object="${marca}">
         <input type="hidden" th:field="*{id}" name="id" />
@@ -25,7 +25,7 @@
             <option value="false">Inactivo</option>
         </select>
 
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);"/>
     </form>
     <script>
         document.getElementById("modificarMarca").addEventListener("submit", function (event) {

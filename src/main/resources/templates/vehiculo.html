@@ -8,9 +8,9 @@
         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
     </head>
     <body>
-        <h1>Listado de vehiculos</h1>
-        <a th:href="@{/vehiculo/nuevo}"class="btn btn-secondary">Registrar vehiculo</a>
-        <a th:href="@{/}"class="btn btn-secondary">Volver</a>
+        <h1>LISTADO DE VEHÍCULOS</h1>
+        <a th:href="@{/vehiculo/nuevo}"class="btn btn-success m-1">Registrar vehiculo</a>
+        <a th:href="@{/}"class="btn btn-success m-1">Volver</a>
         
         <div th:if="${vehiculos!=null and not vehiculos.isEmpty()}">
             <br>
@@ -37,7 +37,7 @@
                 </tr>
             </table>
         </div>
-        <div th:if="${vehiculos==null or vehiculos.isEmpty()}">
+        <div class="text-center" th:if="${vehiculos==null or vehiculos.isEmpty()}">
             No existen vehiculos hasta el momento
         </div>
         

@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Agregar cantidad de un repuesto</h1>
-    <a th:href="@{/repuesto}" class="boton">Volver</a>
-    <a th:href="@{/}" class="boton">Inicio</a>
+    <h1>DATOS NUEVO REPUESTO</h1>
+    <a th:href="@{/repuesto}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
 
     <form id="addRepuesto" th:action="@{/repuesto/registrado}" method="post" th:object="${repuesto}">
         <label for="nombre">Nombre:</label>
@@ -24,7 +24,7 @@
         <label for="precio">Precio: </label>
         <input type="number" id="precio" name="precio" required/><br><br>
         
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="registrar" name="registrar" value="Registrar" />
     </form>
 
 </body>

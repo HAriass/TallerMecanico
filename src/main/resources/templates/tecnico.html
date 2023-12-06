@@ -7,9 +7,9 @@
         <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
     </head>
     <body>
-        <h1>Listado De Tecnicos</h1>
-        <a th:href="@{/tecnico/nuevo}"class="btn btn-secondary">Registrar Tecnico</a>
-        <a th:href="@{/}"class="btn btn-secondary"> Volver </a>
+        <h1>LISTADO DE TECNICOS</h1>
+        <a th:href="@{/tecnico/nuevo}"class="btn btn-success m-1">Registrar Tecnico</a>
+        <a th:href="@{/}"class="btn btn-success m-1"> Volver </a>
         
         <div th:if="${tecnicos!=null and not tecnicos.isEmpty()}">
             <br>
@@ -39,7 +39,7 @@
                 </tr>
             </table>
         </div>
-        <div th:if="${tecnicos==null or tecnicos.isEmpty()}">
+        <div class="text-center" th:if="${tecnicos==null or tecnicos.isEmpty()}">
             No existen tecnicos hasta el momento
         </div>
     </body>

@@ -8,9 +8,9 @@
         
     </head>
     <body>
-        <h1>Listado De Clientes</h1>
-        <a th:href="@{/cliente/nuevo}"class="btn btn-secondary">Registrar Cliente</a>
-        <a th:href="@{/}"class="btn btn-secondary"> Volver </a>
+        <h1>LISTADO DE CLIENTES</h1>
+        <a th:href="@{/cliente/nuevo}"class="btn btn-success m-1">Registrar Cliente</a>
+        <a th:href="@{/}"class="btn btn-success m-1"> Volver </a>
         
         
         <div th:if="${clientes!=null and not clientes.isEmpty()}">
@@ -41,7 +41,7 @@
                 </tr>
             </table>
         </div>
-        <div th:if="${clientes==null or clientes.isEmpty()}">
+        <div class="text-center" th:if="${clientes==null or clientes.isEmpty()}">
             No existen clientes hasta el momento
         </div>
     </body>

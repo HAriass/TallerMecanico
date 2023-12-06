@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Historial de Eliminación</h1>
-    <a th:href="@{/servicio}"class="btn btn-secondary"> Volver </a>
+    <a th:href="@{/servicio}"class="btn btn-success m-1"> Volver </a>
     
     <div th:if="${serviciosEliminados!=null and not serviciosEliminados.isEmpty()}">
         <br>
@@ -29,7 +29,7 @@
             </tr>
         </table>
     </div>
-    <div th:if="${serviciosEliminados==null or serviciosEliminados.isEmpty()}">
+    <div class="text-center" th:if="${serviciosEliminados==null or serviciosEliminados.isEmpty()}">
         No hay servicios eliminados hasta el momento.
     </div>
 </body>

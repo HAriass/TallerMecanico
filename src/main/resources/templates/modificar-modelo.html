@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Datos del Modelo</h1>
-    <a th:href="@{/modelo}" class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}"class="btn btn-secondary">Inicio</a>
+    <h1>DATOS DEL MODELO</h1>
+    <a th:href="@{/modelo}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}"class="btn btn-success m-1">Inicio</a>
 
     <form id="addModelo" th:action="@{/modelo/modificar/{id}}" method="post" th:object="${modelo}">
         
@@ -22,7 +22,7 @@
 
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}" title="Ingrese solo letras minúsculas y números." pattern="[a-z0-9]+" required/>
-        <span id="nombre-error" style="color: red;"></span>
+        <span id="nombre-error" style="color: rgb(0, 0, 0);"></span>
 
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addModelo" th:value="${modelo.estado}">
@@ -32,9 +32,9 @@
         
         <label for="anio">Año: </label>
         <input type="text" id="anio" name="anio" th:value="${modelo.anio}" title="Ingrese un año entre 1917 y 2023"/>
-        <span id="anio-error" style="color: red;"></span>
+        <span id="anio-error" style="color: rgb(0, 0, 0);"></span>
 
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);"/>
     </form>
     
     <script>

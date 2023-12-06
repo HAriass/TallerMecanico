@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Datos del Tecnico</h1>
-    <a th:href="@{/tecnico}"class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}"class="btn btn-secondary">Inicio</a>
+    <h1>DATOS DEL TECNICO</h1>
+    <a th:href="@{/tecnico}"class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}"class="btn btn-success m-1">Inicio</a>
 
     <form id="addTecnico" th:action="@{/tecnico/modificar/{id}}" method="post" th:object="${tecnico}">
         <input type="hidden" th:field="*{id}" name="id" />
@@ -45,7 +45,7 @@
         <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
         <span th:if="${error}" th:text="${error}"></span>
         
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);"/>
     </form>
     
     <script>

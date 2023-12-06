@@ -9,9 +9,9 @@
         
     </head>
     <body>
-        <h1>Listado De Marcas</h1>
-        <a th:href="@{/marca/nueva}" class="btn btn-secondary">Registrar Marca</a>
-        <a th:href="@{/}" class="btn btn-secondary"> Volver </a>
+        <h1>LISTADO DE MARCAS</h1>
+        <a th:href="@{/marca/nueva}" class="btn btn-success m-1">Registrar Marca</a>
+        <a th:href="@{/}" class="btn btn-success m-1"> Volver </a>
         
         <div th:if="${marcas!=null and not marcas.isEmpty()}">
             <br>
@@ -31,7 +31,7 @@
                 </tr>
             </table>
         </div>
-        <div th:if="${marcas==null or marcas.isEmpty()}">
+        <div class="text-center" th:if="${marcas==null or marcas.isEmpty()}">
             No existen marcas hasta el momento
         </div>
     </body>

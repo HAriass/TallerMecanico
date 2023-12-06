@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Datos del nuevo técnico</h1>
-    <a th:href="@{/tecnico}" class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}"class="btn btn-secondary">Inicio</a>
+    <h1>DATOS NUEVO TECNICO</h1>
+    <a th:href="@{/tecnico}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}"class="btn btn-success m-1">Inicio</a>
 
     <form id="addTecnico" th:action="@{/tecnico/registrado}" method="post" th:object="${tecnico}">
         <label for="nombre">Nombre:</label>
@@ -48,7 +48,7 @@
         <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
         <span id="dni-error" class="error"></span>
 
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
+        <input type="submit" id="registrar" name="registrar" value="Registrar" style="background-color: rgb(33, 136, 56);"/>
     </form>
 
     <script>

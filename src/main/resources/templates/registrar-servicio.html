@@ -5,11 +5,27 @@
             <title>Nuevo Servicio</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
             <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
+            <style>
+                /* Oculta las flechas en el campo de entrada de tipo número */
+                input[type=number]::-webkit-inner-spin-button,
+                input[type=number]::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+                .repuestos{
+                    height: 200px;
+                    overflow-y: auto;
+                    border: solid;
+                    border-color: grey;
+                    padding: 20px;
+                }
+                
+            </style>
                 </head>
                 <body>
-                    <h1>Datos del nuevo servicio</h1>
-                    <a th:href="@{/servicio}" class="btn btn-secondary">Volver</a>
-                    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
+                    <h1>DATOS NUEVO SERVICIO</h1>
+                    <a th:href="@{/servicio}" class="btn btn-success m-1">Volver</a>
+                    <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
 
                     <form id="addServicio" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}" onsubmit="return validarRepuestos()">
 
@@ -25,17 +41,21 @@
                         <label for="precio">Precio:</label>
                         <input type="number" name="precio" id="precio" required>
                             <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
-
+                            <label for="repuestos">Repuestos:</label>
                             <div class="repuestos">
-                                <div th:each="repuesto : ${repuestos}">
-                                    <label>
-                                        <span th:text="${repuesto.nombre}" style="color: black;"></span>
-                                        <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="repuestos" th:value="${repuesto.id}"/>
-                                    </label>
+                                <div>
+                                    <div th:each="repuesto : ${repuestos}">
+                                        <label>
+                                            <span th:text="${repuesto.nombre}" style="color: black;"></span>
+                                            <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="repuestos" th:value="${repuesto.id}"/>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="validarRepuestos();"/>
+                            </div>
+                            
+
+                            <input class="my-4" type="submit" id="registrar" name="registrar" value="Registrar" onclick="validarRepuestos();" style="background-color: rgb(33, 136, 56);"/>
                     </form>
                     <script>
                         function validarRepuestos() {

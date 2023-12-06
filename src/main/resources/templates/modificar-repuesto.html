@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
-    <h1>Datos del Repuesto</h1>
-    <a th:href="@{/repuesto}" class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
+    <h1>DATOS DEL REPUESTO</h1>
+    <a th:href="@{/repuesto}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
 
     <form id="addRepuesto" th:action="@{/repuesto/modificar/{id}}" method="post" th:object="${repuesto}">
         <input type="hidden" th:field="*{id}" name="id" />
@@ -26,7 +26,7 @@
         <label for="precio">Precio: </label>
         <input type="number" id="precio" name="precio" th:value="*{precio}" required/>
         
-        <input type="submit" id="modificar" name="modificar" value="Modificar" />
+        <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);" />
     </form>
 
 

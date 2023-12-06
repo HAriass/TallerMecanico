@@ -9,9 +9,9 @@
       
     </head>
     <body>
-        <h1>Listado De Servicios</h1>
-        <a th:href="@{/servicio/nuevo}"class="btn btn-secondary">Registrar Servicio</a>
-        <a th:href="@{/}"class="btn btn-secondary"> Volver </a>
+        <h1>LISTADO DE SERVICIOS</h1>
+        <a th:href="@{/servicio/nuevo}"class="btn btn-success m-1">Registrar Servicio</a>
+        <a th:href="@{/}"class="btn btn-success m-1"> Volver </a>
         
         <div th:if="${servicios!=null and not servicios.isEmpty()}">
             <br>
@@ -42,11 +42,11 @@
 
             </table>
         </div>
-        <div th:if="${servicios==null or servicios.isEmpty()}">
+        <div class="text-center" th:if="${servicios==null or servicios.isEmpty()}">
             No existen servicios hasta el momento
         </div>
         <!-- Agregado enlace para ir a la página de historial de eliminación -->
-        <a th:href="@{/historial-eliminacion}"><button class="btn btn-secondary">Historial de Eliminación</button></a>
+        <a th:href="@{/historial-eliminacion}"><button class="btn btn-success m-1">Historial de Eliminación</button></a>
 
     </body>
 </html>
