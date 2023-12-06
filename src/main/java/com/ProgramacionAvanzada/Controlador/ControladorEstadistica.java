@@ -91,43 +91,47 @@ public class ControladorEstadistica {
     public String mostrarFormulario(Model modelo) {
         return "estadistica-ordenPorTecnico";
     }
-@PostMapping("/estadisticaLaburoTecnico")
-public String mostrarDuracionOrdenesPorTecnico(
-        @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
-        @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
-        Model modelo) {
+    @PostMapping("/estadisticaLaburoTecnico")
+    public String mostrarDuracionOrdenesPorTecnico(
+            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
+            Model modelo) {
 
-    List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorRangoDeFecha(fechaInicio, fechaFin);
+        List<OrdenDeTrabajo> ordenes = ordenServicio.obtenerOrdenesPorRangoDeFecha(fechaInicio, fechaFin);
 
-    // Crear listas para nombres de técnicos y duraciones
-    List<String> nombresTecnicos = new ArrayList<>();
-    List<Long> duraciones = new ArrayList<>();
+        // Mapa para almacenar las duraciones acumuladas por técnico
+        Map<String, Long> duracionesPorTecnico = new HashMap<>();
 
-    for (OrdenDeTrabajo orden : ordenes) {
-        Tecnico tecnico = orden.getTecnico();
-        long duracionOrden = orden.calcularDiferenciaFechas();
+        for (OrdenDeTrabajo orden : ordenes) {
+            Tecnico tecnico = orden.getTecnico();
+            long duracionOrden = orden.calcularDiferenciaFechas();
 
-        System.out.println("Calculando duración para orden de " + tecnico.getNombre() + ": " + duracionOrden + " días");
+            System.out.println("Calculando duración para orden de " + tecnico.getNombre() + ": " + duracionOrden + " días");
 
-        if (duracionOrden < 0) {
-            System.out.println("¡Alerta! Duración negativa para la orden de " + tecnico.getNombre() + ". Fecha de inicio: " +
-                    orden.getFechaCreacion() + ", Fecha de fin: " + orden.getFechaEntrega());
+            if (duracionOrden < 0) {
+                System.out.println("¡Alerta! Duración negativa para la orden de " + tecnico.getNombre() + ". Fecha de inicio: " +
+                        orden.getFechaCreacion() + ", Fecha de fin: " + orden.getFechaEntrega());
+            }
+
+            // Sumar la duración al valor existente o iniciar en 0 si no existe
+            duracionesPorTecnico.merge(tecnico.getNombre(), duracionOrden, Long::sum);
         }
 
-        nombresTecnicos.add(tecnico.getNombre());
-        duraciones.add(Math.max(0, duracionOrden));
+        // Convertir el mapa a listas para Thymeleaf
+        List<String> nombresTecnicos = new ArrayList<>(duracionesPorTecnico.keySet());
+        List<Long> duraciones = new ArrayList<>(duracionesPorTecnico.values());
+
+        // Agrega las listas al modelo
+        modelo.addAttribute("nombresTecnicos", nombresTecnicos);
+        modelo.addAttribute("duraciones", duraciones);
+
+        // Imprimir el resultado del cálculo
+        System.out.println("Duraciones por Técnico: " + duracionesPorTecnico);
+
+        // Redirige a la vistaResultados
+        return "vistaResultados";
     }
 
-    // Agrega las listas al modelo
-    modelo.addAttribute("nombresTecnicos", nombresTecnicos);
-    modelo.addAttribute("duraciones", duraciones);
-
-    // Imprimir el resultado del cálculo
-    System.out.println("Duraciones por Técnico: " + duraciones);
-
-    // Redirige a la vistaResultados
-    return "vistaResultados";
-}
 
 
 

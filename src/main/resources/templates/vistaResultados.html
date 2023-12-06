@@ -2,23 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gráfico de Barras - Duración por Técnico</title>
-    <!-- Agrega las referencias necesarias para el gráfico de barras -->
+    <title>Gráfico estadístico</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 
 <div>
-    <h2>Gráfico de Barras - Duración por Técnico</h2>
-    
-    <!-- Agrega un contenedor para el gráfico -->
+    <h1>Gráfico de Barras - Porcentaje de ocupación por técnico</h1>
     <div id="bar-chart"></div>
 
     <script th:inline="javascript">
         /* Obtiene los datos del modelo */
         var nombresTecnicos = /*[[${nombresTecnicos}]]*/ [];
         var duraciones = /*[[${duraciones}]]*/ [];
-        
+
         /* Prepara los datos para Plotly */
         var data = [{
             x: nombresTecnicos,
@@ -26,22 +25,42 @@
             type: 'bar',
             marker: {
                 color: 'blue'
-            }
+            },
+            text: duraciones.map(duracion => `Duración: ${duracion} días`) // Texto personalizado para cada barra
         }];
 
         /* Define el diseño del gráfico */
         var layout = {
-            title: 'Duración por Técnico',
+            title: 'Porcentaje de ocupación por técnico en rango de fechas',
             xaxis: {
-                title: 'Técnico'
+                title: 'Técnico',
+                tickfont: {
+                    family: 'Arial, sans-serif', // Cambia 'Arial, sans-serif' por el tipo de letra que desees
+                    size: 16
+                }
             },
             yaxis: {
-                title: 'Duración (días)'
+                title: 'Duración (días)',
+                tickfont: {
+                    family: 'Arial, sans-serif', // Cambia 'Arial, sans-serif' por el tipo de letra que desees
+                    size: 16
+                },
+                automargin: false // Ajusta el rango del eje y automáticamente
+            },
+            font: {
+                family: 'Arial, sans-serif', // Cambia 'Arial, sans-serif' por el tipo de letra que desees para el título y leyendas
+                size: 16
             }
         };
 
-        /* Crea el gráfico de barras con Plotly */
-        Plotly.newPlot('bar-chart', data, layout);
+        /* Configura el "modebar" */
+        var config = {
+            displayModeBar: true,
+            modeBarButtonsToRemove: ['toImage', 'sendDataToCloud']
+        };
+
+        /* Crea el gráfico de barras con Plotly y aplica la configuración */
+        Plotly.newPlot('bar-chart', data, layout, config);
     </script>
 </div>
 
