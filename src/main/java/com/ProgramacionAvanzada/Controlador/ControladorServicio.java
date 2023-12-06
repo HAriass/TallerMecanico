@@ -82,9 +82,11 @@ public class ControladorServicio {
 
 
     @GetMapping("/servicio/modificar/{id}")
-    public String modificar(Servicio servicio, Model modelo) {
+    public String modificar(Servicio servicio, Model modelo, Repuesto repuesto) {
         servicio = servicioServicio.localizarServicio(servicio);
         modelo.addAttribute("servicio", servicio);
+        List<Repuesto> repuestos = repuestoServicio.listaRepuestos();
+        modelo.addAttribute("repuestos", repuestos);
         return "modificar-servicio";
     }
 

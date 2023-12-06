@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Nuevo Servicio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
-</head>
-<body>
-    <h1>Datos del nuevo servicio</h1>
-    <a th:href="@{/servicio}" class="btn btn-secondary">Volver</a>
-    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
+    <head>
+        <meta charset="UTF-8">
+            <title>Nuevo Servicio</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+            <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
+                </head>
+                <body>
+                    <h1>Datos del nuevo servicio</h1>
+                    <a th:href="@{/servicio}" class="btn btn-secondary">Volver</a>
+                    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
 
-    <form id="addServicio" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}" onsubmit="return validarRepuestos()">
-        
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" pattern="[a-z\s]+" required title="Solo letras minúsculas"/>
-        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
-        <span id="nombre-error" class="error"></span>
-        
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion"/>
-        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
-        
-        <label for="precio">Precio:</label>
-        <input type="number" name="precio" id="precio">
-        <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
-        
-        <div class="repuestos">
-            <div th:each="repuesto : ${repuestos}">
-                <label>
-                    <span th:text="${repuesto.nombre}" style="color: black;"></span>
-                    <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="repuestos" th:value="${repuesto.id}"/>
-                </label>
-            </div>
-        </div>
-        
-        <input type="submit" id="registrar" name="registrar" value="Registrar"/>
-    </form>
+                    <form id="addServicio" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}" onsubmit="return validarRepuestos()">
 
-</body>
-</html>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" pattern="[a-z\s]+" required title="Solo letras minúsculas"/>
+                        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        <span id="nombre-error" class="error"></span>
+
+                        <label for="descripcion">Descripción:</label>
+                        <input type="text" id="descripcion" name="descripcion" required/>
+                        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+
+                        <label for="precio">Precio:</label>
+                        <input type="number" name="precio" id="precio" required>
+                            <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
+
+                            <div class="repuestos">
+                                <div th:each="repuesto : ${repuestos}">
+                                    <label>
+                                        <span th:text="${repuesto.nombre}" style="color: black;"></span>
+                                        <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="repuestos" th:value="${repuesto.id}"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="validarRepuestos();"/>
+                    </form>
+                    <script>
+                        function validarRepuestos() {
+                            // Obtener los elementos de entrada de tipo checkbox para repuestos
+                            var checkboxes = document.querySelectorAll('input[name="repuestos"]:checked');
+
+                            // Verificar si al menos un repuesto está seleccionado
+                            if (checkboxes.length === 0) {
+                                alert("Seleccione al menos un repuesto antes de registrar el servicio.");
+                                return false; // Evitar que el formulario se envíe
+                            }
+
+                            return true; // Permitir que el formulario se envíe si al menos un repuesto está seleccionado
+                        }
+                    </script>
+
+                </body>
+                </html>

@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Modificar Servicio</title>
-    <link rel="stylesheet" type="text/css" href="/css/modificarMarcaStyles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
 </head>
 <body>
     <h1>Datos del servicio</h1>
-    <a th:href="@{/servicio}"class="boton">Volver</a>
-    <a th:href="@{/}"class="boton">Inicio</a>
+    <a th:href="@{/servicio}" class="btn btn-secondary">Volver</a>
+    <a th:href="@{/}" class="btn btn-secondary">Inicio</a>
 
     <form id="addMarca" th:action="@{/servicio/modificar/{id}}" method="post" th:object="${servicio}">
         <input type="hidden" th:field="*{id}" name="id" />
         
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:value="${servicio.nombre}" pattern="[a-z\s]+" required title="Solo letras minusculas"/>
+        <input type="text" id="nombre" name="nombre" th:value="${servicio.nombre}" pattern="[a-z\s]+" required title="Solo letras minúsculas"/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <span th:if="${error}" th:text="${error}"></span>
 
-        <label for="descripcion">Descripcion:</label>
+        <label for="descripcion">Descripción:</label>
         <input type="text" id="descripcion" name="descripcion" th:value="${servicio.descripcion}"/>
         <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
         
@@ -26,22 +27,30 @@
         <input type="text" name="precio" id="precio" th:value="${servicio.precio}">
         <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
         
-        <input type="submit" id="modificar" name="modificar" value="Modificar"/>
+        <div class="repuestos">
+            <div th:each="repuesto : ${repuestos}">
+                <label>
+                    <span th:text="${repuesto.nombre}" style="color: black;"></span>
+                    <input type="checkbox" th:id="${'repuesto_' + repuesto.id}" th:name="repuestos" th:value="${repuesto.id}" th:checked="${servicio.repuestos != null and servicio.repuestos.contains(repuesto)}"/>
+                </label>
+            </div>
+        </div>
+        
+        <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarRepuestos();"/>
     </form>
     <script>
-        document.getElementById("addMarca").addEventListener("submit", function (event) {
-            var nombreInput = document.getElementById("nombre");
-            var nombreError = document.getElementById("nombre-error");
+        function validarRepuestos() {
+            // Obtener los elementos de entrada de tipo checkbox para repuestos
+            var checkboxes = document.querySelectorAll('input[name="repuestos"]:checked');
 
-            nombreError.textContent = "";
-
-            if (!nombreInput.checkValidity()) {
-                event.preventDefault();
-                nombreError.textContent = "Ingrese solo letras minúsculas.";
+            // Verificar si al menos un repuesto está seleccionado
+            if (checkboxes.length === 0) {
+                alert("Seleccione al menos un repuesto antes de registrar el servicio.");
+                return false; // Evitar que el formulario se envíe
             }
-        });
+
+            return true; // Permitir que el formulario se envíe si al menos un repuesto está seleccionado
+        }
     </script>
-    
 </body>
 </html>
-
