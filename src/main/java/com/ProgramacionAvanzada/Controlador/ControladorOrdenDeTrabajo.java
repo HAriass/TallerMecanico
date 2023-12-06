@@ -129,7 +129,6 @@ public class ControladorOrdenDeTrabajo {
         // Establecer el técnico seleccionado en la orden de trabajo
         Tecnico tecnicoSeleccionado = ordenDeTrabajo.getTecnico();
         String informacionRelevante = ordenDeTrabajo.getInformacionRelevante();
-        System.out.println("Información Relevante: " + informacionRelevante);
         model.addAttribute("informacionRelevante", informacionRelevante);
 
         model.addAttribute("servicios", servicios);
@@ -181,7 +180,7 @@ public class ControladorOrdenDeTrabajo {
             // Actualizar los datos de la orden de trabajo existente
             ordenExistente.setVehiculo(ordenDeTrabajo.getVehiculo());
             ordenExistente.setServicio(ordenDeTrabajo.getServicio());
-            ordenExistente.setFechaCreacion(ordenDeTrabajo.getFechaCreacion());
+            ordenExistente.setFechaEntrega(ordenDeTrabajo.getFechaEntrega());
             ordenExistente.setInformacionRelevante(ordenDeTrabajo.getInformacionRelevante());
             ordenExistente.setTecnico(ordenDeTrabajo.getTecnico()); // Actualizar también el técnico
             ordenExistente.setDescuento(descuento);

@@ -75,7 +75,7 @@
 
         <div>
             <label for="fechaEntrega">Fecha de Entrega:</label>
-            <input type="date" id="fechaEntrega" name="fechaEntrega">
+            <input type="date" id="fechaEntrega" name="fechaEntrega" required>
             <span th:if="${#fields.hasErrors('fechaEntrega')}" th:errors="*{fechaEntrega}"></span>
         </div>
 

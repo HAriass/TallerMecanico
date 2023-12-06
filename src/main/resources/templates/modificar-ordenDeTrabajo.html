@@ -1,218 +1,171 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Modificar orden de trabajo</title>
-    <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
-    <style>
-        /* Oculta las flechas en el campo de entrada de tipo número */
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .servicios{
-            height: 100px;
-            overflow-y: auto;
-            border: solid;
-            border-color: grey;
-            padding: 20px;
-        }
-        
-    </style>
-</head>
-<body>
-    <h1>Modificar orden de trabajo</h1>
-    <a th:href="@{/ordenDeTrabajo}" class="boton">Volver</a>
-    <a th:href="@{/}"class="boton">Inicio</a>
+    <head>
+        <meta charset="UTF-8">
+        <title>Modificar orden de trabajo</title>
+        <link rel="stylesheet" type="text/css" href="/css/ordenDeTrabajo.css">
+        <style>
+            /* Oculta las flechas en el campo de entrada de tipo número */
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            .servicios{
+                height: 100px;
+                overflow-y: auto;
+                border: solid;
+                border-color: grey;
+                padding: 20px;
+            }
 
-    <form id="modificarOrdenDeTrabajo" th:action="@{'/ordenDeTrabajo/modificar/' + ${ordenDeTrabajo.id}}" method="post" th:object="${ordenDeTrabajo}">
-        <div>
-            <label for="vehiculo">Vehículo:</label>
-            <select name="vehiculo" id="vehiculo" required>
-                <option value="">Seleccionar Vehículo</option>
-                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" th:selected="${vehiculo == vehiculoSeleccionado}"></option>
-            </select>
-        </div>
+        </style>
+    </head>
+    <body>
+        <h1>Modificar orden de trabajo</h1>
+        <a th:href="@{/ordenDeTrabajo}" class="boton">Volver</a>
+        <a th:href="@{/}"class="boton">Inicio</a>
 
-        <div>
-            <label>Servicios:</label>
-            <div class="servicios">
-                <div th:each="servicio : ${servicios}">
-                    <label>
-                        <span th:text="${servicio.nombre} + ', precio: $' + ${servicio.precio}" style="color: black;"></span>
-                        <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}" th:checked="${serviciosSeleccionados != null and serviciosSeleccionados.contains(servicio)}"/>
-                    </label><br/>
-                </div>
+        <form id="modificarOrdenDeTrabajo" th:action="@{'/ordenDeTrabajo/modificar/' + ${ordenDeTrabajo.id}}" method="post" th:object="${ordenDeTrabajo}">
+            <div>
+                <label for="vehiculo">Vehículo:</label>
+                <select name="vehiculo" id="vehiculo" required>
+                    <option value="">Seleccionar Vehículo</option>
+                    <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" th:selected="${vehiculo == vehiculoSeleccionado}"></option>
+                </select>
             </div>
-            
-        </div>
-        
-        <div>
-            <label for="descuento">Descuento:</label>
-            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
-        </div>
 
-        
-        <div>
-            <p>Subtotal: $<span id="subtotal"></span></p>
-        </div>
-        <div>
-            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
-        </div>
-        <div>
-            <label for="tecnico">Técnico: </label>
-            <select name="tecnico" id="tecnico" required>
-                <option value="">Seleccionar Técnico</option>
-                <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}" th:selected="${tecnico == tecnicoSeleccionado}"></option>
-            </select>
-        </div>
+            <div>
+                <label>Servicios:</label>
+                <div class="servicios">
+                    <div th:each="servicio : ${servicios}">
+                        <label>
+                            <span th:text="${servicio.nombre} + ', precio: $' + ${servicio.precio}" style="color: black;"></span>
+                            <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}" th:checked="${serviciosSeleccionados != null and serviciosSeleccionados.contains(servicio)}"/>
+                        </label>
+                    </div>
+                </div>
 
-        <div>
-            <label for="fechaCreacion">Fecha:</label>
-            <input placeholder="dd/mm/yyyy" type="text" id="fechaCreacion" name="fechaCreacion" th:value="${ordenDeTrabajo.fechaCreacion}" required pattern="\d{2}/\d{2}/\d{4}" title="Utilice formato dd/mm/yyyy"/>
-            <span id="fechaCreacion-error"></span>
-        </div>
+            </div>
 
-        <div>
-            <label for="informacionRelevante">Información Relevante:</label>
-            <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}" required/>
-            <span id="informacionRelevante-error"></span>
-        </div>
+            <div>
+                <label for="descuento">Descuento:</label>
+                <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
+            </div>
 
-        <div>
-            <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarFormulario();"/>
-        </div>
-    </form>
-    
-    <script>
-    // Obtener los elementos de entrada de tipo checkbox
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-    // Obtener el elemento del subtotal
-    const subtotalElement = document.getElementById("subtotal");
-    
-    const descuentoElement = document.getElementById("descuento");
-    let precioConDescuento = 0;
-    
-    function tomarDescuento(){
-        let subtotal = 0;
-        const descuentoInput = document.getElementById("descuento");
-        const descuento = parseFloat(descuentoInput.value) || 0;
-        console.log(descuento);
-        subtotal = actualizarSubtotal();
-        precioConDescuento = subtotal - (subtotal * descuento / 100);
-        if(precioConDescuento<0){
+            <div>
+                <p>Subtotal: $<span id="subtotal"></span></p>
+            </div>
+            <div>
+                <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
+            </div>
+            <div>
+                <label for="tecnico">Técnico: </label>
+                <select name="tecnico" id="tecnico" required>
+                    <option value="">Seleccionar Técnico</option>
+                    <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}" th:text="${tecnico.nombre}" th:selected="${tecnico == tecnicoSeleccionado}"></option>
+                </select>
+            </div>
+
+            <div>
+                <label for="fechaEntrega">Fecha de Entrega:</label>
+                <input type="date" id="fechaEntrega" name="fechaEntrega" th:value="${fechaEntrega}" required>
+            </div>
+
+            <div>
+                <label for="informacionRelevante">Información Relevante:</label>
+                <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}" required/>
+                <span id="informacionRelevante-error"></span>
+            </div>
+
+            <div>
+                <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarServicios();"/>
+            </div>
+        </form>
+        <script>
+            // Obtener los elementos de entrada de tipo checkbox
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            // Obtener el elemento del subtotal
+            const subtotalElement = document.getElementById("subtotal");
+
+            const descuentoElement = document.getElementById("descuento");
+            let precioConDescuento = 0;
+
+            function tomarDescuento(){
+            let subtotal = 0;
+            const descuentoInput = document.getElementById("descuento");
+            const descuento = parseFloat(descuentoInput.value) || 0;
+            console.log(descuento);
+            subtotal = actualizarSubtotal();
+            precioConDescuento = subtotal - (subtotal * descuento / 100);
+            if(precioConDescuento<0){
             precioConDescuento = subtotal;
-        }
-        const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
-        precioConDescuentoElement.innerHTML = precioConDescuento;
-    }
+            }
+            const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
+            precioConDescuentoElement.innerHTML = precioConDescuento;
+            }
 
-    function actualizarSubtotal() {
-        let subtotal = 0;
-        checkboxes.forEach(checkbox => {
+            function actualizarSubtotal() {
+            let subtotal = 0;
+            checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
-                const precioStr = checkbox.getAttribute("data-precio");
-                const precioServicio = parseFloat(precioStr);
-                console.log(precioServicio);
-                subtotal += precioServicio;
+            const precioStr = checkbox.getAttribute("data-precio");
+            const precioServicio = parseFloat(precioStr);
+            console.log(precioServicio);
+            subtotal += precioServicio;
 
             }
-        });
-        subtotalElement.innerHTML = subtotal;
-        return subtotal; // Devolver el subtotal
-    }
+            });
+            subtotalElement.innerHTML = subtotal;
+            return subtotal; // Devolver el subtotal
+            }
 
-    // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", function() {
+            // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
+            checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", actualizarSubtotal);
+            });
+
+            // Llamar a la función de actualización al cargar la página
             actualizarSubtotal();
             tomarDescuento();
-        });
-    });
+        </script>
 
+        <script>
+            function validarServicios() {
+            var checkboxes = document.querySelectorAll("input[type='checkbox']");
+            var servicioSeleccionado = false;
 
-    // Llamar a la función de actualización al cargar la página
-    actualizarSubtotal();
-    tomarDescuento();
-    </script>
+            checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+            servicioSeleccionado = true;
+            }
+            });
 
-    <script>
-        function validarFecha(fechaInput) {
+            if (!servicioSeleccionado) {
+            alert("Seleccione al menos un servicio antes de registrar.");
+            return false;
+            }
+
             // Obtener la fecha actual
             var fechaActual = new Date();
 
             // Obtener la fecha ingresada desde el campo de entrada
-            var fechaIngresada = fechaInput.value;
+            var fechaIngresada = document.getElementById("fechaEntrega").value;
 
             // Convertir la fecha ingresada a un objeto de fecha JavaScript
-            var partesFecha = fechaIngresada.split("/");
-            var fechaFormulario = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]);
+            var fechaFormulario = new Date(fechaIngresada);
 
             // Comparar la fecha ingresada con la fecha actual
-            if (fechaFormulario > fechaActual) {
-                alert("La fecha ingresada no debe ser posterior a la fecha actual.");
-                fechaInput.value = ""; // Limpiar el campo de fecha
-                return false;
+            if (fechaFormulario < fechaActual) {
+            alert("La fecha de entrega no debe ser anterior a la fecha actual.");
+            return false;
             }
 
             return true;
-        }
-
-        function validarFormulario() {
-            var fechaInput = document.getElementById("fechaCreacion");
-            var fechaError = document.getElementById("fechaCreacion-error");
-
-            var informacionRelevanteInput = document.getElementById("informacionRelevante");
-            var informacionRelevanteError = document.getElementById("informacionRelevante-error");
-
-            fechaError.textContent = "";
-            informacionRelevanteError.textContent = "";
-
-            if (!fechaInput.checkValidity()) {
-                fechaError.textContent = "Formato de fecha inválido. Use dd/mm/yyyy.";
-                return false;
             }
+        </script>
 
-            if (!informacionRelevanteInput.checkValidity()) {
-                informacionRelevanteError.textContent = "Ingrese letras, números y espacios solamente.";
-                return false;
-            }
-
-            // Llamar a la función de validación de fecha
-            if (!validarFecha(fechaInput)) {
-                return false;
-            }
-
-            // Validar que al menos un servicio esté seleccionado
-            var checkboxes = document.querySelectorAll("input[type='checkbox']");
-            var servicioSeleccionado = false;
-
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    servicioSeleccionado = true;
-                }
-            });
-
-            if (!servicioSeleccionado) {
-                alert("Seleccione al menos un servicio antes de modificar.");
-                return false;
-            }
-
-            // Validar que todos los campos obligatorios estén completos
-            var form = document.getElementById("modificarOrdenDeTrabajo");
-            var inputs = form.querySelectorAll("input[required], select[required]");
-
-            for (var i = 0; i < inputs.length; i++) {
-                if (!inputs[i].value) {
-                    alert("Por favor, complete todos los campos obligatorios.");
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    </script>
-</body>
+    </body>
 </html>
