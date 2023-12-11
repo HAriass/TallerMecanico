@@ -16,4 +16,5 @@ public interface OrdenDeTrabajoServicio {
     public List<OrdenDeTrabajo> obtenerOrdenesPorTecnicoYFechas(Long idTecnico, LocalDate fechaInicio, LocalDate fechaFin);
     public List<OrdenDeTrabajo> obtenerOrdenesPorRangoDeFecha(LocalDate fechaInicio, LocalDate fechaFin);
 
+
 }

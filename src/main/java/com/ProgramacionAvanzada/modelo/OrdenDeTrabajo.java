@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -59,6 +60,10 @@ public class OrdenDeTrabajo implements Serializable{
     
     private float total;
     
+    @ColumnDefault("false")
+    private boolean eliminado;
+
+    private LocalDate fechaEliminado;
     
     private String informacionRelevante;
     

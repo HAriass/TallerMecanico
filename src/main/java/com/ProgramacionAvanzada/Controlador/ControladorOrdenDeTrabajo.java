@@ -206,5 +206,5 @@ public class ControladorOrdenDeTrabajo {
         model.addAttribute("orden", orden);
         return "generarFactura";
     }
-    
 }
+    

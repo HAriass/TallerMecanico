@@ -56,7 +56,7 @@
                     <td th:text="${orden.fechaCreacion}"></td>
                     <td th:text="${orden.fechaEntrega}"></td>
                     <td><a th:href="@{'/ordenDeTrabajo/modificar/' + ${orden.id}}" th:text="Modificar">Modificar</a></td>
-                    <td><a th:href="@{'/ordenDeTrabajo/eliminar/' + ${orden.id}}" th:text="Eliminar">Eliminar</a></td>
+                    <td><a th:href="@{ordenDeTrabajo/eliminar/}+${orden.id}" th:text="${orden.eliminado ? 'Restaurar' : 'Eliminar'}">${orden.eliminado ? 'Restaurar' : 'Eliminar'}</a></td>
                     <td><a th:href="@{'/ordenDeTrabajo/generarFactura/' + ${orden.id}}" th:text="'Generar Factura'">Generar Factura</a></td>
 
                 </tr>
@@ -65,8 +65,9 @@
         </div>
         <div class="text-center" th:if="${ordenes==null or ordenes.isEmpty()}">
             No existen orden de trabajo hasta el momento
+            
         </div>
-        
+        <a th:href="@{/historial-eliminacion-ordenDeTrabajo}"><button class="btn btn-success m-1">Historial de Eliminación</button></a>
         <script>
             function filtrarPorCliente() {
                 var clienteFiltro = document.getElementById("clienteFiltro").value;

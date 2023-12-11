@@ -19,7 +19,7 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
     @Transactional(readOnly = true)
     @Override
     public List<OrdenDeTrabajo> listaOrdenDeTrabajo() {
-        return (List<OrdenDeTrabajo>) ordenDeTrabajoDao.findAll();
+        return ordenDeTrabajoDao.findByEliminadoFalse();
     }
 
     @Override
@@ -29,7 +29,15 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
 
     @Override
     public void eliminar(OrdenDeTrabajo ordenDeTrabajo) {
-        ordenDeTrabajoDao.delete(ordenDeTrabajo);
+        OrdenDeTrabajo ordenEliminada = ordenDeTrabajoDao.findById(ordenDeTrabajo.getId()).orElse(null);
+
+        if (ordenEliminada != null) {
+            // Cambiar el atributo 'eliminado' a true
+            ordenEliminada.setEliminado(true);
+            // Establecer la fecha de eliminación como la fecha y hora actual
+            ordenEliminada.setFechaEliminado(LocalDate.now());
+            ordenDeTrabajoDao.save(ordenEliminada);
+        }
     }
 
     @Override
@@ -69,6 +77,21 @@ public class OrdenDeTrabajoServicioImplementacion implements OrdenDeTrabajoServi
         return ordenDeTrabajoDao.findByFechaCreacionBetween(fechaInicio, fechaFin);
     }
 
+    @Transactional(readOnly = true)
+    public List<OrdenDeTrabajo> obtenerOrdenesEliminadas() {
+        return ordenDeTrabajoDao.findByEliminadoTrue();
+    }
 
-    
+    public void restaurar(OrdenDeTrabajo orden) {
+        // Cargar el servicio desde la base de datos para evitar problemas con el contexto de persistencia
+        OrdenDeTrabajo ordenPersistente = ordenDeTrabajoDao.findById(orden.getId()).orElse(null);
+
+        // Verificar si el servicio existe antes de intentar restaurar
+        if (ordenPersistente != null) {
+            // Cambiar el atributo 'eliminado' a false
+            ordenPersistente.setEliminado(false);
+            // Guardar el servicio actualizado
+            ordenDeTrabajoDao.save(ordenPersistente);
+        }
+    }
 }

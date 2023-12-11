@@ -13,7 +13,7 @@
                     margin: 0;
                 }
                 .repuestos{
-                    height: 200px;
+                    height: 300px;
                     overflow-y: auto;
                     border: solid;
                     border-color: grey;
@@ -26,6 +26,7 @@
                     <h1>DATOS NUEVO SERVICIO</h1>
                     <a th:href="@{/servicio}" class="btn btn-success m-1">Volver</a>
                     <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
+                    <a th:href="@{/ordenDeTrabajo/nueva}" class="btn btn-success m-1">Registrar Orden de Trabajo</a>
 
                     <form id="addServicio" th:action="@{/servicio/registrado}" method="post" th:object="${servicio}" onsubmit="return validarRepuestos()">
 
