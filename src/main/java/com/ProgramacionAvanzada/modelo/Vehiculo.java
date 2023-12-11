@@ -42,6 +42,14 @@ public class Vehiculo implements Serializable{
     private Cliente cliente;
     
     private boolean estado;
+    
+    // Obtener el impuesto a través de la relación con Marca
+    public int getImpuesto() {
+        if (marca != null) {
+            return marca.getImpuesto();
+        }
+        return 0;
+    }
 
     
 }

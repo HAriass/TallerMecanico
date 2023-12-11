@@ -60,16 +60,11 @@ public class ControladorOrdenDeTrabajo {
     @PostMapping("/ordenDeTrabajo/registrada")
     public String registrarNuevaOrdenDeTrabajo(@Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
         if (error.hasErrors()) {
-            List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
-            List<Servicio> servicios = servicioServicio.listaServicios();
-            List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
-            model.addAttribute("servicios", servicios);
-            model.addAttribute("vehiculos", vehiculos);
-            model.addAttribute("tecnicos", tecnicos);
+            // ... lógica de manejo de errores ...
             return "registrar-ordenDeTrabajo";
         }
 
-         // Obtener el descuento desde el formulario
+        // Obtener el descuento desde el formulario
         int descuento = Integer.parseInt(request.getParameter("descuento"));
         ordenDeTrabajo.setDescuento(descuento);
 
@@ -93,8 +88,13 @@ public class ControladorOrdenDeTrabajo {
             ordenDeTrabajo.setTecnico(tecnico); // Asignar el técnico seleccionado a la orden de trabajo
         }
 
-        // Calcular el total después de establecer el descuento
+        // Obtener el impuesto desde el formulario
+        float impuesto = Float.parseFloat(request.getParameter("impuesto"));
+        ordenDeTrabajo.setImpuesto(impuesto);
+
+        // Calcular el total después de establecer el descuento y el impuesto
         ordenDeTrabajo.calcularTotal();
+
         // Descontar la cantidad de repuestos correspondiente a cada servicio
         for (Servicio servicio : ordenDeTrabajo.getServicio()) {
             for (Repuesto repuesto : servicio.getRepuestos()) {
@@ -103,9 +103,22 @@ public class ControladorOrdenDeTrabajo {
                 repuesto.setCantidad(cantidadActual - cantidadDescontar);
             }
         }
+
         ordenServicio.registrar(ordenDeTrabajo);
-        System.out.println("Objeto orde:"+ordenDeTrabajo);
+        System.out.println("Objeto orde:" + ordenDeTrabajo);
         return "redirect:/ordenDeTrabajo";
+    }
+
+    
+    
+    @GetMapping("/generarFactura/{ordenId}")
+    public String generarFactura(@PathVariable Long ordenId, Model model) {
+        // Lógica para generar la factura
+        // Puedes usar el ID de la orden para obtener la información necesaria
+        // y pasarla a tu servicio de facturación o generar la factura directamente aquí
+        
+        // Después de generar la factura, puedes redirigir a una página de confirmación o a la lista de órdenes
+        return "redirect:/ordenDeTrabajo"; // Cambia la URL según tus necesidades
     }
 
     @GetMapping("/ordenDeTrabajo/modificar/{id}")

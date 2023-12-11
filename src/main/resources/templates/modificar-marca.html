@@ -18,6 +18,11 @@
         <input type="text" id="nombre" name="nombre" th:value="${marca.nombre}" pattern="[a-z]+" title="Solo se permiten letras minúsculas sin números" required/>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <span th:if="${error}" th:text="${error}"></span>
+        
+        <label for="nombre">Impuesto:</label>
+        <input type="text" id="impuesto" name="impuesto" th:value="${marca.impuesto}" pattern="[0-9]+" title="Solo se permiten caracteres numericos" required/>
+        <span th:if="${#fields.hasErrors('impuesto')}" th:errors="*{impuesto}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
 
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" form="addMarca" th:value="${marca.estado}">

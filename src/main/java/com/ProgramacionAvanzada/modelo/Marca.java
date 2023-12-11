@@ -30,6 +30,10 @@ public class Marca implements Serializable{
     
     private boolean estado;
     
+    private int impuesto;
  
+    public int getImpuesto() {
+        return impuesto;
+    }
 }
 

@@ -18,6 +18,12 @@
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <span th:if="${error}" th:text="${error}"></span>
         <span id="nombre-error" style="color: rgb(0, 0, 0);"></span>
+        
+            <label for="nombre">Impuesto</label>
+        <input type="text" id="impuesto" name="impuesto" pattern="[0-9]+" title="Solo se permiten caracteres numericos"/>
+        <span th:if="${#fields.hasErrors('impuesto')}" th:errors="*{impuesto}"></span>
+        <span th:if="${error}" th:text="${error}"></span>
+        <span id="nombre-error" style="color: rgb(0, 0, 0);"></span>
 
         
         <label for="estado">Estado:</label>

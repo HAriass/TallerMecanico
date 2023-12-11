@@ -25,7 +25,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class OrdenDeTrabajo implements Serializable{
     
     private static final long serialVersionUID = 1L;
-    
+
+    private float impuesto;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +59,16 @@ public class OrdenDeTrabajo implements Serializable{
     
     private float total;
     
+    
     private String informacionRelevante;
+    
+    public float getImpuesto() {
+        return impuesto;
+    }
+
+    public void setImpuesto(float impuesto) {
+        this.impuesto = impuesto;
+    }
     
     public float calcularSubTotal() {
         float suma = 0;
@@ -73,9 +83,12 @@ public class OrdenDeTrabajo implements Serializable{
         return suma;
     }
 
-    public void calcularTotal() {
+      public void calcularTotal() {
         subTotal = calcularSubTotal();
-        total = subTotal - (subTotal * descuento) / 100;
+        
+        // Aplicar el impuesto solo al total
+        total = subTotal + (subTotal * (impuesto/100));
+        total = total - (total * (descuento/100));
     }
 
     public long calcularDiferenciaFechas() {

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Nueva orden de trabajo</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
     <style>
         /* Oculta las flechas en el campo de entrada de tipo número */
         input[type=number]::-webkit-inner-spin-button,
@@ -12,58 +13,63 @@
             -webkit-appearance: none;
             margin: 0;
         }
-        .servicios{
+
+        .servicios {
             height: 100px;
             overflow-y: auto;
             border: solid;
             border-color: grey;
             padding: 20px;
         }
-        
     </style>
-    
+
 </head>
+
 <body>
     <h1>DATOS NUEVA ORDEN DE TRABAJO</h1>
-    <a th:href="@{/ordenDeTrabajo}"class="btn btn-success m-1">Volver</a>
-    <a th:href="@{/}"class="btn btn-success m-1">Inicio</a>
+    <a th:href="@{/ordenDeTrabajo}" class="btn btn-success m-1">Volver</a>
+    <a th:href="@{/}" class="btn btn-success m-1">Inicio</a>
 
     <form id="addOrdenDeTrabajo" th:action="@{/ordenDeTrabajo/registrada}" method="post" th:object="${ordenDeTrabajo}">
         <div>
             <label for="vehiculo">Vehículo:</label>
             <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
-                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}" data-precio="${vehiculo.precio}"></option>
+                <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}"
+                    th:attr="data-impuesto=${vehiculo.impuesto}, data-impuesto=${vehiculo.marca.impuesto}"></option>
             </select>
         </div>
-        
+
         <label>Servicios:</label>
         <div class="servicios">
-            <div th:each="servicio : ${servicios}" >
+            <div th:each="servicio : ${servicios}">
                 <label>
-                    <span th:text="${servicio.nombre} +', precio: $'+ ${servicio.precio}" style="color: black;"></span>
-                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios" th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}"/>
+                    <span th:text="${servicio.nombre} +', precio: $'+ ${servicio.precio}"
+                        style="color: black;"></span>
+                    <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios"
+                        th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}" />
                 </label>
             </div>
         </div>
-        
+
         <div>
             <label for="descuento">Descuento:</label>
-            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}"
+                oninput="tomarDescuento()" />
         </div>
 
-        
         <div>
             <p>Subtotal: $<span id="subtotal"></span></p>
         </div>
         <div>
-            <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
+            <p>Precio con Descuento $<span id="precioConDescuento"></span></p>
         </div>
-        
 
-        
+        <!-- Campo oculto para almacenar el impuesto -->
+        <input type="hidden" id="impuesto" name="impuesto" value="0">
+
         <div>
-            <a th:href="@{/servicio/nuevo}" target="blank"class="btn btn-success m-1">Servicio Nuevo</a>
+            <a th:href="@{/servicio/nuevo}" target="blank" class="btn btn-success m-1">Servicio Nuevo</a>
         </div>
 
         <div>
@@ -80,71 +86,71 @@
             <span th:if="${#fields.hasErrors('fechaEntrega')}" th:errors="*{fechaEntrega}"></span>
         </div>
 
-
-
         <div>
             <label for="informacionRelevante">Información Relevante:</label>
-            <input type="text" id="informacionRelevante" name="informacionRelevante" required/>
+            <input type="text" id="informacionRelevante" name="informacionRelevante" required />
             <span th:if="${#fields.hasErrors('informacionRelevante')}" th:errors="*{informacionRelevante}"></span>
         </div>
-        
 
         <div>
-            <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="return validarServicios();" style="background-color: rgb(33, 136, 56);"/>
+            <input type="submit" id="registrar" name="registrar" value="Registrar" onclick="return validarServicios();"
+                style="background-color: rgb(33, 136, 56);" />
         </div>
     </form>
-    
 
-    <script>
-    // Obtener los elementos de entrada de tipo checkbox
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const subtotalElement = document.getElementById("subtotal");
 
-    // Obtener el elemento del subtotal
-    const subtotalElement = document.getElementById("subtotal");
-    
-    const descuentoElement = document.getElementById("descuento");
-    let precioConDescuento = 0;
-    
-    function tomarDescuento(){
-        let subtotal = 0;
-        const descuentoInput = document.getElementById("descuento");
-        const descuento = parseFloat(descuentoInput.value) || 0;
-        console.log(descuento);
-        subtotal = actualizarSubtotal();
-        precioConDescuento = subtotal - (subtotal * descuento / 100);
-        if(precioConDescuento<0){
-            precioConDescuento = subtotal;
+        function obtenerImpuesto(marcaId, callback) {
+            $.ajax({
+                url: '/api/marcas/' + marcaId, // Ajusta la ruta según tu configuración
+                type: 'GET',
+                success: function (marca) {
+                    callback(marca.impuesto);
+                },
+                error: function () {
+                    console.error('Error al obtener el impuesto.');
+                }
+            });
         }
-        const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
-        precioConDescuentoElement.innerHTML = precioConDescuento;
-    }
 
-    function actualizarSubtotal() {
-        let subtotal = 0;
+        function actualizarSubtotal() {
+            let subtotal = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const precioStr = checkbox.getAttribute("data-precio");
+                    const precioServicio = parseFloat(precioStr);
+                    subtotal += precioServicio;
+                }
+            });
+
+            // Obtener el impuesto asociado al vehículo seleccionado
+            const vehiculoSelect = document.getElementById("vehiculo");
+            const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
+
+            // Aplicar el impuesto al subtotal
+            subtotal = subtotal;
+
+            // Actualizar el elemento HTML que muestra el subtotal
+            subtotalElement.innerHTML = subtotal.toFixed(2); // Redondear a dos decimales
+
+            // Actualizar el campo oculto con el valor del impuesto
+            document.getElementById("impuesto").value = impuesto;
+
+            return subtotal; // Devolver el subtotal
+        }
+
         checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                const precioStr = checkbox.getAttribute("data-precio");
-                const precioServicio = parseFloat(precioStr);
-                console.log(precioServicio);
-                subtotal += precioServicio;
-
-            }
+            checkbox.addEventListener("change", actualizarSubtotal);
         });
-        subtotalElement.innerHTML = subtotal;
-        return subtotal; // Devolver el subtotal
-    }
 
-    // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", actualizarSubtotal);
-    });
-
-    // Llamar a la función de actualización al cargar la página
-    actualizarSubtotal();
-    tomarDescuento();
+        actualizarSubtotal();
+        /*]]>*/
     </script>
 
-   <script>
+    <script>
         function validarServicios() {
             var checkboxes = document.querySelectorAll("input[type='checkbox']");
             var servicioSeleccionado = false;
@@ -180,5 +186,5 @@
     </script>
 
 </body>
+
 </html>
-    
