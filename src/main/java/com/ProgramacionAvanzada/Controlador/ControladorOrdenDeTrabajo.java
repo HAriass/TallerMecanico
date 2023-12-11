@@ -109,18 +109,6 @@ public class ControladorOrdenDeTrabajo {
         return "redirect:/ordenDeTrabajo";
     }
 
-    
-    
-    @GetMapping("/generarFactura/{ordenId}")
-    public String generarFactura(@PathVariable Long ordenId, Model model) {
-        // Lógica para generar la factura
-        // Puedes usar el ID de la orden para obtener la información necesaria
-        // y pasarla a tu servicio de facturación o generar la factura directamente aquí
-        
-        // Después de generar la factura, puedes redirigir a una página de confirmación o a la lista de órdenes
-        return "redirect:/ordenDeTrabajo"; // Cambia la URL según tus necesidades
-    }
-
     @GetMapping("/ordenDeTrabajo/modificar/{id}")
     public String modificar(@PathVariable Long id, Model model) {
         OrdenDeTrabajo ordenDeTrabajo = ordenServicio.obtenerOrdenDeTrabajoPorId(id);
@@ -212,5 +200,11 @@ public class ControladorOrdenDeTrabajo {
         return "redirect:/ordenDeTrabajo";
     }
     
+    @GetMapping("/ordenDeTrabajo/generarFactura/{id}")
+    public String generarFactura(@PathVariable Long id, Model model) {
+        OrdenDeTrabajo orden = ordenServicio.obtenerOrdenDeTrabajoPorId(id);
+        model.addAttribute("orden", orden);
+        return "generarFactura";
+    }
     
 }

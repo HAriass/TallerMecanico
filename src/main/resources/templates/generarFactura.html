@@ -1,10 +1,95 @@
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Generar Factura</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/marcaStyles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice {
+            max-width: 800px;
+            margin: 30px auto 20px; /* Ajusté el margen superior a 30px */
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: white; /* Añade este estilo para el fondo blanco */
+        }
+
+        .invoice-header {
+            text-align: center;
+        }
+
+        .invoice-details {
+            margin-top: 20px;
+        }
+
+        .invoice-items {
+            margin-top: 30px;
+        }
+
+        .item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Estilo para los títulos en negrita */
+        .invoice-details p strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice">
+        <div class="invoice-header">
+            <h1>FACTURA</h1>
+        </div>
+
+        <div class="invoice-details">
+            <p><strong>Vehiculo:</strong> <span th:text="${orden.vehiculo.patente}"></span></p>
+            <p><strong>Cliente:</strong> <span th:text="${orden.vehiculo.cliente.nombre} +' '+ ${orden.vehiculo.cliente.apellido}"></span></p>
+            <p><strong>Técnico:</strong> <span th:text="${orden.tecnico != null ? orden.tecnico.nombre +' '+ orden.tecnico.apellido : 'N/A'}"></span></p>
+            <p><strong>Fecha de Creación:</strong> <span th:text="${orden.fechaCreacion}"></span></p>
+            <p><strong>Fecha de Entrega:</strong> <span th:text="${orden.fechaEntrega}"></span></p>
+            <p><strong>Impuesto Aplicado a la Marca:</strong> <span th:text="${orden.impuesto}"></span>%</p>
+            <p><strong>Descuento Aplicado:</strong> <span th:text="${orden.descuento}"></span>%</p>
+        </div>
+
+        <div class="invoice-items">
+            <div class="item">
+                <span><strong>Servicios</strong></span>
+                <span><strong>Subtotal</strong></span>
+            </div>
+
+            <th:block th:each="servicio : ${orden.servicio}">
+                <div class="item">
+                    <span th:text="${servicio.nombre}"></span>
+                    <span th:text="${'$' + servicio.precio}"></span>
+                </div>
+            </th:block>
+
+            <div class="total">
+                <p><strong>Total:</strong> <span th:text="${'$' + orden.total}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/ordenDeTrabajo}" class="btn btn-success m-1"> Volver al Listado de Órdenes</a>
+</body>
+
 </html>
