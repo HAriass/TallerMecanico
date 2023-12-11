@@ -32,10 +32,8 @@
         <input type="text" id="direccion" name="direccion" pattern="^[a-z0-9\s]*$" required title="Ingrese una dirección válida." />
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addCliente">
+        <select id="estado" name="estado" form="addCliente" style="display: none;">
             <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
         </select>
         
         <label for="dni">DNI:</label>

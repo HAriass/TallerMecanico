@@ -18,7 +18,6 @@
                 <tr>
                     <th>Marca</th>
                     <th>Nombre</th>
-                    <th>Estado</th>
                     <th>Año</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
@@ -27,7 +26,6 @@
                 <tr th:each="modelo: ${modelos}">
                     <td th:text="${modelo.marca.nombre}"></td>
                     <td th:text="${modelo.nombre}"></td>
-                    <td th:text="${modelo.estado}"></td>
                     <td th:text="${modelo.anio}"></td>
                     <td><a th:href="@{modelo/modificar/}+${modelo.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{modelo/eliminar/}+${modelo.id}" th:text="Eliminar">Eliminar</a></td>

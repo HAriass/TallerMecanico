@@ -24,11 +24,6 @@
         <input type="text" id="nombre" name="nombre" th:value="${modelo.nombre}" title="Ingrese solo letras minúsculas y números." pattern="[a-z0-9]+" required/>
         <span id="nombre-error" style="color: rgb(0, 0, 0);"></span>
 
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addModelo" th:value="${modelo.estado}">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-        </select>
         
         <label for="anio">Año: </label>
         <input type="text" id="anio" name="anio" th:value="${modelo.anio}" title="Ingrese un año entre 1917 y 2023"/>

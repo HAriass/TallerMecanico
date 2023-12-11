@@ -24,11 +24,6 @@
         <span th:if="${#fields.hasErrors('impuesto')}" th:errors="*{impuesto}"></span>
         <span th:if="${error}" th:text="${error}"></span>
 
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addMarca" th:value="${marca.estado}">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-        </select>
 
         <input type="submit" id="modificar" name="modificar" value="Modificar" style="background-color: rgb(33, 136, 56);"/>
     </form>

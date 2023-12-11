@@ -34,11 +34,6 @@
         <input type="text" id="direccion" name="direccion" th:value="${tecnico.direccion}" pattern="^[a-z0-9\s]*$" required title="Ingrese una dirección válida."/>
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
 
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addTecnico">
-            <option th:selected="${tecnico.estado == true}" value="true">Activo</option>
-            <option th:selected="${tecnico.estado == false}" value="false">Inactivo</option>
-        </select>
         
         <label for="dni">DNI:  </label>
         <input type="text" id="dni" name="dni" th:value="${tecnico.dni}" pattern="[0-9]+" required title="Ingrese solo números."/>

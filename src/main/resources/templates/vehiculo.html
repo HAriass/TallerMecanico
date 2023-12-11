@@ -20,7 +20,6 @@
                     <th>Modelo</th>
                     <th>Patente</th>
                     <th>Cliente</th>
-                    <th>Estado</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
 
@@ -30,7 +29,6 @@
                     <td th:text="${vehiculo.modelo.nombre}"></td>
                     <td th:text="${vehiculo.patente}"></td>
                     <td th:text="${vehiculo.cliente.nombre}"></td>
-                    <td th:text="${vehiculo.estado}"></td>
                     <td><a th:href="@{vehiculo/modificar/}+${vehiculo.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{vehiculo/eliminar/}+${vehiculo.id}" th:text="Eliminar">Eliminar</a></td>
 

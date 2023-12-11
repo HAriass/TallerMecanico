@@ -23,7 +23,6 @@
                     <th>Telefono</th>
                     <th>Email</th>
                     <th>Direccion</th>
-                    <th>Estado</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
 
@@ -35,7 +34,6 @@
                     <td th:text="${cliente.telefono}"></td>
                     <td th:text="${cliente.email}"></td>
                     <td th:text="${cliente.direccion}"></td>
-                    <td th:text="${cliente.estado}"></td>
                     <td><a th:href="@{cliente/modificar/}+${cliente.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{cliente/eliminar/}+${cliente.id}" th:text="Eliminar">Eliminar</a></td>
                 </tr>

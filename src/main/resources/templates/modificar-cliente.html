@@ -35,11 +35,6 @@
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         
         
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addCliente">
-            <option th:selected="${cliente.estado == true}" value="true">Activo</option>
-            <option th:selected="${cliente.estado == false}" value="false">Inactivo</option>
-        </select>
         
         <label for="dni">DNI:</label>
         <input type="text" id="dni" name="dni" th:value="${cliente.dni}" pattern="[0-9]+" required title="Ingrese solo números." />

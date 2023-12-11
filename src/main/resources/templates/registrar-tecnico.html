@@ -37,10 +37,8 @@
         <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
         <span id="direccion-error" class="error"></span>
         
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" form="addTecnico">
+        <select id="estado" name="estado" form="addTecnico" style="display: none;">
             <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
         </select>
         
         <label for="dni">DNI:  </label>

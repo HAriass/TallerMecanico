@@ -18,7 +18,6 @@
             <table border="2">
                 <tr>
                     <th>Nombre</th>
-                    <th>Estado</th>
                     <th>Impuesto</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
@@ -26,7 +25,6 @@
                 </tr>
                 <tr th:each="marca: ${marcas}">
                     <td th:text="${marca.nombre}"></td>
-                    <td th:text="${marca.estado}"></td>
                     <td th:text="${marca.impuesto}"></td>
                     <td><a th:href="@{/modificar/}+${marca.id}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{/eliminar/}+${marca.id}" th:text="Eliminar">Eliminar</a></td>
