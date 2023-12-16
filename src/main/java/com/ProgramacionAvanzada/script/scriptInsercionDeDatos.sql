@@ -8,13 +8,13 @@ VALUES
     (true, 'Sánchez', 'Calle 345', '56789012', 'sanchez@gmail.com', 'Javier', '123456789');
 
 -- Insertar marcas
-INSERT INTO public.marca (estado, nombre)
+INSERT INTO public.marca (estado,impuesto, nombre)
 VALUES
-    (true, 'Toyota'),
-    (true, 'Ford'),
-    (true, 'Chevrolet'),
-    (true, 'Honda'),
-    (true, 'Hyundai');
+    (true,10, 'Toyota'),
+    (true,15, 'Ford'),
+    (true,12, 'Chevrolet'),
+    (true,20, 'Honda'),
+    (true,25, 'Hyundai');
 
 -- Insertar modelos
 INSERT INTO public.modelo (estado, marca_id, anio, nombre)
@@ -111,13 +111,13 @@ VALUES
     (10,12);
 
 -- Insertar órdenes de trabajo actualizadas
-INSERT INTO public.orden_de_trabajo (descuento, fecha_creacion, fecha_entrega, sub_total, total, id_vehiculo, tecnico_id, informacion_relevante)
+INSERT INTO public.orden_de_trabajo (descuento, fecha_creacion, fecha_entrega, sub_total, total, id_vehiculo, tecnico_id, impuesto, informacion_relevante)
 VALUES
-    (10, '2023-12-02', '2023-12-21', 150, 135, 1, 1, 'Reparación de motor y frenos'),
-    (5, '2023-12-05', '2023-12-28', 80, 76, 2, 2, 'Cambio de aceite y filtro'),
-    (15, '2023-12-10', '2023-12-28', 200, 170, 1, 1, 'Reparación eléctrica y cambio de batería'),
-    (8, '2023-12-15', '2023-12-30', 250, 230, 2, 2, 'Balanceo de neumáticos y alineación de ruedas'),
-    (12, '2023-12-20', '2024-01-05', 180, 168, 3, 1, 'Reparación de motor y cambio de aceite avanzado');
+    (10, '2023-12-02', '2023-12-21', 150, 135, 1, 1, 0.1, 'Reparación de motor y frenos'),
+    (5, '2023-12-05', '2023-12-28', 80, 76, 2, 2, 0.1, 'Cambio de aceite y filtro'),
+    (15, '2023-12-10', '2023-12-28', 200, 170, 1, 1, 0.1, 'Reparación eléctrica y cambio de batería'),
+    (8, '2023-12-15', '2023-12-30', 250, 230, 2, 2, 0.1, 'Balanceo de neumáticos y alineación de ruedas'),
+    (12, '2023-12-20', '2024-01-05', 180, 168, 3, 1, 0.1, 'Reparación de motor y cambio de aceite avanzado');
 
 
 -- Insertar detalles de órdenes de trabajo
