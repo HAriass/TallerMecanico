@@ -31,7 +31,7 @@
                     <th>sub Total</th>
                     <th>Descuento Aplicado (%)</th>
                     <th>Impuesto Aplicado (%)</th>
-                    <th>Total (Con Descuento)</th>
+                    <th>Total</th>
                     <th>Informacion Relevante</th>
                     <th>Fecha de Creacion</th>
                     <th>Fecha de Entrega</th>
@@ -53,8 +53,8 @@
                     <td th:text="${orden.vehiculo.getImpuesto()}"></td> <!-- Mostrar el impuesto -->
                     <td th:text="${orden.total}"></td>
                     <td th:text="${orden.informacionRelevante}"></td>
-                    <td th:text="${orden.fechaCreacion}"></td>
-                    <td th:text="${orden.fechaEntrega}"></td>
+                    <td th:text="${#temporals.format(orden.fechaCreacion, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#temporals.format(orden.fechaEntrega, 'dd-MM-yyyy')}"></td>
                     <td><a th:href="@{'/ordenDeTrabajo/modificar/' + ${orden.id}}" th:text="Modificar">Modificar</a></td>
                     <td><a th:href="@{ordenDeTrabajo/eliminar/}+${orden.id}" th:text="${orden.eliminado ? 'Restaurar' : 'Eliminar'}">${orden.eliminado ? 'Restaurar' : 'Eliminar'}</a></td>
                     <td><a th:href="@{'/ordenDeTrabajo/generarFactura/' + ${orden.id}}" th:text="'Generar Factura'">Generar Factura</a></td>

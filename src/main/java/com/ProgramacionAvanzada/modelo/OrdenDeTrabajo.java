@@ -51,8 +51,20 @@ public class OrdenDeTrabajo implements Serializable{
 
     private LocalDate fechaCreacion = LocalDate.now();
     
-    @DateTimeFormat(pattern = "dd/MM/yyyy") // Añade esta anotación para especificar el formato de entrada
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaEntrega;
+
+   
+
+    public LocalDate getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(LocalDate fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+    
+    
         
     private float subTotal;
     
@@ -76,28 +88,40 @@ public class OrdenDeTrabajo implements Serializable{
     }
     
     public float calcularSubTotal() {
-        float suma = 0;
-        float suma2 = 0;
-        for (Servicio s : servicio) {
-            for (Repuesto r: s.getRepuestos()){
-                suma2 += r.getPrecio();
-            }
-        suma += s.getPrecio() + suma2;
-        
+    float subTotal = 0;
+
+    for (Servicio servicio : servicio) {
+        // Sumar el precio del servicio
+        subTotal += servicio.getPrecio();
+
+        // Sumar los precios de los repuestos asociados al servicio
+        for (Repuesto repuesto : servicio.getRepuestos()) {
+            subTotal += repuesto.getPrecio();
         }
-        return suma;
     }
 
-      public void calcularTotal() {
-        subTotal = calcularSubTotal();
-        
-        // Aplicar el impuesto solo al total
-        total = subTotal + (subTotal * (impuesto/100));
-        total = total - (total * (descuento/100));
-    }
+    return subTotal;
+}
+
+
+public void calcularTotal() {
+
+    subTotal = calcularSubTotal();
+    // Aplicar el impuesto al subTotal con descuento
+    float subtotalConImpuesto = subTotal + (subTotal * (impuesto / 100));
+    
+    // Restar el descuento al subtotal
+    float totalConDescuento = subtotalConImpuesto - (subtotalConImpuesto * (descuento / 100));
+    // Asignar el total calculado redondeado a dos decimales
+    total = (float) (Math.round(totalConDescuento * 100.0) / 100.0);
+    
+}
+
+
+
 
     public long calcularDiferenciaFechas() {
-        System.out.println("Calculando diferencia de fechas...");
+       
         if (fechaEntrega != null) {
             Duration duracion = Duration.between(fechaCreacion.atStartOfDay(), fechaEntrega.atStartOfDay());
             return duracion.toDays();
