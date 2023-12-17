@@ -102,10 +102,11 @@
         /*<![CDATA[*/
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const subtotalElement = document.getElementById("subtotal");
-
+        const impuestoElement = document.getElementById("impuesto");
+    
         function obtenerImpuesto(marcaId, callback) {
             $.ajax({
-                url: '/api/marcas/' + marcaId, // Ajusta la ruta según tu configuración
+                url: '/api/marcas/' + marcaId,
                 type: 'GET',
                 success: function (marca) {
                     callback(marca.impuesto);
@@ -115,9 +116,10 @@
                 }
             });
         }
-
+    
         function actualizarSubtotal() {
             let subtotal = 0;
+    
             checkboxes.forEach(checkbox => {
                 if (checkbox.checked) {
                     const precioStr = checkbox.getAttribute("data-precio");
@@ -125,31 +127,53 @@
                     subtotal += precioServicio;
                 }
             });
-
+    
             // Obtener el impuesto asociado al vehículo seleccionado
             const vehiculoSelect = document.getElementById("vehiculo");
             const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
-
+            console.log("impuesto" + impuesto);
+    
+            // Convertir subtotal a número antes de aplicar el impuesto
+            subtotal = parseFloat(subtotal);
+    
             // Aplicar el impuesto al subtotal
-            subtotal = subtotal;
-
+            subtotal += parseFloat(impuesto);
+    
             // Actualizar el elemento HTML que muestra el subtotal
             subtotalElement.innerHTML = subtotal.toFixed(2); // Redondear a dos decimales
-
+    
             // Actualizar el campo oculto con el valor del impuesto
-            document.getElementById("impuesto").value = impuesto;
-
+            impuestoElement.value = impuesto;
+    
+            console.log("subtotal" + subtotal);
             return subtotal; // Devolver el subtotal
         }
-
+    
+        function actualizarImpuesto() {
+            // Obtener el impuesto asociado al vehículo seleccionado
+            const vehiculoSelect = document.getElementById("vehiculo");
+            const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
+    
+            // Actualizar el campo oculto con el valor del impuesto
+            impuestoElement.value = impuesto;
+    
+            console.log("impuesto" + impuesto);
+        }
+    
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", actualizarSubtotal);
         });
-
+    
+        const vehiculoSelect = document.getElementById("vehiculo");
+        vehiculoSelect.addEventListener("change", function() {
+            actualizarImpuesto();
+            actualizarSubtotal();
+        });
+    
         actualizarSubtotal();
         /*]]>*/
     </script>
-
+    
     <script>
         function validarServicios() {
             var checkboxes = document.querySelectorAll("input[type='checkbox']");
