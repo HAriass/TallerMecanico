@@ -50,7 +50,7 @@
                     </td>
                     <td th:text="${orden.subTotal}"></td>
                     <td th:text="${orden.descuento}"></td>
-                    <td th:text="${orden.vehiculo.getImpuesto()}"></td> <!-- Mostrar el impuesto -->
+                    <td th:text="${orden.vehiculo.getImpuesto()}"></td> 
                     <td th:text="${orden.total}"></td>
                     <td th:text="${orden.informacionRelevante}"></td>
                     <td th:text="${#temporals.format(orden.fechaCreacion, 'dd-MM-yyyy')}"></td>

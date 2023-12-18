@@ -65,6 +65,7 @@ public class ControladorServicio {
             }
 
             // Actualizar el servicio en la base de datos
+            //servicio.calcularSubTotalRepuesto();
             servicioServicio.registrar(servicio);
 
         } catch (DataIntegrityViolationException ex) {

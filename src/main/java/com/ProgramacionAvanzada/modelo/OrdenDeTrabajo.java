@@ -1,4 +1,3 @@
-
 package com.ProgramacionAvanzada.modelo;
 
 import jakarta.persistence.Entity;
@@ -11,6 +10,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
@@ -87,35 +88,43 @@ public class OrdenDeTrabajo implements Serializable{
         this.impuesto = impuesto;
     }
     
+    public void setDescuento(int descuento){
+        this.descuento = descuento;
+    }
+    
     public float calcularSubTotal() {
-    float subTotal = 0;
+        float subTotal = 0;
 
-    for (Servicio servicio : servicio) {
-        // Sumar el precio del servicio
-        subTotal += servicio.getPrecio();
+        for (Servicio servicio : servicio) {
+            float precioServicio = servicio.getPrecio();
+            float subTotalRepuesto = servicio.calcularSubTotalRepuesto();
 
-        // Sumar los precios de los repuestos asociados al servicio
-        for (Repuesto repuesto : servicio.getRepuestos()) {
-            subTotal += repuesto.getPrecio();
+            // Sumar el precio del servicio
+            subTotal = subTotal + precioServicio + subTotalRepuesto;
         }
+
+        // Sumar el impuesto directamente al subtotal
+        subTotal += impuesto;
+
+        // Asignar el resultado directamente al atributo subTotal
+        this.subTotal = subTotal;
+        return this.subTotal;
     }
 
-    return subTotal;
-}
+    public void calcularTotal() {
+        float subTotal = calcularSubTotal();
+
+        // Convertir descuento a float antes de realizar la operación
+        float descuentoFloat = (float) this.descuento;
+
+        // Restar el descuento al subtotal con impuesto
+        float totalConDescuento = subTotal - subTotal * (descuentoFloat / 100.0f);
+
+        // Asignar el resultado directamente al atributo total
+        this.total = totalConDescuento;
+    }
 
 
-public void calcularTotal() {
-
-    subTotal = calcularSubTotal();
-    // Aplicar el impuesto al subTotal con descuento
-    float subtotalConImpuesto = subTotal + (subTotal * (impuesto / 100));
-    
-    // Restar el descuento al subtotal
-    float totalConDescuento = subtotalConImpuesto - (subtotalConImpuesto * (descuento / 100));
-    // Asignar el total calculado redondeado a dos decimales
-    total = (float) (Math.round(totalConDescuento * 100.0) / 100.0);
-    
-}
 
 
 

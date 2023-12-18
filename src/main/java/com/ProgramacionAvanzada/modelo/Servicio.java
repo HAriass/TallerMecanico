@@ -45,6 +45,8 @@ public class Servicio implements Serializable {
     private boolean eliminado;
 
     private LocalDate fechaEliminado;
+    
+    //private float subTotalRepuesto;
 
     @ManyToMany
     @JoinTable(
@@ -60,7 +62,19 @@ public class Servicio implements Serializable {
     }
     repuestos.add(repuesto);
     repuesto.getServicios().add(this);
-}
+    }
 
     // Constructor, getters, setters, etc.
+    
+    public float calcularSubTotalRepuesto(){
+        float sumaPrecios = 0;
+
+        for (Repuesto repuesto : repuestos) {
+            sumaPrecios += repuesto.getPrecio();
+        }
+
+        return sumaPrecios;
+    }
+    
+    
 }

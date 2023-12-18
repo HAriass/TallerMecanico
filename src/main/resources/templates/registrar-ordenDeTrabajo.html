@@ -36,7 +36,7 @@
             <select name="vehiculo" id="vehiculo" required>
                 <option value="">Seleccionar Vehículo</option>
                 <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.patente}"
-                    th:attr="data-impuesto=${vehiculo.impuesto}, data-impuesto=${vehiculo.marca.impuesto}"></option>
+                    th:attr="data-impuesto=${vehiculo.marca.impuesto}"></option>
             </select>
         </div>
 
@@ -47,15 +47,14 @@
                     <span th:text="${servicio.nombre} +', precio: $'+ ${servicio.precio}"
                         style="color: black;"></span>
                     <input type="checkbox" th:id="${'servicio_' + servicio.id}" th:name="servicios"
-                        th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}" />
+                        th:value="${servicio.id}" th:attr="data-precio=${servicio.precio}, subTotalRepuesto=${servicio.calcularSubTotalRepuesto}" />
                 </label>
             </div>
         </div>
 
         <div>
             <label for="descuento">Descuento:</label>
-            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}"
-                oninput="tomarDescuento()" />
+            <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="actualizarDescuento()" />
         </div>
 
         <div>
@@ -103,7 +102,7 @@
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const subtotalElement = document.getElementById("subtotal");
         const impuestoElement = document.getElementById("impuesto");
-    
+
         function obtenerImpuesto(marcaId, callback) {
             $.ajax({
                 url: '/api/marcas/' + marcaId,
@@ -116,64 +115,92 @@
                 }
             });
         }
-    
+
         function actualizarSubtotal() {
             let subtotal = 0;
-    
+
             checkboxes.forEach(checkbox => {
                 if (checkbox.checked) {
                     const precioStr = checkbox.getAttribute("data-precio");
                     const precioServicio = parseFloat(precioStr);
-                    subtotal += precioServicio;
+                    console.log("precio servicio " + precioServicio);
+
+                    const subTotalRepuestoStr = checkbox.getAttribute("subTotalRepuesto");
+                    const subTotalRepuesto = parseFloat(subTotalRepuestoStr);
+                    console.log("subtotal repuesto" + subTotalRepuesto);
+
+                    subtotal = subtotal + precioServicio + subTotalRepuesto;
+                    console.log("subtotal en el for" + subtotal);
+
                 }
             });
-    
+
             // Obtener el impuesto asociado al vehículo seleccionado
             const vehiculoSelect = document.getElementById("vehiculo");
             const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
-            console.log("impuesto" + impuesto);
-    
+
             // Convertir subtotal a número antes de aplicar el impuesto
             subtotal = parseFloat(subtotal);
-    
+
             // Aplicar el impuesto al subtotal
             subtotal += parseFloat(impuesto);
-    
+
             // Actualizar el elemento HTML que muestra el subtotal
             subtotalElement.innerHTML = subtotal.toFixed(2); // Redondear a dos decimales
-    
+
             // Actualizar el campo oculto con el valor del impuesto
             impuestoElement.value = impuesto;
-    
-            console.log("subtotal" + subtotal);
+
             return subtotal; // Devolver el subtotal
         }
-    
+
         function actualizarImpuesto() {
             // Obtener el impuesto asociado al vehículo seleccionado
             const vehiculoSelect = document.getElementById("vehiculo");
             const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
-    
+
             // Actualizar el campo oculto con el valor del impuesto
             impuestoElement.value = impuesto;
-    
-            console.log("impuesto" + impuesto);
+
         }
-    
+
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", actualizarSubtotal);
         });
-    
+
         const vehiculoSelect = document.getElementById("vehiculo");
-        vehiculoSelect.addEventListener("change", function() {
+        vehiculoSelect.addEventListener("change", function () {
             actualizarImpuesto();
             actualizarSubtotal();
         });
-    
-        actualizarSubtotal();
+
+        function obtenerDescuento() {
+            // Obtener el elemento de entrada de descuento
+            const descuentoInput = document.getElementById("descuento");
+
+            // Obtener el valor del descuento y convertirlo a un número
+            const descuento = parseFloat(descuentoInput.value) || 0;
+
+            // Obtener el subtotal actual
+            const subtotal = actualizarSubtotal();
+
+            // Calcular el precio con descuento
+            const precioConDescuento = subtotal - subtotal * (descuento / 100);
+
+            // Actualizar el elemento HTML que muestra el precio con descuento
+            const precioConDescuentoElement = document.getElementById("precioConDescuento");
+            precioConDescuentoElement.innerHTML = precioConDescuento.toFixed(2); // Redondear a dos decimales
+        }
+
+        function actualizarDescuento() {
+            // Llamamos a la función obtenerDescuento al actualizar el descuento
+            obtenerDescuento();
+        }
+
+        obtenerDescuento(); // Llamamos a la función al cargar la página
         /*]]>*/
     </script>
-    
+
     <script>
         function validarServicios() {
             var checkboxes = document.querySelectorAll("input[type='checkbox']");

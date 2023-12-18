@@ -67,6 +67,7 @@ public class ControladorOrdenDeTrabajo {
         // Obtener el descuento desde el formulario
         int descuento = Integer.parseInt(request.getParameter("descuento"));
         ordenDeTrabajo.setDescuento(descuento);
+        System.out.println("descuento" + descuento);
 
         // Obtener los IDs de los servicios seleccionados desde el formulario
         String[] servicioIds = request.getParameterValues("servicios");
@@ -75,8 +76,10 @@ public class ControladorOrdenDeTrabajo {
         List<Servicio> serviciosSeleccionados = new ArrayList<>();
         for (String servicioId : servicioIds) {
             Long id = Long.parseLong(servicioId);
-            Servicio servicio = servicioServicio.obtenerServicioPorId(id); // Debes implementar este método
+            Servicio servicio = servicioServicio.obtenerServicioPorId(id); 
             serviciosSeleccionados.add(servicio);
+            System.out.println("servicio seleccionado" + serviciosSeleccionados);
+
         }
         ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
 
@@ -91,6 +94,10 @@ public class ControladorOrdenDeTrabajo {
         // Obtener el impuesto desde el formulario
         float impuesto = Float.parseFloat(request.getParameter("impuesto"));
         ordenDeTrabajo.setImpuesto(impuesto);
+        System.out.println("impuesto" + impuesto);
+
+        ordenDeTrabajo.calcularSubTotal();
+        
 
         // Calcular el total después de establecer el descuento y el impuesto
         ordenDeTrabajo.calcularTotal();
@@ -105,7 +112,10 @@ public class ControladorOrdenDeTrabajo {
         }
 
         ordenServicio.registrar(ordenDeTrabajo);
-        System.out.println("Objeto orde:" + ordenDeTrabajo);
+        System.out.println("Descuento: " + descuento);
+        System.out.println("Servicios seleccionados: " + serviciosSeleccionados);
+        System.out.println("Impuesto: " + impuesto);
+
         return "redirect:/ordenDeTrabajo";
     }
 
