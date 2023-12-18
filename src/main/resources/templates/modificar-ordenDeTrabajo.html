@@ -46,7 +46,6 @@
                         </label>
                     </div>
                 </div>
-
             </div>
 
             <div>
@@ -54,13 +53,17 @@
                 <input inputmode="numeric" type="number" id="descuento" name="descuento" th:field="*{descuento}" oninput="tomarDescuento()" />
             </div>
 
+            <div>
+                Subtotal: $<span th:if="${ordenDeTrabajo.subTotal ne null}" th:text="${ordenDeTrabajo.subTotal}">0.0</span>
+            </div>
+            <div>
+                <!-- Utiliza la expresión Thymeleaf para calcular el precio con descuento -->
+                precioConDescuento $<span th:if="${ordenDeTrabajo.total ne null}" th:text="${ordenDeTrabajo.total}">0.0</span>
 
-            <div>
-                <p>Subtotal: $<span id="subtotal"></span></p>
             </div>
-            <div>
-                <p>precioConDescuento $<span id="precioConDescuento" ></span></p> <!-- Corrección en el ID -->
-            </div>
+            <!-- Campo oculto para almacenar el impuesto -->
+            <input type="hidden" id="impuesto" name="impuesto" value="0">
+            
             <div>
                 <label for="tecnico">Técnico: </label>
                 <select name="tecnico" id="tecnico" required>
@@ -71,12 +74,12 @@
 
             <div>
                 <label for="fechaEntrega">Fecha de Entrega:</label>
-                <input type="date" id="fechaEntrega" name="fechaEntrega" th:value="${fechaEntrega}" required>
+                <input type="date" id="fechaEntrega" name="fechaEntrega" th:value="${ordenDeTrabajo.fechaEntrega}" required>
             </div>
 
             <div>
                 <label for="informacionRelevante">Información Relevante:</label>
-                <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${informacionRelevante}" required/>
+                <input type="text" id="informacionRelevante" name="informacionRelevante" th:value="${ordenDeTrabajo.informacionRelevante}" required/>
                 <span id="informacionRelevante-error"></span>
             </div>
 
@@ -84,69 +87,125 @@
                 <input type="submit" id="modificar" name="modificar" value="Modificar" onclick="return validarServicios();" style="background-color: rgb(33, 136, 56);"/>
             </div>
         </form>
-        <script>
-            // Obtener los elementos de entrada de tipo checkbox
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const subtotalElement = document.getElementById("subtotal");
+        const impuestoElement = document.getElementById("impuesto");
 
-            // Obtener el elemento del subtotal
-            const subtotalElement = document.getElementById("subtotal");
-
-            const descuentoElement = document.getElementById("descuento");
-            let precioConDescuento = 0;
-
-            function tomarDescuento(){
-            let subtotal = 0;
-            const descuentoInput = document.getElementById("descuento");
-            const descuento = parseFloat(descuentoInput.value) || 0;
-            console.log(descuento);
-            subtotal = actualizarSubtotal();
-            precioConDescuento = subtotal - (subtotal * descuento / 100);
-            if(precioConDescuento<0){
-            precioConDescuento = subtotal;
-            }
-            const precioConDescuentoElement = document.getElementById("precioConDescuento"); 
-            precioConDescuentoElement.innerHTML = precioConDescuento;
-            }
-
-            function actualizarSubtotal() {
-            let subtotal = 0;
-            checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-            const precioStr = checkbox.getAttribute("data-precio");
-            const precioServicio = parseFloat(precioStr);
-            console.log(precioServicio);
-            subtotal += precioServicio;
-
-            }
+        function obtenerImpuesto(marcaId, callback) {
+            $.ajax({
+                url: '/api/marcas/' + marcaId,
+                type: 'GET',
+                success: function (marca) {
+                    callback(marca.impuesto);
+                },
+                error: function () {
+                    console.error('Error al obtener el impuesto.');
+                }
             });
-            subtotalElement.innerHTML = subtotal;
+        }
+
+        function actualizarSubtotal() {
+            let subtotal = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const precioStr = checkbox.getAttribute("data-precio");
+                    const precioServicio = parseFloat(precioStr);
+                    console.log("precio servicio " + precioServicio);
+
+                    const subTotalRepuestoStr = checkbox.getAttribute("subTotalRepuesto");
+                    const subTotalRepuesto = parseFloat(subTotalRepuestoStr);
+                    console.log("subtotal repuesto" + subTotalRepuesto);
+
+                    subtotal = subtotal + precioServicio + subTotalRepuesto;
+                    console.log("subtotal en el for" + subtotal);
+
+                }
+            });
+
+            // Obtener el impuesto asociado al vehículo seleccionado
+            const vehiculoSelect = document.getElementById("vehiculo");
+            const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
+
+            // Convertir subtotal a número antes de aplicar el impuesto
+            subtotal = parseFloat(subtotal);
+
+            // Aplicar el impuesto al subtotal
+            subtotal += parseFloat(impuesto);
+
+            // Actualizar el elemento HTML que muestra el subtotal
+            subtotalElement.innerHTML = subtotal.toFixed(2); // Redondear a dos decimales
+
+            // Actualizar el campo oculto con el valor del impuesto
+            impuestoElement.value = impuesto;
+
             return subtotal; // Devolver el subtotal
-            }
+        }
 
-            // Agregar un evento "change" a cada checkbox para llamar a la función de actualización
-            checkboxes.forEach(checkbox => {
+        function actualizarImpuesto() {
+            // Obtener el impuesto asociado al vehículo seleccionado
+            const vehiculoSelect = document.getElementById("vehiculo");
+            const impuesto = vehiculoSelect.options[vehiculoSelect.selectedIndex].getAttribute("data-impuesto");
+
+            // Actualizar el campo oculto con el valor del impuesto
+            impuestoElement.value = impuesto;
+
+        }
+
+        checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", actualizarSubtotal);
-            });
+        });
 
-            // Llamar a la función de actualización al cargar la página
+        const vehiculoSelect = document.getElementById("vehiculo");
+        vehiculoSelect.addEventListener("change", function () {
+            actualizarImpuesto();
             actualizarSubtotal();
-            tomarDescuento();
-        </script>
+        });
 
-        <script>
-            function validarServicios() {
+        function obtenerDescuento() {
+            // Obtener el elemento de entrada de descuento
+            const descuentoInput = document.getElementById("descuento");
+
+            // Obtener el valor del descuento y convertirlo a un número
+            const descuento = parseFloat(descuentoInput.value) || 0;
+
+            // Obtener el subtotal actual
+            const subtotal = actualizarSubtotal();
+
+            // Calcular el precio con descuento
+            const precioConDescuento = subtotal - subtotal * (descuento / 100);
+
+            // Actualizar el elemento HTML que muestra el precio con descuento
+            const precioConDescuentoElement = document.getElementById("precioConDescuento");
+            precioConDescuentoElement.innerHTML = precioConDescuento.toFixed(2); // Redondear a dos decimales
+        }
+
+        function actualizarDescuento() {
+            // Llamamos a la función obtenerDescuento al actualizar el descuento
+            obtenerDescuento();
+        }
+
+        obtenerDescuento(); // Llamamos a la función al cargar la página
+        /*]]>*/
+    </script>
+
+    <script>
+        function validarServicios() {
             var checkboxes = document.querySelectorAll("input[type='checkbox']");
             var servicioSeleccionado = false;
 
             checkboxes.forEach(function (checkbox) {
-            if (checkbox.checked) {
-            servicioSeleccionado = true;
-            }
+                if (checkbox.checked) {
+                    servicioSeleccionado = true;
+                }
             });
 
             if (!servicioSeleccionado) {
-            alert("Seleccione al menos un servicio antes de registrar.");
-            return false;
+                alert("Seleccione al menos un servicio antes de registrar.");
+                return false;
             }
 
             // Obtener la fecha actual
@@ -160,13 +219,13 @@
 
             // Comparar la fecha ingresada con la fecha actual
             if (fechaFormulario < fechaActual) {
-            alert("La fecha de entrega no debe ser anterior a la fecha actual.");
-            return false;
+                alert("La fecha de entrega no debe ser anterior a la fecha actual.");
+                return false;
             }
 
             return true;
-            }
-        </script>
+        }
+    </script>
 
     </body>
 </html>

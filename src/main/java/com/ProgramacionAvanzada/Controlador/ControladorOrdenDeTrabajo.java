@@ -120,87 +120,87 @@ public class ControladorOrdenDeTrabajo {
     }
 
     @GetMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificar(@PathVariable Long id, Model model) {
-        OrdenDeTrabajo ordenDeTrabajo = ordenServicio.obtenerOrdenDeTrabajoPorId(id);
+public String modificar(@PathVariable Long id, Model model) {
+    OrdenDeTrabajo ordenDeTrabajo = ordenServicio.obtenerOrdenDeTrabajoPorId(id);
+    List<Servicio> servicios = servicioServicio.listaServicios();
+    List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
+
+    // Establecer el vehículo seleccionado en la orden de trabajo
+    Vehiculo vehiculoSeleccionado = ordenDeTrabajo.getVehiculo();
+    model.addAttribute("vehiculoSeleccionado", vehiculoSeleccionado);
+
+    // Establecer los servicios seleccionados en la orden de trabajo
+    List<Servicio> serviciosSeleccionados = ordenDeTrabajo.getServicio();
+    model.addAttribute("serviciosSeleccionados", serviciosSeleccionados);
+
+    // Establecer la lista de técnicos en el modelo
+    List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
+    model.addAttribute("tecnicos", tecnicos);
+
+    // Establecer el técnico seleccionado en la orden de trabajo
+    Tecnico tecnicoSeleccionado = ordenDeTrabajo.getTecnico();
+    model.addAttribute("tecnicoSeleccionado", tecnicoSeleccionado);
+
+    model.addAttribute("servicios", servicios);
+    model.addAttribute("vehiculos", vehiculos);
+    model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
+
+    return "modificar-ordenDeTrabajo";
+}
+
+@PostMapping("/ordenDeTrabajo/modificar/{id}")
+public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
+    if (error.hasErrors()) {
         List<Servicio> servicios = servicioServicio.listaServicios();
         List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
-
-        // Establecer el vehículo seleccionado en la orden de trabajo
-        Vehiculo vehiculoSeleccionado = ordenDeTrabajo.getVehiculo();
-        model.addAttribute("vehiculoSeleccionado", vehiculoSeleccionado);
-
-        // Establecer los servicios seleccionados en la orden de trabajo
-        List<Servicio> serviciosSeleccionados = ordenDeTrabajo.getServicio();
-        model.addAttribute("serviciosSeleccionados", serviciosSeleccionados);
-
-        // Establecer la lista de técnicos en el modelo
-        List<Tecnico> tecnicos = tecnicoServicio.listaTecnicos();
-        model.addAttribute("tecnicos", tecnicos);
-
-        // Establecer el técnico seleccionado en la orden de trabajo
-        Tecnico tecnicoSeleccionado = ordenDeTrabajo.getTecnico();
-        String informacionRelevante = ordenDeTrabajo.getInformacionRelevante();
-        model.addAttribute("informacionRelevante", informacionRelevante);
-
         model.addAttribute("servicios", servicios);
         model.addAttribute("vehiculos", vehiculos);
-        model.addAttribute("ordenDeTrabajo", ordenDeTrabajo);
-        model.addAttribute("tecnicoSeleccionado", tecnicoSeleccionado);
-
         return "modificar-ordenDeTrabajo";
     }
 
-    @PostMapping("/ordenDeTrabajo/modificar/{id}")
-    public String modificarOrdenDeTrabajo(@PathVariable Long id, @Valid OrdenDeTrabajo ordenDeTrabajo, Errors error, Model model, HttpServletRequest request) {
-        if (error.hasErrors()) {
-            List<Servicio> servicios = servicioServicio.listaServicios();
-            List<Vehiculo> vehiculos = vehiculoServicio.listaVehiculos();
-            model.addAttribute("servicios", servicios);
-            model.addAttribute("vehiculos", vehiculos);
-            return "modificar-ordenDeTrabajo";
-        }
-
-        // Obtener el ID del técnico seleccionado desde el formulario
-        String tecnicoId = request.getParameter("tecnico");
-        if (tecnicoId != null && !tecnicoId.isEmpty()) {
-            Long tecnicoIdLong = Long.parseLong(tecnicoId);
-            Tecnico tecnico = tecnicoServicio.obtenerTecnicoPorId(tecnicoIdLong); // Debes implementar este método
-            ordenDeTrabajo.setTecnico(tecnico); // Asignar el técnico seleccionado a la orden de trabajo
-        }
-         // Obtener el descuento desde el formulario
-        int descuento = Integer.parseInt(request.getParameter("descuento"));
-
-        // Obtener los IDs de los servicios seleccionados desde el formulario
-        String[] servicioIds = request.getParameterValues("servicios");
-
-        // Verificar si se seleccionaron servicios
-        List<Servicio> serviciosSeleccionados = new ArrayList<>();
-        if (servicioIds != null) {
-            for (String servicioId : servicioIds) {
-                Long servicioIdLong = Long.parseLong(servicioId);
-                Servicio servicio = servicioServicio.obtenerServicioPorId(servicioIdLong); // Debes implementar este método
-                serviciosSeleccionados.add(servicio);
-            }
-        }
-
-        ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
-
-        // Modificar la orden de trabajo existente (puedes usar el ID para identificarla)
-        OrdenDeTrabajo ordenExistente = ordenServicio.obtenerOrdenDeTrabajoPorId(id); 
-        if (ordenExistente != null) {
-            // Actualizar los datos de la orden de trabajo existente
-            ordenExistente.setVehiculo(ordenDeTrabajo.getVehiculo());
-            ordenExistente.setServicio(ordenDeTrabajo.getServicio());
-            ordenExistente.setFechaEntrega(ordenDeTrabajo.getFechaEntrega());
-            ordenExistente.setInformacionRelevante(ordenDeTrabajo.getInformacionRelevante());
-            ordenExistente.setTecnico(ordenDeTrabajo.getTecnico()); // Actualizar también el técnico
-            ordenExistente.setDescuento(descuento);
-            ordenExistente.calcularTotal();
-            ordenServicio.registrar(ordenExistente); // Actualizar la orden existente en la base de datos
-        }
-
-        return "redirect:/ordenDeTrabajo";
+    // Obtener el ID del técnico seleccionado desde el formulario
+    String tecnicoId = request.getParameter("tecnico");
+    if (tecnicoId != null && !tecnicoId.isEmpty()) {
+        Long tecnicoIdLong = Long.parseLong(tecnicoId);
+        Tecnico tecnico = tecnicoServicio.obtenerTecnicoPorId(tecnicoIdLong); // Debes implementar este método
+        ordenDeTrabajo.setTecnico(tecnico); // Asignar el técnico seleccionado a la orden de trabajo
     }
+
+    // Obtener el descuento desde el formulario
+    int descuento = Integer.parseInt(request.getParameter("descuento"));
+    ordenDeTrabajo.setDescuento(descuento);
+
+    // Obtener los IDs de los servicios seleccionados desde el formulario
+    String[] servicioIds = request.getParameterValues("servicios");
+
+    // Verificar si se seleccionaron servicios
+    List<Servicio> serviciosSeleccionados = new ArrayList<>();
+    if (servicioIds != null) {
+        for (String servicioId : servicioIds) {
+            Long servicioIdLong = Long.parseLong(servicioId);
+            Servicio servicio = servicioServicio.obtenerServicioPorId(servicioIdLong); // Debes implementar este método
+            serviciosSeleccionados.add(servicio);
+        }
+    }
+
+    ordenDeTrabajo.setServicio(serviciosSeleccionados); // Aquí asignamos la lista de servicios a través del setter
+
+    // Modificar la orden de trabajo existente (puedes usar el ID para identificarla)
+    OrdenDeTrabajo ordenExistente = ordenServicio.obtenerOrdenDeTrabajoPorId(id); 
+    if (ordenExistente != null) {
+        // Actualizar los datos de la orden de trabajo existente
+        ordenExistente.setVehiculo(ordenDeTrabajo.getVehiculo());
+        ordenExistente.setServicio(ordenDeTrabajo.getServicio());
+        ordenExistente.setFechaEntrega(ordenDeTrabajo.getFechaEntrega());
+        ordenExistente.setInformacionRelevante(ordenDeTrabajo.getInformacionRelevante());
+        ordenExistente.setTecnico(ordenDeTrabajo.getTecnico()); // Actualizar también el técnico
+        ordenExistente.setDescuento(descuento);
+        ordenExistente.calcularTotal();
+        ordenServicio.registrar(ordenExistente); // Actualizar la orden existente en la base de datos
+    }
+
+    return "redirect:/ordenDeTrabajo";
+}
 
 
 
