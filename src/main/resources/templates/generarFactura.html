@@ -64,8 +64,8 @@
             <p><strong>Vehiculo:</strong> <span th:text="${orden.vehiculo.patente}"></span></p>
             <p><strong>Cliente:</strong> <span th:text="${orden.vehiculo.cliente.nombre} +' '+ ${orden.vehiculo.cliente.apellido}"></span></p>
             <p><strong>Técnico:</strong> <span th:text="${orden.tecnico != null ? orden.tecnico.nombre +' '+ orden.tecnico.apellido : 'N/A'}"></span></p>
-            <p><strong>Fecha de Creación:</strong> <span th:text="${orden.fechaCreacion}"></span></p>
-            <p><strong>Fecha de Entrega:</strong> <span th:text="${orden.fechaEntrega}"></span></p>
+            <p><strong>Fecha de Creación:</strong> <span th:text="${#temporals.format(orden.fechaCreacion, 'dd-MM-yyyy')}"></span></p>
+            <p><strong>Fecha de Entrega:</strong> <span th:text="${#temporals.format(orden.fechaEntrega, 'dd-MM-yyyy')}"></span></p>
             <p><strong>Impuesto Aplicado a la Marca:</strong> <span th:text="${orden.impuesto}"></span></p>
             <p><strong>Descuento Aplicado:</strong> <span th:text="${orden.descuento}"></span>%</p>
         </div>
