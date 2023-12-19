@@ -7,36 +7,37 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MarcaTest {
 
     @Test
-    @DisplayName("Crear Marca - Se verifica que se pueda crear una instancia de la clase Marca")
+    @DisplayName("Crear Marca - Verificar que se pueda crear una instancia de la clase Marca")
     public void testCrearMarca() {
         System.out.println("=== Test: Crear Marca ===");
         Marca marca = new Marca();
-        assertNotNull(marca);
+        assertNotNull(marca, "La instancia de Marca no debería ser nula");
     }
 
     @Test
-    @DisplayName("Set y Get de Nombre - Se prueba el funcionamiento de los métodos set y get")
+    @DisplayName("Set y Get de Nombre - Probar el funcionamiento de los métodos set y get")
     public void testSetAndGetNombre() {
         System.out.println("=== Test: Set y Get de Nombre ===");
         Marca marca = new Marca();
-        marca.setNombre("Nike");
-        assertEquals("Nike", marca.getNombre());
+        String nombreEsperado = "Nike";
+        marca.setNombre(nombreEsperado);
+        assertEquals(nombreEsperado, marca.getNombre(), "El nombre debería ser igual al esperado");
     }
 
     @Test
-    @DisplayName("Estado por Defecto es False - Se prueba el comportamiento por defecto del atributo estado de la clase Marca")
+    @DisplayName("Estado por Defecto es False - Probar el comportamiento por defecto del atributo estado de la clase Marca")
     public void testEstadoPorDefectoEsFalse() {
         System.out.println("=== Test: Estado por Defecto es False ===");
         Marca marca = new Marca();
-        assertFalse(marca.isEstado());
+        assertFalse(marca.isEstado(), "El estado por defecto debería ser falso");
     }
 
     @Test
-    @DisplayName("Estado Puede Cambiar - Se prueba que el estado puede cambiar correctamente")
+    @DisplayName("Estado Puede Cambiar - Probar que el estado puede cambiar correctamente")
     public void testEstadoPuedeCambiar() {
         System.out.println("=== Test: Estado Puede Cambiar ===");
         Marca marca = new Marca();
         marca.setEstado(true);
-        assertTrue(marca.isEstado());
+        assertTrue(marca.isEstado(), "El estado debería cambiar a verdadero");
     }
 }

@@ -44,7 +44,7 @@
                 <td th:text="${ordenDeTrabajo.informacionRelevante}"></td>
                 <td th:text="${#temporals.format(ordenDeTrabajo.fechaCreacion, 'dd-MM-yyyy')}"></td>
                 <td th:text="${#temporals.format(ordenDeTrabajo.fechaEntrega, 'dd-MM-yyyy')}"></td>
-                <td th:text="${ordenDeTrabajo != null ? ordenDeTrabajo.fechaEliminado : 'N/A'}"></td>
+                <td th:text="${ordenDeTrabajo != null ? #temporals.format(ordenDeTrabajo.fechaEliminado, 'dd-MM-yyyy') : 'N/A'}"></td>
                 <td><a th:href="@{'/ordenDeTrabajo/restaurar/' + ${ordenDeTrabajo.id}}" th:text="Restaurar">Restaurar</a></td>
 
             </tr>
